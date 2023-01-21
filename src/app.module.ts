@@ -18,7 +18,10 @@ import { DoctorModule } from './doctor/doctor.module';
     IllnessModule,
     SymptomModule,
     SpecificationModule,
-    UsersModule, CityModule, CountryModule, DoctorModule
+    UsersModule,
+    CityModule,
+    CountryModule,
+    DoctorModule,
   ],
   controllers: [AppController],
   providers: [AppService],
