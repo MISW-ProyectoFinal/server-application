@@ -17,7 +17,9 @@ export class Specialty {
   @OneToMany(() => Specification, (specification) => specification.specialty)
   specifications: Specification[];
 
-  @OneToMany(() => SpecialtyDoctor, (specialty_doctor) => specialty_doctor.specialty)
+  @OneToMany(
+    () => SpecialtyDoctor,
+    (specialty_doctor) => specialty_doctor.specialty,
+  )
   specialty_doctor: SpecialtyDoctor[];
-
 }

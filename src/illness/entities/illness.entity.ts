@@ -8,6 +8,7 @@ import {
 import { ObjectType, Field } from '@nestjs/graphql';
 import { Specification } from 'src/specification/entities/specification.entity';
 import { Symptom } from 'src/symptom/entities/symptom.entity';
+import { Patient } from 'src/patient/entities/patient.entity';
 
 @ObjectType()
 @Entity()
@@ -27,4 +28,8 @@ export class Illness {
   @ManyToMany(() => Symptom, (symptom) => symptom.illnesses)
   @JoinTable()
   symptoms: Symptom[];
+
+  @ManyToMany(() => Patient, (patient) => patient.allergies)
+  @JoinTable()
+  patients: Patient[];
 }

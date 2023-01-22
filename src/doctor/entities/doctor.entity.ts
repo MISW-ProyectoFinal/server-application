@@ -1,22 +1,30 @@
 import { SpecialtyDoctor } from 'src/specialty_doctor/entities/specialty_doctor.entity';
 import { User } from 'src/users/entities/user.entity';
-import { Column, Entity, PrimaryGeneratedColumn,OneToOne,OneToMany } from 'typeorm';
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  OneToOne,
+  OneToMany,
+} from 'typeorm';
 
 @Entity()
 export class Doctor {
-
-  @PrimaryGeneratedColumn("uuid")
-    id: string;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column()
-    enabled:boolean;
+  enabled: boolean;
 
   @Column({ type: 'date' })
-  enabled_date:string;
+  enabled_date: string;
 
-  @OneToOne(() => User, user => user.doctor)
+  @OneToOne(() => User, (user) => user.doctor)
   user: User;
 
-  @OneToMany(() => SpecialtyDoctor, (specialty_doctor) => specialty_doctor.doctor)
+  @OneToMany(
+    () => SpecialtyDoctor,
+    (specialty_doctor) => specialty_doctor.doctor,
+  )
   specialty_doctor: SpecialtyDoctor[];
 }

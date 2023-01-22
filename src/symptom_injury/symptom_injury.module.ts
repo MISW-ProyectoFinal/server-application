@@ -4,6 +4,6 @@ import { SymptomInjuryController } from './symptom_injury.controller';
 
 @Module({
   controllers: [SymptomInjuryController],
-  providers: [SymptomInjuryService]
+  providers: [SymptomInjuryService],
 })
 export class SymptomInjuryModule {}

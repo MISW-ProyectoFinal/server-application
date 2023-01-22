@@ -23,7 +23,7 @@ export class Injury {
     enum: InjuryTypes,
     default: InjuryTypes.AMPOLLA,
   })
-  injuryType: InjuryTypes;
+  injury_type: InjuryTypes;
 
   @Column({
     type: 'enum',

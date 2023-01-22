@@ -4,6 +4,6 @@ import { SpecificationAllergyController } from './specification_allergy.controll
 
 @Module({
   controllers: [SpecificationAllergyController],
-  providers: [SpecificationAllergyService]
+  providers: [SpecificationAllergyService],
 })
 export class SpecificationAllergyModule {}
