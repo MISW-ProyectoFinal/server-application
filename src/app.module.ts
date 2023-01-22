@@ -10,6 +10,8 @@ import { UsersModule } from './users/users.module';
 import { CityModule } from './city/city.module';
 import { CountryModule } from './country/country.module';
 import { DoctorModule } from './doctor/doctor.module';
+import { SpecialtyDoctorModule } from './specialty_doctor/specialty_doctor.module';
+import { PatientModule } from './patient/patient.module';
 
 @Module({
   imports: [
@@ -22,6 +24,8 @@ import { DoctorModule } from './doctor/doctor.module';
     CityModule,
     CountryModule,
     DoctorModule,
+    SpecialtyDoctorModule,
+    PatientModule,
   ],
   controllers: [AppController],
   providers: [AppService],
