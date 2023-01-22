@@ -1,4 +1,4 @@
-export enum Figures {
+export enum Shapes {
   ANILLO = 'anillo',
   DOMO = 'domo',
   ESFERA = 'esfera',

@@ -10,6 +10,11 @@ import { UsersModule } from './users/users.module';
 import { CityModule } from './city/city.module';
 import { CountryModule } from './country/country.module';
 import { DoctorModule } from './doctor/doctor.module';
+import { SpecificationAllergyModule } from './specification_allergy/specification_allergy.module';
+import { SpecificationIllnessModule } from './specification_illness/specification_illness.module';
+import { AllergyIllnessModule } from './allergy_illness/allergy_illness.module';
+import { InjuryModule } from './injury/injury.module';
+import { SymptomInjuryModule } from './symptom_injury/symptom_injury.module';
 
 @Module({
   imports: [
@@ -22,6 +27,11 @@ import { DoctorModule } from './doctor/doctor.module';
     CityModule,
     CountryModule,
     DoctorModule,
+    SpecificationAllergyModule,
+    SpecificationIllnessModule,
+    AllergyIllnessModule,
+    InjuryModule,
+    SymptomInjuryModule,
   ],
   controllers: [AppController],
   providers: [AppService],
