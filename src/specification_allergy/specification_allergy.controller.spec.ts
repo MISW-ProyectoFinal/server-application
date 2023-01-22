@@ -11,7 +11,9 @@ describe('SpecificationAllergyController', () => {
       providers: [SpecificationAllergyService],
     }).compile();
 
-    controller = module.get<SpecificationAllergyController>(SpecificationAllergyController);
+    controller = module.get<SpecificationAllergyController>(
+      SpecificationAllergyController,
+    );
   });
 
   it('should be defined', () => {

@@ -17,6 +17,8 @@ import { InjuryModule } from './injury/injury.module';
 import { SymptomInjuryModule } from './symptom_injury/symptom_injury.module';
 import { SpecialtyDoctorModule } from './specialty_doctor/specialty_doctor.module';
 import { PatientModule } from './patient/patient.module';
+import { PatientIllnessModule } from './patient_illness/patient_illness.module';
+import { PatientAllergyModule } from './patient_allergy/patient_allergy.module';
 
 @Module({
   imports: [
@@ -36,6 +38,8 @@ import { PatientModule } from './patient/patient.module';
     SymptomInjuryModule,
     SpecialtyDoctorModule,
     PatientModule,
+    PatientIllnessModule,
+    PatientAllergyModule,
   ],
   controllers: [AppController],
   providers: [AppService],

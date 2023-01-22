@@ -24,7 +24,7 @@ export class Specification {
     enum: DetailType,
     default: DetailType.DETAIL1,
   })
-  detailType: DetailType;
+  detail_type: DetailType;
 
   @ManyToOne(() => Specialty, (specialty) => specialty.specifications)
   specialty: Specialty;

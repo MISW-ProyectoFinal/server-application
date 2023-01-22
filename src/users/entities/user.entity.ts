@@ -1,55 +1,59 @@
-
 import { City } from 'src/city/entities/city.entity';
 import { Country } from 'src/country/entities/country.entity';
 import { Doctor } from 'src/doctor/entities/doctor.entity';
 import { Patient } from 'src/patient/entities/patient.entity';
-import { Column, Entity, PrimaryGeneratedColumn,OneToOne,JoinColumn,ManyToOne } from 'typeorm';
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  OneToOne,
+  JoinColumn,
+  ManyToOne,
+} from 'typeorm';
 
 @Entity()
 export class User {
-
-  @PrimaryGeneratedColumn("uuid")
-    id: string;
-
-  @Column()
-    email: string;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column()
-    password: string;
+  email: string;
 
   @Column()
-    active: boolean;
+  password: string;
 
   @Column()
-    name: string;
+  active: boolean;
 
   @Column()
-   surname: string;
+  name: string;
 
   @Column()
-    phone: string;
+  surname: string;
 
   @Column()
-    cell_phone: string;
+  phone: string;
+
+  @Column()
+  cell_phone: string;
 
   @Column({ type: 'date' })
-    date_of_birth: string;
+  date_of_birth: string;
 
   @Column()
-    address: string;
+  address: string;
 
-  @OneToOne(() => Doctor, doctor => doctor.user)
+  @OneToOne(() => Doctor, (doctor) => doctor.user)
   @JoinColumn()
-    doctor: Doctor;
+  doctor: Doctor;
 
-  @OneToOne(() => Patient, patient => patient.user)
+  @OneToOne(() => Patient, (patient) => patient.user)
   @JoinColumn()
   patient: Patient;
 
-  @ManyToOne(() => City, city => city.users)
-    city: City
+  @ManyToOne(() => City, (city) => city.users)
+  city: City;
 
-  @ManyToOne(() => Country, country => country.users)
-    country: Country
-
+  @ManyToOne(() => Country, (country) => country.users)
+  country: Country;
 }

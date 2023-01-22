@@ -4,6 +4,6 @@ import { SpecificationIllnessController } from './specification_illness.controll
 
 @Module({
   controllers: [SpecificationIllnessController],
-  providers: [SpecificationIllnessService]
+  providers: [SpecificationIllnessService],
 })
 export class SpecificationIllnessModule {}

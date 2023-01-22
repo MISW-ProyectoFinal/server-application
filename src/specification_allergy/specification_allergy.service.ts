@@ -16,7 +16,10 @@ export class SpecificationAllergyService {
     return `This action returns a #${id} specificationAllergy`;
   }
 
-  update(id: number, updateSpecificationAllergyDto: UpdateSpecificationAllergyDto) {
+  update(
+    id: number,
+    updateSpecificationAllergyDto: UpdateSpecificationAllergyDto,
+  ) {
     return `This action updates a #${id} specificationAllergy`;
   }
 
