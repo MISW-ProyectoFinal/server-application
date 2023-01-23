@@ -1,4 +1,4 @@
-import { Doctor } from 'src/doctor/entities/doctor.entity';
+import Doctor from 'src/doctor/entities/doctor.entity';
 import { Specialty } from 'src/specialty/entities/specialty.entity';
 import { Column, Entity, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 
