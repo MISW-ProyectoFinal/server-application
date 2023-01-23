@@ -19,6 +19,9 @@ import { SpecialtyDoctorModule } from './specialty_doctor/specialty_doctor.modul
 import { PatientModule } from './patient/patient.module';
 import { PatientIllnessModule } from './patient_illness/patient_illness.module';
 import { PatientAllergyModule } from './patient_allergy/patient_allergy.module';
+import { PaymentModule } from './payment/payment.module';
+import { CaseModule } from './case/case.module';
+import { TreatmentModule } from './treatment/treatment.module';
 
 @Module({
   imports: [
@@ -40,6 +43,9 @@ import { PatientAllergyModule } from './patient_allergy/patient_allergy.module';
     PatientModule,
     PatientIllnessModule,
     PatientAllergyModule,
+    PaymentModule,
+    CaseModule,
+    TreatmentModule,
   ],
   controllers: [AppController],
   providers: [AppService],

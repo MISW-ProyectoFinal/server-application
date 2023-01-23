@@ -2,6 +2,7 @@ import {
   Column,
   Entity,
   PrimaryGeneratedColumn,
+  OneToMany,
   ManyToMany,
   JoinTable,
 } from 'typeorm';
@@ -10,6 +11,8 @@ import { InjuryTypes } from 'src/injury_type/injury_typr.enum';
 import { Shapes } from 'src/shape/shapes.enum';
 import { Distribution } from 'src/distribution/distribution.enum';
 import { Symptom } from 'src/symptom/entities/symptom.entity';
+import { Case } from 'src/case/entities/case.entity';
+import { Treatment } from 'src/treatment/entities/treatment.entity';
 
 @ObjectType()
 @Entity()
@@ -63,7 +66,13 @@ export class Injury {
   })
   location: string;
 
-  @ManyToMany(() => Symptom, (symptom) => symptom.illnesses)
+  @ManyToMany(() => Symptom, (symptom) => symptom.injuries)
   @JoinTable()
   symptoms: Symptom[];
+
+  @OneToMany(() => Case, (caso) => caso.injury)
+  cases: Case[];
+
+  @OneToMany(() => Treatment, (treatment) => treatment.injury)
+  treatments: Treatment[];
 }

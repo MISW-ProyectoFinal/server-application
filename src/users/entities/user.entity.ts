@@ -1,6 +1,6 @@
 import { City } from 'src/city/entities/city.entity';
 import { Country } from 'src/country/entities/country.entity';
-import { Doctor } from 'src/doctor/entities/doctor.entity';
+import Doctor from 'src/doctor/entities/doctor.entity';
 import { Patient } from 'src/patient/entities/patient.entity';
 import {
   Column,
