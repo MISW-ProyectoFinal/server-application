@@ -27,12 +27,12 @@ export class CaseEntity {
   @Column({
     type: 'date',
   })
-  start_date: Date;
+  start_date: string;
 
   @Column({
     type: 'date',
   })
-  end_date: Date;
+  end_date: string;
 
   @Column({
     type: 'boolean',

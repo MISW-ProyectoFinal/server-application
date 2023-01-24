@@ -1,6 +1,13 @@
 import { CaseEntity } from 'src/case/entities/case.entity';
 import { InjuryEntity } from 'src/injury/entities/injury.entity';
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { TreatmentProgressEntity } from 'src/treatment_progress/entities/treatment_progress.entity';
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  OneToMany,
+} from 'typeorm';
 
 @Entity()
 export class TreatmentEntity {
@@ -10,12 +17,12 @@ export class TreatmentEntity {
   @Column({
     type: 'date',
   })
-  start_date: Date;
+  start_date: string;
 
   @Column({
     type: 'date',
   })
-  end_date: Date;
+  end_date: string;
 
   @Column({
     type: 'text',
@@ -28,4 +35,10 @@ export class TreatmentEntity {
 
   @ManyToOne(() => CaseEntity, (caso) => caso.treatments)
   caso: CaseEntity;
+
+  @OneToMany(
+    () => TreatmentProgressEntity,
+    (treatment_progress) => treatment_progress.treatment,
+  )
+  treatment_progress: TreatmentProgressEntity[];
 }
