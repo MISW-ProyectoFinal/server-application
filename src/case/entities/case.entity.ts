@@ -8,12 +8,12 @@ import {
 import { PaymentStatus } from 'src/payment_status/payment_status.enum';
 import { CaseStatus } from 'src/case_status/case_status.enum';
 import { CurrencyType } from 'src/currency_type/currency_type.enum';
-import Doctor from 'src/doctor/entities/doctor.entity';
-import { Injury } from 'src/injury/entities/injury.entity';
-import { Treatment } from 'src/treatment/entities/treatment.entity';
+import { DoctorEntity } from 'src/doctor/entities/doctor.entity';
+import { InjuryEntity } from 'src/injury/entities/injury.entity';
+import { TreatmentEntity } from 'src/treatment/entities/treatment.entity';
 
 @Entity()
-export class Case {
+export class CaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -64,12 +64,12 @@ export class Case {
   })
   currency_type: CurrencyType;
 
-  @ManyToOne(() => Doctor, (doctor) => doctor.cases)
-  doctor: Doctor;
+  @ManyToOne(() => DoctorEntity, (doctor) => doctor.cases)
+  doctor: DoctorEntity;
 
-  @ManyToOne(() => Injury, (injury) => injury.cases)
-  injury: Injury;
+  @ManyToOne(() => InjuryEntity, (injury) => injury.cases)
+  injury: InjuryEntity;
 
-  @OneToMany(() => Treatment, (treatment) => treatment.caso)
-  treatments: Treatment[];
+  @OneToMany(() => TreatmentEntity, (treatment) => treatment.caso)
+  treatments: TreatmentEntity[];
 }

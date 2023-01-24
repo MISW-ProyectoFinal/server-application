@@ -1,9 +1,9 @@
-import { Case } from 'src/case/entities/case.entity';
-import { Injury } from 'src/injury/entities/injury.entity';
+import { CaseEntity } from 'src/case/entities/case.entity';
+import { InjuryEntity } from 'src/injury/entities/injury.entity';
 import { Column, Entity, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 
 @Entity()
-export class Treatment {
+export class TreatmentEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -23,9 +23,9 @@ export class Treatment {
   })
   description: string;
 
-  @ManyToOne(() => Injury, (injury) => injury.treatments)
-  injury: Injury;
+  @ManyToOne(() => InjuryEntity, (injury) => injury.treatments)
+  injury: InjuryEntity;
 
-  @ManyToOne(() => Case, (caso) => caso.treatments)
-  caso: Case;
+  @ManyToOne(() => CaseEntity, (caso) => caso.treatments)
+  caso: CaseEntity;
 }

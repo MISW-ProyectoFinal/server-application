@@ -6,13 +6,13 @@ import {
   JoinTable,
   OneToOne,
 } from 'typeorm';
-import { Allergy } from 'src/allergy/entities/allergy.entity';
-import { User } from 'src/users/entities/user.entity';
-import { Illness } from 'src/illness/entities/illness.entity';
+import { AllergyEntity } from 'src/allergy/entities/allergy.entity';
+import { UserEntity } from 'src/user/entities/user.entity';
+import { IllnessEntity } from 'src/illness/entities/illness.entity';
 import { SkynTypes } from 'src/skin_type/skin_type.enum';
 
 @Entity()
-export class Patient {
+export class PatientEntity extends UserEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -35,14 +35,11 @@ export class Patient {
   })
   url_foto_tipo_piel: string;
 
-  @OneToOne(() => User, (user) => user.patient)
-  user: User;
-
-  @ManyToMany(() => Allergy, (allergy) => allergy.patients)
+  @ManyToMany(() => AllergyEntity, (allergy) => allergy.patients)
   @JoinTable()
-  allergies: Allergy[];
+  allergies: AllergyEntity[];
 
-  @ManyToMany(() => Illness, (illness) => illness.patients)
+  @ManyToMany(() => IllnessEntity, (illness) => illness.patients)
   @JoinTable()
-  illnesses: Illness[];
+  illnesses: IllnessEntity[];
 }

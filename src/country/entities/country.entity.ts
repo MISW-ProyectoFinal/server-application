@@ -1,18 +1,18 @@
-import { City } from 'src/city/entities/city.entity';
-import { User } from 'src/users/entities/user.entity';
+import { CityEntity } from 'src/city/entities/city.entity';
+import { UserEntity } from 'src/user/entities/user.entity';
 import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 @Entity()
-export class Country {
+export class CountryEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
   name: string;
 
-  @OneToMany(() => City, (city) => city.country)
-  cities: City[];
+  @OneToMany(() => CityEntity, (city) => city.country)
+  cities: CityEntity[];
 
-  @OneToMany(() => User, (user) => user.country)
-  users: User[];
+  @OneToMany(() => UserEntity, (user) => user.country)
+  users: UserEntity[];
 }

@@ -1,16 +1,15 @@
+import { CaseEntity } from 'src/case/entities/case.entity';
+import { DoctorSpecialtyEntity } from 'src/doctor_specialty/entities/doctor_specialty.entity';
+import { UserEntity } from 'src/user/entities/user.entity';
 import {
   Column,
   Entity,
   PrimaryGeneratedColumn,
-  OneToOne,
   OneToMany,
 } from 'typeorm';
-import { Case } from 'src/case/entities/case.entity';
-import { SpecialtyDoctor } from 'src/specialty_doctor/entities/specialty_doctor.entity';
-import { User } from 'src/users/entities/user.entity';
 
 @Entity()
-export default class Doctor {
+export class DoctorEntity extends UserEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -20,15 +19,9 @@ export default class Doctor {
   @Column({ type: 'date' })
   enabled_date: string;
 
-  @OneToOne(() => User, (user) => user.doctor)
-  user: User;
+  @OneToMany(() => DoctorSpecialtyEntity, doctor_specialty => doctor_specialty.doctor)
+  doctor_specialties: DoctorSpecialtyEntity[];
 
-  @OneToMany(
-    () => SpecialtyDoctor,
-    (specialty_doctor) => specialty_doctor.doctor,
-  )
-  specialty_doctor: SpecialtyDoctor[];
-
-  @OneToMany(() => Case, (caso) => caso.doctor)
-  cases: Case[];
+  @OneToMany(() => CaseEntity, (caso) => caso.doctor)
+  cases: CaseEntity[];
 }

@@ -6,13 +6,13 @@ import {
   JoinTable,
 } from 'typeorm';
 import { ObjectType, Field } from '@nestjs/graphql';
-import { Specification } from 'src/specification/entities/specification.entity';
-import { Symptom } from 'src/symptom/entities/symptom.entity';
-import { Patient } from 'src/patient/entities/patient.entity';
+import { SpecificationEntity } from 'src/specification/entities/specification.entity';
+import { SymptomEntity } from 'src/symptom/entities/symptom.entity';
+import { PatientEntity } from 'src/patient/entities/patient.entity';
 
 @ObjectType()
 @Entity()
-export class Illness {
+export class IllnessEntity {
   @Field()
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -21,15 +21,15 @@ export class Illness {
   @Column()
   name: string;
 
-  @ManyToMany(() => Specification, (specification) => specification.illnesses)
+  @ManyToMany(() => SpecificationEntity, (specification) => specification.illnesses)
   @JoinTable()
-  specifications: Specification[];
+  specifications: SpecificationEntity[];
 
-  @ManyToMany(() => Symptom, (symptom) => symptom.illnesses)
+  @ManyToMany(() => SymptomEntity, (symptom) => symptom.illnesses)
   @JoinTable()
-  symptoms: Symptom[];
+  symptoms: SymptomEntity[];
 
-  @ManyToMany(() => Patient, (patient) => patient.allergies)
+  @ManyToMany(() => PatientEntity, (patient) => patient.allergies)
   @JoinTable()
-  patients: Patient[];
+  patients: PatientEntity[];
 }
