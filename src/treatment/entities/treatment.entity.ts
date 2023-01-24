@@ -1,6 +1,13 @@
 import { Case } from 'src/case/entities/case.entity';
 import { Injury } from 'src/injury/entities/injury.entity';
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { TreatmentProgress } from 'src/treatment_progress/entities/treatment_progress.entity';
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  OneToMany,
+} from 'typeorm';
 
 @Entity()
 export class Treatment {
@@ -28,4 +35,10 @@ export class Treatment {
 
   @ManyToOne(() => Case, (caso) => caso.treatments)
   caso: Case;
+
+  @OneToMany(
+    () => TreatmentProgress,
+    (treatment_progress) => treatment_progress.treatment,
+  )
+  treatment_progress: TreatmentProgress[];
 }
