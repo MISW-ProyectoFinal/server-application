@@ -1,5 +1,5 @@
-import { CityEntity } from 'src/city/entities/city.entity';
-import { CountryEntity } from 'src/country/entities/country.entity';
+import { City } from 'src/city/entities/city.entity';
+import { Country } from 'src/country/entities/country.entity';
 import {
   Column,
   Entity,
@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 
 @Entity()
-export class UserEntity {
+export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -39,9 +39,9 @@ export class UserEntity {
   @Column()
   address: string;
 
-  @ManyToOne(() => CityEntity, (city) => city.users)
-  city: CityEntity;
+  @ManyToOne(() => City, (city) => city.users)
+  city: City;
 
-  @ManyToOne(() => CountryEntity, (country) => country.users)
-  country: CountryEntity;
+  @ManyToOne(() => Country, (country) => country.users)
+  country: Country;
 }

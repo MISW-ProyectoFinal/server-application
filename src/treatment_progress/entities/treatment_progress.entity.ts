@@ -1,5 +1,5 @@
-import { TreatmentEntity } from 'src/treatment/entities/treatment.entity';
-import { TreatmentProgressPhotoEntity } from 'src/treatment_progress_photo/entities/treatment_progress_photo.entity';
+import { Treatment } from 'src/treatment/entities/treatment.entity';
+import { TreatmentProgressPhoto } from 'src/treatment_progress_photo/entities/treatment_progress_photo.entity';
 import {
   Column,
   Entity,
@@ -9,7 +9,7 @@ import {
 } from 'typeorm';
 
 @Entity()
-export class TreatmentProgressEntity {
+export class TreatmentProgress {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -24,12 +24,12 @@ export class TreatmentProgressEntity {
   })
   creation_date: string;
 
-  @ManyToOne(() => TreatmentEntity, (treatment) => treatment.treatment_progress)
-  treatment: TreatmentEntity;
+  @ManyToOne(() => Treatment, (treatment) => treatment.treatment_progress)
+  treatment: Treatment;
 
   @OneToMany(
-    () => TreatmentProgressPhotoEntity,
+    () => TreatmentProgressPhoto,
     (treatment_progress_photo) => treatment_progress_photo.treatment_progress,
   )
-  treatment_progress_photos: TreatmentProgressPhotoEntity[];
+  treatment_progress_photos: TreatmentProgressPhoto[];
 }

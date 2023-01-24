@@ -10,15 +10,15 @@ import { ObjectType, Field } from '@nestjs/graphql';
 import { InjuryTypes } from 'src/injury_type/injury_typr.enum';
 import { Shapes } from 'src/shape/shapes.enum';
 import { Distribution } from 'src/distribution/distribution.enum';
-import { SymptomEntity } from 'src/symptom/entities/symptom.entity';
-import { CaseEntity } from 'src/case/entities/case.entity';
-import { TreatmentEntity } from 'src/treatment/entities/treatment.entity';
-import { InjuryPhotoEntity } from 'src/injury_photo/entities/injury_photo.entity';
-import { AutomaticCaseEntity } from 'src/automatic_case/entities/automatic_case.entity';
+import { Symptom } from 'src/symptom/entities/symptom.entity';
+import { Case } from 'src/case/entities/case.entity';
+import { Treatment } from 'src/treatment/entities/treatment.entity';
+import { InjuryPhoto } from 'src/injury_photo/entities/injury_photo.entity';
+import { AutomaticCase } from 'src/automatic_case/entities/automatic_case.entity';
 
 @ObjectType()
 @Entity()
-export class InjuryEntity {
+export class Injury {
   @Field()
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -68,19 +68,19 @@ export class InjuryEntity {
   })
   location: string;
 
-  @ManyToMany(() => SymptomEntity, (symptom) => symptom.injuries)
+  @ManyToMany(() => Symptom, (symptom) => symptom.injuries)
   @JoinTable()
-  symptoms: SymptomEntity[];
+  symptoms: Symptom[];
 
-  @OneToMany(() => CaseEntity, (caso) => caso.injury)
-  cases: CaseEntity[];
+  @OneToMany(() => Case, (caso) => caso.injury)
+  cases: Case[];
 
-  @OneToMany(() => TreatmentEntity, (treatment) => treatment.injury)
-  treatments: TreatmentEntity[];
+  @OneToMany(() => Treatment, (treatment) => treatment.injury)
+  treatments: Treatment[];
 
-  @OneToMany(() => InjuryPhotoEntity, (injuryPhoto) => injuryPhoto.injury)
-  photos: InjuryPhotoEntity[];
+  @OneToMany(() => InjuryPhoto, (injuryPhoto) => injuryPhoto.injury)
+  photos: InjuryPhoto[];
 
-  @OneToMany(() => AutomaticCaseEntity, (automaticCase) => automaticCase.injury)
-  automatic_cases: AutomaticCaseEntity[];
+  @OneToMany(() => AutomaticCase, (automaticCase) => automaticCase.injury)
+  automatic_cases: AutomaticCase[];
 }

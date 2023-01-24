@@ -1,9 +1,9 @@
-import { DoctorEntity } from 'src/doctor/entities/doctor.entity';
-import { SpecialtyEntity } from 'src/specialty/entities/specialty.entity';
+import { Doctor } from 'src/doctor/entities/doctor.entity';
+import { Specialty } from 'src/specialty/entities/specialty.entity';
 import { Column, Entity, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 
 @Entity()
-export class DoctorSpecialtyEntity {
+export class DoctorSpecialty {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -19,9 +19,9 @@ export class DoctorSpecialtyEntity {
   @Column()
   specialty_name: string;
 
-  @ManyToOne(() => SpecialtyEntity, (specialty) => specialty.doctor_specialties)
-  specialty: SpecialtyEntity;
+  @ManyToOne(() => Specialty, (specialty) => specialty.doctor_specialties)
+  specialty: Specialty;
 
-  @ManyToOne(() => DoctorEntity, (doctor) => doctor.doctor_specialties)
-  doctor: DoctorEntity;
+  @ManyToOne(() => Doctor, (doctor) => doctor.doctor_specialties)
+  doctor: Doctor;
 }

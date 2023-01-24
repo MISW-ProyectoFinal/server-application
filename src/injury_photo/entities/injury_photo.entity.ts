@@ -1,10 +1,10 @@
 import { Column, Entity, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import { ObjectType, Field } from '@nestjs/graphql';
-import { InjuryEntity } from 'src/injury/entities/injury.entity';
+import { Injury } from 'src/injury/entities/injury.entity';
 
 @ObjectType()
 @Entity()
-export class InjuryPhotoEntity {
+export class InjuryPhoto {
   @Field()
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -18,6 +18,6 @@ export class InjuryPhotoEntity {
   @Column({ type: 'date'})
   upload_date: string;
 
-  @ManyToOne(() => InjuryEntity, (injury) => injury.photos)
-  injury: InjuryEntity;
+  @ManyToOne(() => Injury, (injury) => injury.photos)
+  injury: Injury;
 }

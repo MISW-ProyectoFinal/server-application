@@ -1,10 +1,10 @@
 import { Column, Entity, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import { ObjectType, Field } from '@nestjs/graphql';
-import { AutomaticCaseEntity } from 'src/automatic_case/entities/automatic_case.entity';
+import { AutomaticCase } from 'src/automatic_case/entities/automatic_case.entity';
 
 @ObjectType()
 @Entity()
-export class AutomaticDiagnosisEntity {
+export class AutomaticDiagnosis {
   @Field()
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -44,8 +44,8 @@ export class AutomaticDiagnosisEntity {
   selected: boolean;
 
   @ManyToOne(
-    () => AutomaticCaseEntity,
-    (automaticCase) => automaticCase.automatic_diagnoses,
+    () => AutomaticCase,
+    (automatic_case) => automatic_case.automatic_diagnoses,
   )
-  automatic_case: AutomaticCaseEntity;
+  automatic_case: AutomaticCase;
 }

@@ -1,6 +1,6 @@
-import { CaseEntity } from 'src/case/entities/case.entity';
-import { InjuryEntity } from 'src/injury/entities/injury.entity';
-import { TreatmentProgressEntity } from 'src/treatment_progress/entities/treatment_progress.entity';
+import { Case } from 'src/case/entities/case.entity';
+import { Injury } from 'src/injury/entities/injury.entity';
+import { TreatmentProgress } from 'src/treatment_progress/entities/treatment_progress.entity';
 import {
   Column,
   Entity,
@@ -10,7 +10,7 @@ import {
 } from 'typeorm';
 
 @Entity()
-export class TreatmentEntity {
+export class Treatment {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -30,15 +30,15 @@ export class TreatmentEntity {
   })
   description: string;
 
-  @ManyToOne(() => InjuryEntity, (injury) => injury.treatments)
-  injury: InjuryEntity;
+  @ManyToOne(() => Injury, (injury) => injury.treatments)
+  injury: Injury;
 
-  @ManyToOne(() => CaseEntity, (caso) => caso.treatments)
-  caso: CaseEntity;
+  @ManyToOne(() => Case, (caso) => caso.treatments)
+  caso: Case;
 
   @OneToMany(
-    () => TreatmentProgressEntity,
+    () => TreatmentProgress,
     (treatment_progress) => treatment_progress.treatment,
   )
-  treatment_progress: TreatmentProgressEntity[];
+  treatment_progress: TreatmentProgress[];
 }

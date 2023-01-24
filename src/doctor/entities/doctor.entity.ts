@@ -1,6 +1,6 @@
-import { CaseEntity } from 'src/case/entities/case.entity';
-import { DoctorSpecialtyEntity } from 'src/doctor_specialty/entities/doctor_specialty.entity';
-import { UserEntity } from 'src/user/entities/user.entity';
+import { Case } from 'src/case/entities/case.entity';
+import { DoctorSpecialty } from 'src/doctor_specialty/entities/doctor_specialty.entity';
+import { User } from 'src/user/entities/user.entity';
 import {
   Column,
   Entity,
@@ -9,7 +9,7 @@ import {
 } from 'typeorm';
 
 @Entity()
-export class DoctorEntity extends UserEntity {
+export class Doctor extends User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -19,9 +19,9 @@ export class DoctorEntity extends UserEntity {
   @Column({ type: 'date' })
   enabled_date: string;
 
-  @OneToMany(() => DoctorSpecialtyEntity, doctor_specialty => doctor_specialty.doctor)
-  doctor_specialties: DoctorSpecialtyEntity[];
+  @OneToMany(() => DoctorSpecialty, doctor_specialty => doctor_specialty.doctor)
+  doctor_specialties: DoctorSpecialty[];
 
-  @OneToMany(() => CaseEntity, (caso) => caso.doctor)
-  cases: CaseEntity[];
+  @OneToMany(() => Case, (caso) => caso.doctor)
+  cases: Case[];
 }

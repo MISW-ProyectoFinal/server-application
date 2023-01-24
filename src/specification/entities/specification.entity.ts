@@ -8,13 +8,13 @@ import {
 } from 'typeorm';
 import { ObjectType, Field } from '@nestjs/graphql';
 import { DetailType } from 'src/detail_type/detail_type.enum';
-import { SpecialtyEntity } from 'src/specialty/entities/specialty.entity';
-import { AllergyEntity } from 'src/allergy/entities/allergy.entity';
-import { IllnessEntity } from 'src/illness/entities/illness.entity';
+import { Specialty } from 'src/specialty/entities/specialty.entity';
+import { Allergy } from 'src/allergy/entities/allergy.entity';
+import { Illness } from 'src/illness/entities/illness.entity';
 
 @ObjectType()
 @Entity()
-export class SpecificationEntity {
+export class Specification {
   @Field()
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -26,14 +26,14 @@ export class SpecificationEntity {
   })
   detail_type: DetailType;
 
-  @ManyToOne(() => SpecialtyEntity, (specialty) => specialty.specifications)
-  specialty: SpecialtyEntity;
+  @ManyToOne(() => Specialty, (specialty) => specialty.specifications)
+  specialty: Specialty;
 
-  @ManyToMany(() => AllergyEntity, (allergy) => allergy.specifications)
+  @ManyToMany(() => Allergy, (allergy) => allergy.specifications)
   @JoinTable()
-  allergies: AllergyEntity[];
+  allergies: Allergy[];
 
-  @ManyToMany(() => IllnessEntity, (illness) => illness.specifications)
+  @ManyToMany(() => Illness, (illness) => illness.specifications)
   @JoinTable()
-  illnesses: IllnessEntity[];
+  illnesses: Illness[];
 }

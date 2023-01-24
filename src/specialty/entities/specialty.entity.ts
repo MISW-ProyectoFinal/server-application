@@ -1,11 +1,11 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { ObjectType, Field } from '@nestjs/graphql';
-import { SpecificationEntity } from 'src/specification/entities/specification.entity';
-import { DoctorSpecialtyEntity } from 'src/doctor_specialty/entities/doctor_specialty.entity';
+import { Specification } from 'src/specification/entities/specification.entity';
+import { DoctorSpecialty } from 'src/doctor_specialty/entities/doctor_specialty.entity';
 
 @ObjectType()
 @Entity()
-export class SpecialtyEntity {
+export class Specialty {
   @Field()
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -14,9 +14,9 @@ export class SpecialtyEntity {
   @Column()
   name: string;
 
-  @OneToMany(() => SpecificationEntity, specification => specification.specialty)
-  specifications: SpecificationEntity[];
+  @OneToMany(() => Specification, specification => specification.specialty)
+  specifications: Specification[];
 
-  @OneToMany(() => DoctorSpecialtyEntity, doctor_specialty => doctor_specialty.specialty)
-  doctor_specialties: DoctorSpecialtyEntity[];
+  @OneToMany(() => DoctorSpecialty, doctor_specialty => doctor_specialty.specialty)
+  doctor_specialties: DoctorSpecialty[];
 }

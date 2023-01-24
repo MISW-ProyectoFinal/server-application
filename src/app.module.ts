@@ -27,25 +27,25 @@ import { AutomaticCaseModule } from './automatic_case/automatic_case.module';
 import { AutomaticDiagnosisModule } from './automatic_diagnosis/automatic_diagnosis.module';
 import { TreatmentProgressModule } from './treatment_progress/treatment_progress.module';
 import { TreatmentProgressPhotoModule } from './treatment_progress_photo/treatment_progress_photo.module';
-import { AllergyEntity } from './allergy/entities/allergy.entity';
-import { AutomaticCaseEntity } from './automatic_case/entities/automatic_case.entity';
-import { AutomaticDiagnosisEntity } from './automatic_diagnosis/entities/automatic_diagnosis.entity';
-import { CaseEntity } from './case/entities/case.entity';
-import { CityEntity } from './city/entities/city.entity';
-import { CountryEntity } from './country/entities/country.entity';
-import { DoctorEntity } from './doctor/entities/doctor.entity';
-import { DoctorSpecialtyEntity } from './doctor_specialty/entities/doctor_specialty.entity';
-import { IllnessEntity } from './illness/entities/illness.entity';
-import { InjuryEntity } from './injury/entities/injury.entity';
-import { InjuryPhotoEntity } from './injury_photo/entities/injury_photo.entity';
-import { PatientEntity } from './patient/entities/patient.entity';
-import { SpecialtyEntity } from './specialty/entities/specialty.entity';
-import { SpecificationEntity } from './specification/entities/specification.entity';
-import { SymptomEntity } from './symptom/entities/symptom.entity';
-import { TreatmentEntity } from './treatment/entities/treatment.entity';
-import { TreatmentProgressEntity } from './treatment_progress/entities/treatment_progress.entity';
-import { TreatmentProgressPhotoEntity } from './treatment_progress_photo/entities/treatment_progress_photo.entity';
-import { UserEntity } from './user/entities/user.entity';
+import { Allergy } from './allergy/entities/allergy.entity';
+import { AutomaticCase } from './automatic_case/entities/automatic_case.entity';
+import { AutomaticDiagnosis } from './automatic_diagnosis/entities/automatic_diagnosis.entity';
+import { Case } from './case/entities/case.entity';
+import { City } from './city/entities/city.entity';
+import { Country } from './country/entities/country.entity';
+import { Doctor } from './doctor/entities/doctor.entity';
+import { DoctorSpecialty } from './doctor_specialty/entities/doctor_specialty.entity';
+import { Illness } from './illness/entities/illness.entity';
+import { Injury } from './injury/entities/injury.entity';
+import { InjuryPhoto } from './injury_photo/entities/injury_photo.entity';
+import { Patient } from './patient/entities/patient.entity';
+import { Specialty } from './specialty/entities/specialty.entity';
+import { Specification } from './specification/entities/specification.entity';
+import { Symptom } from './symptom/entities/symptom.entity';
+import { Treatment } from './treatment/entities/treatment.entity';
+import { TreatmentProgress } from './treatment_progress/entities/treatment_progress.entity';
+import { TreatmentProgressPhoto } from './treatment_progress_photo/entities/treatment_progress_photo.entity';
+import { User } from './user/entities/user.entity';
 
 @Module({
   imports: [
@@ -82,25 +82,25 @@ import { UserEntity } from './user/entities/user.entity';
       password: 'postgres',
       database: 'dermo_app',
       entities: [
-        AllergyEntity,
-        AutomaticCaseEntity,
-        AutomaticDiagnosisEntity,
-        CaseEntity,
-        CityEntity,
-        CountryEntity,
-        DoctorEntity,
-        DoctorSpecialtyEntity,
-        IllnessEntity,
-        InjuryEntity,
-        InjuryPhotoEntity,
-        PatientEntity,
-        SpecialtyEntity,
-        SpecificationEntity,
-        SymptomEntity,
-        TreatmentEntity,
-        TreatmentProgressEntity,
-        TreatmentProgressPhotoEntity,
-        UserEntity
+        Allergy,
+        AutomaticCase,
+        AutomaticDiagnosis,
+        Case,
+        City,
+        Country,
+        Doctor,
+        DoctorSpecialty,
+        Illness,
+        Injury,
+        InjuryPhoto,
+        Patient,
+        Specialty,
+        Specification,
+        Symptom,
+        Treatment,
+        TreatmentProgress,
+        TreatmentProgressPhoto,
+        User
       ],
       dropSchema: true,
       synchronize: true,

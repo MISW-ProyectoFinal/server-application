@@ -1,8 +1,8 @@
-import { TreatmentProgressEntity } from 'src/treatment_progress/entities/treatment_progress.entity';
+import { TreatmentProgress } from 'src/treatment_progress/entities/treatment_progress.entity';
 import { Column, Entity, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 
 @Entity()
-export class TreatmentProgressPhotoEntity {
+export class TreatmentProgressPhoto {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -16,8 +16,8 @@ export class TreatmentProgressPhotoEntity {
   creation_date: string;
 
   @ManyToOne(
-    () => TreatmentProgressEntity,
+    () => TreatmentProgress,
     (treatment_progress) => treatment_progress.treatment_progress_photos,
   )
-  treatment_progress: TreatmentProgressEntity;
+  treatment_progress: TreatmentProgress;
 }

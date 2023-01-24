@@ -6,12 +6,12 @@ import {
   OneToMany,
 } from 'typeorm';
 import { ObjectType, Field } from '@nestjs/graphql';
-import { InjuryEntity } from 'src/injury/entities/injury.entity';
-import { AutomaticDiagnosisEntity } from 'src/automatic_diagnosis/entities/automatic_diagnosis.entity';
+import { Injury } from 'src/injury/entities/injury.entity';
+import { AutomaticDiagnosis } from 'src/automatic_diagnosis/entities/automatic_diagnosis.entity';
 
 @ObjectType()
 @Entity()
-export class AutomaticCaseEntity {
+export class AutomaticCase {
   @Field()
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -21,9 +21,9 @@ export class AutomaticCaseEntity {
   })
   generated_date: string;
 
-  @ManyToOne(() => InjuryEntity, (injury) => injury.automatic_cases)
-  injury: InjuryEntity;
+  @ManyToOne(() => Injury, (injury) => injury.automatic_cases)
+  injury: Injury;
 
-  @OneToMany(() => AutomaticDiagnosisEntity, (automatic_diagnosis) => automatic_diagnosis.automatic_case)
-  automatic_diagnoses: AutomaticDiagnosisEntity[];
+  @OneToMany(() => AutomaticDiagnosis, (automatic_diagnosis) => automatic_diagnosis.automatic_case)
+  automatic_diagnoses: AutomaticDiagnosis[];
 }
