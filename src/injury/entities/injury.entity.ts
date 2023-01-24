@@ -13,6 +13,8 @@ import { Distribution } from 'src/distribution/distribution.enum';
 import { Symptom } from 'src/symptom/entities/symptom.entity';
 import { Case } from 'src/case/entities/case.entity';
 import { Treatment } from 'src/treatment/entities/treatment.entity';
+import { InjuryPhoto } from 'src/injury_photo/entities/injury_photo.entity';
+import { AutomaticCase } from 'src/automatic_case/entities/automatic_case.entity';
 
 @ObjectType()
 @Entity()
@@ -75,4 +77,10 @@ export class Injury {
 
   @OneToMany(() => Treatment, (treatment) => treatment.injury)
   treatments: Treatment[];
+
+  @OneToMany(() => InjuryPhoto, (injuryPhoto) => injuryPhoto.injury)
+  photos: InjuryPhoto[];
+
+  @OneToMany(() => AutomaticCase, (automaticCase) => automaticCase.injury)
+  automatic_cases: AutomaticCase[];
 }

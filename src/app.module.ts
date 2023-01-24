@@ -22,6 +22,12 @@ import { PatientAllergyModule } from './patient_allergy/patient_allergy.module';
 import { PaymentModule } from './payment/payment.module';
 import { CaseModule } from './case/case.module';
 import { TreatmentModule } from './treatment/treatment.module';
+import { InjuryPhotoModule } from './injury_photo/injury_photo.module';
+import { AutomaticCaseModule } from './automatic_case/automatic_case.module';
+import { AutomaticDiagnosisModule } from './automatic_diagnosis/automatic_diagnosis.module';
+import { TreatmentProcessModule } from './treatment_process/treatment_process.module';
+import { TreatmentProgressModule } from './treatment_progress/treatment_progress.module';
+import { TreatmentProgressPhotoModule } from './treatment_progress_photo/treatment_progress_photo.module';
 
 @Module({
   imports: [
@@ -46,6 +52,12 @@ import { TreatmentModule } from './treatment/treatment.module';
     PaymentModule,
     CaseModule,
     TreatmentModule,
+    InjuryPhotoModule,
+    AutomaticCaseModule,
+    AutomaticDiagnosisModule,
+    TreatmentProcessModule,
+    TreatmentProgressModule,
+    TreatmentProgressPhotoModule,
   ],
   controllers: [AppController],
   providers: [AppService],
