@@ -1,0 +1,27 @@
+import { Case } from 'src/case/entities/case.entity';
+import { DoctorSpecialty } from 'src/doctor_specialty/entities/doctor_specialty.entity';
+import { User } from 'src/user/entities/user.entity';
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  OneToMany,
+} from 'typeorm';
+
+@Entity()
+export class Doctor extends User {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
+  @Column()
+  enabled: boolean;
+
+  @Column({ type: 'date' })
+  enabled_date: string;
+
+  @OneToMany(() => DoctorSpecialty, doctor_specialty => doctor_specialty.doctor)
+  doctor_specialties: DoctorSpecialty[];
+
+  @OneToMany(() => Case, (caso) => caso.doctor)
+  cases: Case[];
+}
