@@ -3,4 +3,5 @@ export enum Sex {
   FEMENINO = 'femenino',
   INDEFINIDO = 'indefinido',
   BINARIO = 'binario',
+  OTRO = 'otro',
 }

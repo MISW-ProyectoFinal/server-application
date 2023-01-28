@@ -13,10 +13,17 @@ export class Doctor extends User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column({
+    default: false
+  })
   enabled: boolean;
 
-  @Column({ type: 'date' })
+  @Column(
+    { 
+      nullable: true,
+      type: 'date' 
+    }
+  )
   enabled_date: string;
 
   @OneToMany(() => DoctorSpecialty, doctor_specialty => doctor_specialty.doctor)

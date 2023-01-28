@@ -46,6 +46,8 @@ import { Treatment } from './treatment/entities/treatment.entity';
 import { TreatmentProgress } from './treatment_progress/entities/treatment_progress.entity';
 import { TreatmentProgressPhoto } from './treatment_progress_photo/entities/treatment_progress_photo.entity';
 import { User } from './user/entities/user.entity';
+import { DocumentTypeModule } from './document_type/document_type.module';
+import { DocumentType } from './document_type/entities/document_type.entity';
 
 @Module({
   imports: [
@@ -74,12 +76,13 @@ import { User } from './user/entities/user.entity';
     AutomaticDiagnosisModule,
     TreatmentProgressModule,
     TreatmentProgressPhotoModule,
+    DocumentTypeModule,
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: 'localhost',
       port: 5432,
       username: 'postgres',
-      password: 'postgres',
+      password: 'asdfgh',
       database: 'dermo_app',
       entities: [
         Allergy,
@@ -90,6 +93,7 @@ import { User } from './user/entities/user.entity';
         Country,
         Doctor,
         DoctorSpecialty,
+        DocumentType,
         Illness,
         Injury,
         InjuryPhoto,
@@ -106,6 +110,7 @@ import { User } from './user/entities/user.entity';
       synchronize: true,
       keepConnectionAlive: true
     }),
+    DocumentTypeModule,
   ],
   controllers: [AppController],
   providers: [AppService],

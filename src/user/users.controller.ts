@@ -7,17 +7,20 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
+import { plainToInstance } from 'class-transformer';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { User } from './entities/user.entity';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+  async create(@Body() createUserDto: CreateUserDto) {
+    const user: User = plainToInstance(User, createUserDto);
+    return await this.usersService.create(user);
   }
 
   @Get()
