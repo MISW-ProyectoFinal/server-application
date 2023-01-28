@@ -13,8 +13,8 @@ export class DocumentTypeController {
   }
 
   @Get()
-  findAll() {
-    return this.documentTypeService.findAll();
+  async findAll() {
+    return await this.documentTypeService.findAll();
   }
 
   @Get(':id')
