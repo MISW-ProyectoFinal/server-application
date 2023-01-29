@@ -21,8 +21,8 @@ export class CityController {
   }
 
   @Get()
-  findAll() {
-    return this.cityService.findAll();
+  async findAll() {
+    return await this.cityService.findAll();
   }
 
   @Get(':id')

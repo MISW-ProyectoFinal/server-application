@@ -24,6 +24,9 @@ export class AutomaticCase {
   @ManyToOne(() => Injury, (injury) => injury.automatic_cases)
   injury: Injury;
 
-  @OneToMany(() => AutomaticDiagnosis, (automatic_diagnosis) => automatic_diagnosis.automatic_case)
+  @OneToMany(
+    () => AutomaticDiagnosis,
+    (automatic_diagnosis) => automatic_diagnosis.automatic_case,
+  )
   automatic_diagnoses: AutomaticDiagnosis[];
 }

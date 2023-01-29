@@ -4,6 +4,6 @@ import { TreatmentProgressPhotoController } from './treatment_progress_photo.con
 
 @Module({
   controllers: [TreatmentProgressPhotoController],
-  providers: [TreatmentProgressPhotoService]
+  providers: [TreatmentProgressPhotoService],
 })
 export class TreatmentProgressPhotoModule {}

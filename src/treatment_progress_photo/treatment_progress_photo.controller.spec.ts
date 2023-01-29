@@ -11,7 +11,9 @@ describe('TreatmentProgressPhotoController', () => {
       providers: [TreatmentProgressPhotoService],
     }).compile();
 
-    controller = module.get<TreatmentProgressPhotoController>(TreatmentProgressPhotoController);
+    controller = module.get<TreatmentProgressPhotoController>(
+      TreatmentProgressPhotoController,
+    );
   });
 
   it('should be defined', () => {

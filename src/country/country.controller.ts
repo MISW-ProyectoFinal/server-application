@@ -21,8 +21,8 @@ export class CountryController {
   }
 
   @Get()
-  findAll() {
-    return this.countryService.findAll();
+  async findAll() {
+    return await this.countryService.findAll();
   }
 
   @Get(':id')

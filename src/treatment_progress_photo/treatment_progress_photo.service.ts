@@ -16,7 +16,10 @@ export class TreatmentProgressPhotoService {
     return `This action returns a #${id} treatmentProgressPhoto`;
   }
 
-  update(id: number, updateTreatmentProgressPhotoDto: UpdateTreatmentProgressPhotoDto) {
+  update(
+    id: number,
+    updateTreatmentProgressPhotoDto: UpdateTreatmentProgressPhotoDto,
+  ) {
     return `This action updates a #${id} treatmentProgressPhoto`;
   }
 
