@@ -82,7 +82,7 @@ import { DocumentType } from './document_type/entities/document_type.entity';
       host: 'localhost',
       port: 5432,
       username: 'postgres',
-      password: 'asdfgh',
+      password: 'postgres',
       database: 'dermo_app',
       entities: [
         Allergy,
