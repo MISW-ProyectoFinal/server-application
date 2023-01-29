@@ -7,8 +7,6 @@ import { DocumentType } from './entities/document_type.entity';
 
 @Injectable()
 export class DocumentTypeService {
-
-
   constructor(
     @InjectRepository(DocumentType)
     private readonly documentTypeRepository: Repository<DocumentType>,
@@ -19,7 +17,7 @@ export class DocumentTypeService {
   }
 
   async findAll() {
-    return await this.documentTypeRepository.find()
+    return await this.documentTypeRepository.find();
   }
 
   findOne(id: number) {

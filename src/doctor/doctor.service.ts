@@ -6,11 +6,9 @@ import { Repository } from 'typeorm';
 import { Doctor } from './entities/doctor.entity';
 @Injectable()
 export class DoctorService {
-
   constructor(
     @InjectRepository(Doctor)
     private readonly doctorRepository: Repository<Doctor>,
-
   ) {}
 
   async create(doctroCreated: Doctor): Promise<Doctor> {

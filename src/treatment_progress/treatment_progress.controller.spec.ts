@@ -11,7 +11,9 @@ describe('TreatmentProgressController', () => {
       providers: [TreatmentProgressService],
     }).compile();
 
-    controller = module.get<TreatmentProgressController>(TreatmentProgressController);
+    controller = module.get<TreatmentProgressController>(
+      TreatmentProgressController,
+    );
   });
 
   it('should be defined', () => {

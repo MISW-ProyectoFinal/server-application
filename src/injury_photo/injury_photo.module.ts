@@ -4,6 +4,6 @@ import { InjuryPhotoController } from './injury_photo.controller';
 
 @Module({
   controllers: [InjuryPhotoController],
-  providers: [InjuryPhotoService]
+  providers: [InjuryPhotoService],
 })
 export class InjuryPhotoModule {}

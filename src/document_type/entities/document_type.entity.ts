@@ -10,7 +10,6 @@ import {
 
 @Entity()
 export class DocumentType {
-
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -23,7 +22,6 @@ export class DocumentType {
   @ManyToOne(() => Country, (country) => country.document_types)
   country: Country;
 
-  @OneToMany(() => User, users => users.document_type)
+  @OneToMany(() => User, (users) => users.document_type)
   users: User[];
-
 }

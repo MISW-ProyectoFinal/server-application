@@ -15,7 +15,7 @@ export class InjuryPhoto {
   })
   url: string;
 
-  @Column({ type: 'date'})
+  @Column({ type: 'date' })
   upload_date: string;
 
   @ManyToOne(() => Injury, (injury) => injury.photos)

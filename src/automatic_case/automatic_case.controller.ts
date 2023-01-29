@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { AutomaticCaseService } from './automatic_case.service';
 import { CreateAutomaticCaseDto } from './dto/create-automatic_case.dto';
 import { UpdateAutomaticCaseDto } from './dto/update-automatic_case.dto';
@@ -23,7 +31,10 @@ export class AutomaticCaseController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAutomaticCaseDto: UpdateAutomaticCaseDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateAutomaticCaseDto: UpdateAutomaticCaseDto,
+  ) {
     return this.automaticCaseService.update(+id, updateAutomaticCaseDto);
   }
 

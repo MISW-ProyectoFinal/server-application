@@ -4,6 +4,6 @@ import { AutomaticCaseController } from './automatic_case.controller';
 
 @Module({
   controllers: [AutomaticCaseController],
-  providers: [AutomaticCaseService]
+  providers: [AutomaticCaseService],
 })
 export class AutomaticCaseModule {}

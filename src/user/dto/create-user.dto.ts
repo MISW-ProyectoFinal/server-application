@@ -1,56 +1,63 @@
-import {IsBoolean, IsNotEmpty, IsString, IsEmail, IsMobilePhone, IsEnum,Matches} from 'class-validator';
+import {
+  IsBoolean,
+  IsNotEmpty,
+  IsString,
+  IsEmail,
+  IsMobilePhone,
+  IsEnum,
+  Matches,
+} from 'class-validator';
 import { Sex } from 'src/sex/sex.enum';
 
 export class CreateUserDto {
-
-  
   @IsString()
   @IsEmail()
   @IsNotEmpty()
-   email: string;
+  email: string;
 
   @IsString()
   @IsNotEmpty()
-  @Matches('^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{8,})')
-   password: string;
+  @Matches(
+    '^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{8,})',
+  )
+  password: string;
 
   @IsBoolean()
   @IsNotEmpty()
-  
-   active: boolean;
+  active: boolean;
 
   @IsString()
   @IsNotEmpty()
-   name: string;
+  name: string;
 
   @IsString()
   @IsNotEmpty()
-   surname: string;
+  surname: string;
 
   @IsString()
   @IsNotEmpty()
   @IsMobilePhone()
-   phone: string;
+  phone: string;
 
   @IsString()
   @IsNotEmpty()
-   cell_phone: string;
+  cell_phone: string;
 
   @IsString()
   @IsNotEmpty()
-   date_of_birth: string;
+  date_of_birth: string;
 
   @IsString()
   @IsNotEmpty()
-   address: string;
+  address: string;
 
   @IsString()
   @IsNotEmpty()
-   city: string;
+  city: string;
 
   @IsString()
   @IsNotEmpty()
-   country: string;
+  country: string;
 
   @IsString()
   @IsNotEmpty()
@@ -59,5 +66,5 @@ export class CreateUserDto {
 
   @IsString()
   @IsNotEmpty()
-  document_type:string;
+  document_type: string;
 }

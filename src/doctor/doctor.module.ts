@@ -4,7 +4,6 @@ import { DoctorController } from './doctor.controller';
 import { InjectRepository, TypeOrmModule } from '@nestjs/typeorm';
 import { Doctor } from './entities/doctor.entity';
 
-
 @Module({
   controllers: [DoctorController],
   providers: [DoctorService],

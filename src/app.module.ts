@@ -104,11 +104,11 @@ import { DocumentType } from './document_type/entities/document_type.entity';
         Treatment,
         TreatmentProgress,
         TreatmentProgressPhoto,
-        User
+        User,
       ],
       dropSchema: true,
       synchronize: true,
-      keepConnectionAlive: true
+      keepConnectionAlive: true,
     }),
     DocumentTypeModule,
   ],

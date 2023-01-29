@@ -14,9 +14,12 @@ export class Specialty {
   @Column()
   name: string;
 
-  @OneToMany(() => Specification, specification => specification.specialty)
+  @OneToMany(() => Specification, (specification) => specification.specialty)
   specifications: Specification[];
 
-  @OneToMany(() => DoctorSpecialty, doctor_specialty => doctor_specialty.specialty)
+  @OneToMany(
+    () => DoctorSpecialty,
+    (doctor_specialty) => doctor_specialty.specialty,
+  )
   doctor_specialties: DoctorSpecialty[];
 }

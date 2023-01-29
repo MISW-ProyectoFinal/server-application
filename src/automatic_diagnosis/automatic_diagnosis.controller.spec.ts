@@ -11,7 +11,9 @@ describe('AutomaticDiagnosisController', () => {
       providers: [AutomaticDiagnosisService],
     }).compile();
 
-    controller = module.get<AutomaticDiagnosisController>(AutomaticDiagnosisController);
+    controller = module.get<AutomaticDiagnosisController>(
+      AutomaticDiagnosisController,
+    );
   });
 
   it('should be defined', () => {

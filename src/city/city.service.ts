@@ -7,7 +7,6 @@ import { City } from './entities/city.entity';
 
 @Injectable()
 export class CityService {
-
   constructor(
     @InjectRepository(City)
     private readonly cityRepository: Repository<City>,
@@ -18,7 +17,7 @@ export class CityService {
   }
 
   async findAll() {
-    return await this.cityRepository.find()
+    return await this.cityRepository.find();
   }
 
   findOne(id: number) {

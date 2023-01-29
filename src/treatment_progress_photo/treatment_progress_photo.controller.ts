@@ -1,15 +1,29 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { TreatmentProgressPhotoService } from './treatment_progress_photo.service';
 import { CreateTreatmentProgressPhotoDto } from './dto/create-treatment_progress_photo.dto';
 import { UpdateTreatmentProgressPhotoDto } from './dto/update-treatment_progress_photo.dto';
 
 @Controller('treatment-progress-photo')
 export class TreatmentProgressPhotoController {
-  constructor(private readonly treatmentProgressPhotoService: TreatmentProgressPhotoService) {}
+  constructor(
+    private readonly treatmentProgressPhotoService: TreatmentProgressPhotoService,
+  ) {}
 
   @Post()
-  create(@Body() createTreatmentProgressPhotoDto: CreateTreatmentProgressPhotoDto) {
-    return this.treatmentProgressPhotoService.create(createTreatmentProgressPhotoDto);
+  create(
+    @Body() createTreatmentProgressPhotoDto: CreateTreatmentProgressPhotoDto,
+  ) {
+    return this.treatmentProgressPhotoService.create(
+      createTreatmentProgressPhotoDto,
+    );
   }
 
   @Get()
@@ -23,8 +37,14 @@ export class TreatmentProgressPhotoController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTreatmentProgressPhotoDto: UpdateTreatmentProgressPhotoDto) {
-    return this.treatmentProgressPhotoService.update(+id, updateTreatmentProgressPhotoDto);
+  update(
+    @Param('id') id: string,
+    @Body() updateTreatmentProgressPhotoDto: UpdateTreatmentProgressPhotoDto,
+  ) {
+    return this.treatmentProgressPhotoService.update(
+      +id,
+      updateTreatmentProgressPhotoDto,
+    );
   }
 
   @Delete(':id')

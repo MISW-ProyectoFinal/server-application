@@ -4,6 +4,6 @@ import { AutomaticDiagnosisController } from './automatic_diagnosis.controller';
 
 @Module({
   controllers: [AutomaticDiagnosisController],
-  providers: [AutomaticDiagnosisService]
+  providers: [AutomaticDiagnosisService],
 })
 export class AutomaticDiagnosisModule {}

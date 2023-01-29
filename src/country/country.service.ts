@@ -7,7 +7,6 @@ import { Country } from './entities/country.entity';
 
 @Injectable()
 export class CountryService {
-
   constructor(
     @InjectRepository(Country)
     private readonly countryRepository: Repository<Country>,
@@ -19,8 +18,8 @@ export class CountryService {
 
   async findAll(): Promise<Country[]> {
     return await this.countryRepository.find({
-      relations: ['cities','document_types']
-    })
+      relations: ['cities', 'document_types'],
+    });
   }
 
   findOne(id: number) {

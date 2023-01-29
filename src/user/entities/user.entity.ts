@@ -1,6 +1,6 @@
 import { City } from 'src/city/entities/city.entity';
 import { Country } from 'src/country/entities/country.entity';
-import { DocumentType } from 'src/document_type/entities/document_type.entity'
+import { DocumentType } from 'src/document_type/entities/document_type.entity';
 import {
   Column,
   Entity,
@@ -8,7 +8,6 @@ import {
   ManyToOne,
   JoinColumn,
   OneToOne,
-  
 } from 'typeorm';
 import { Sex } from 'src/sex/sex.enum';
 
@@ -56,6 +55,6 @@ export class User {
   @ManyToOne(() => Country, (country) => country.users)
   country: Country;
 
-  @ManyToOne(() => DocumentType, document_type => document_type.users)
+  @ManyToOne(() => DocumentType, (document_type) => document_type.users)
   document_type: DocumentType;
 }
