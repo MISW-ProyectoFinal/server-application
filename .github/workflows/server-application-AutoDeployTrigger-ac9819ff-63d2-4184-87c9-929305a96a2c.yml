@@ -33,8 +33,6 @@ jobs:
         with:
           push: true
           tags: ghcr.io/misw-proyectofinal/server-application:${{ github.sha }}
-          file: DockerFile
-          context: .
 
 
   deploy:
