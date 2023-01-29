@@ -79,11 +79,11 @@ import { DocumentType } from './document_type/entities/document_type.entity';
     DocumentTypeModule,
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: 'postgres',
-      database: 'dermo_app',
+      host: process.env['PG_DB_HOSTURL'] || 'localhost',
+      port: +process.env['PG_DB_PORT'] || 5432,
+      username: process.env['PG_DB_USERNAME'] || 'postgres',
+      password: process.env['PG_DB_PASSWORD'] || 'postgres',
+      database: process.env['PG_DB_NAME'] || 'dermo_app',
       entities: [
         Allergy,
         AutomaticCase,
