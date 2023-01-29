@@ -6,9 +6,6 @@ on:
   push:
     branches: 
       [ main ]
-    paths:
-    - 'DockerFile/**'
-    - '.github/workflows/server-application-AutoDeployTrigger-ac9819ff-63d2-4184-87c9-929305a96a2c.yml'
 
   # Allow mannually trigger 
   workflow_dispatch:      
@@ -35,9 +32,9 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: ghcr.io/server-application:${{ github.sha }}
-          file: ./DockerFile/Dockerfile
-          context: ./DockerFile/
+          tags: ghcr.io/misw-proyectofinal/server-application:${{ github.sha }}
+          file: DockerFile
+          context: .
 
 
   deploy:
