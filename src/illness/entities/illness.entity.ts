@@ -6,9 +6,9 @@ import {
   JoinTable,
 } from 'typeorm';
 import { ObjectType, Field } from '@nestjs/graphql';
-import { Specification } from 'src/specification/entities/specification.entity';
-import { Symptom } from 'src/symptom/entities/symptom.entity';
-import { Patient } from 'src/patient/entities/patient.entity';
+import { Specification } from './../../specification/entities/specification.entity';
+import { Symptom } from './../../symptom/entities/symptom.entity';
+import { Patient } from './../../patient/entities/patient.entity';
 
 @ObjectType()
 @Entity()

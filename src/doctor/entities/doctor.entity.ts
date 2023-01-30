@@ -1,6 +1,6 @@
-import { Case } from 'src/case/entities/case.entity';
-import { DoctorSpecialty } from 'src/doctor_specialty/entities/doctor_specialty.entity';
-import { User } from 'src/user/entities/user.entity';
+import { Case } from './../../case/entities/case.entity';
+import { DoctorSpecialty } from './../../doctor_specialty/entities/doctor_specialty.entity';
+import { User } from './../../user/entities/user.entity';
 import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 @Entity()

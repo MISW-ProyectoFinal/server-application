@@ -1,4 +1,4 @@
-import { TreatmentProgress } from 'src/treatment_progress/entities/treatment_progress.entity';
+import { TreatmentProgress } from './../../treatment_progress/entities/treatment_progress.entity';
 import { Column, Entity, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 
 @Entity()

@@ -6,8 +6,8 @@ import {
   OneToMany,
 } from 'typeorm';
 import { ObjectType, Field } from '@nestjs/graphql';
-import { Injury } from 'src/injury/entities/injury.entity';
-import { AutomaticDiagnosis } from 'src/automatic_diagnosis/entities/automatic_diagnosis.entity';
+import { Injury } from './../../injury/entities/injury.entity';
+import { AutomaticDiagnosis } from './../../automatic_diagnosis/entities/automatic_diagnosis.entity';
 
 @ObjectType()
 @Entity()

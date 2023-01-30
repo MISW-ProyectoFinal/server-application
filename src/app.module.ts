@@ -48,6 +48,7 @@ import { TreatmentProgressPhoto } from './treatment_progress_photo/entities/trea
 import { User } from './user/entities/user.entity';
 import { DocumentTypeModule } from './document_type/document_type.module';
 import { DocumentType } from './document_type/entities/document_type.entity';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -111,6 +112,7 @@ import { DocumentType } from './document_type/entities/document_type.entity';
       keepConnectionAlive: true,
     }),
     DocumentTypeModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

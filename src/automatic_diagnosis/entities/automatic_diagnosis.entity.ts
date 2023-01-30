@@ -1,6 +1,6 @@
 import { Column, Entity, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import { ObjectType, Field } from '@nestjs/graphql';
-import { AutomaticCase } from 'src/automatic_case/entities/automatic_case.entity';
+import { AutomaticCase } from './../../automatic_case/entities/automatic_case.entity';
 
 @ObjectType()
 @Entity()

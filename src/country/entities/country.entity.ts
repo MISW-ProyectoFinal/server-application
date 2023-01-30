@@ -1,6 +1,6 @@
-import { City } from 'src/city/entities/city.entity';
-import { User } from 'src/user/entities/user.entity';
-import { DocumentType } from 'src/document_type/entities/document_type.entity';
+import { City } from './../../city/entities/city.entity';
+import { User } from './../../user/entities/user.entity';
+import { DocumentType } from './../../document_type/entities/document_type.entity';
 import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 @Entity()
