@@ -7,14 +7,14 @@ import {
   JoinTable,
 } from 'typeorm';
 import { ObjectType, Field } from '@nestjs/graphql';
-import { InjuryTypes } from 'src/injury_type/injury_typr.enum';
-import { Shapes } from 'src/shape/shapes.enum';
-import { Distribution } from 'src/distribution/distribution.enum';
-import { Symptom } from 'src/symptom/entities/symptom.entity';
-import { Case } from 'src/case/entities/case.entity';
-import { Treatment } from 'src/treatment/entities/treatment.entity';
-import { InjuryPhoto } from 'src/injury_photo/entities/injury_photo.entity';
-import { AutomaticCase } from 'src/automatic_case/entities/automatic_case.entity';
+import { InjuryTypes } from './../../injury_type/injury_typr.enum';
+import { Shapes } from './../../shape/shapes.enum';
+import { Distribution } from './../../distribution/distribution.enum';
+import { Symptom } from './../../symptom/entities/symptom.entity';
+import { Case } from './../../case/entities/case.entity';
+import { Treatment } from './../../treatment/entities/treatment.entity';
+import { InjuryPhoto } from './../../injury_photo/entities/injury_photo.entity';
+import { AutomaticCase } from './../../automatic_case/entities/automatic_case.entity';
 
 @ObjectType()
 @Entity()

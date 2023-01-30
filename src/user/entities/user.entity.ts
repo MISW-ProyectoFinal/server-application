@@ -1,25 +1,18 @@
-import { City } from 'src/city/entities/city.entity';
-import { Country } from 'src/country/entities/country.entity';
-import { DocumentType } from 'src/document_type/entities/document_type.entity';
-import {
-  Column,
-  Entity,
-  PrimaryGeneratedColumn,
-  ManyToOne,
-  JoinColumn,
-  OneToOne,
-} from 'typeorm';
-import { Sex } from 'src/sex/sex.enum';
+import { City } from './../../city/entities/city.entity';
+import { Country } from './../../country/entities/country.entity';
+import { DocumentType } from './../../document_type/entities/document_type.entity';
+import { Column, Entity, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { Sex } from './../../sex/sex.enum';
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column({ unique: true })
   email: string;
 
-  @Column()
+  @Column({ select: false })
   password: string;
 
   @Column()

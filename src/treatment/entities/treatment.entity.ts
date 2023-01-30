@@ -1,6 +1,6 @@
-import { Case } from 'src/case/entities/case.entity';
-import { Injury } from 'src/injury/entities/injury.entity';
-import { TreatmentProgress } from 'src/treatment_progress/entities/treatment_progress.entity';
+import { Case } from './../../case/entities/case.entity';
+import { Injury } from './../../injury/entities/injury.entity';
+import { TreatmentProgress } from './../../treatment_progress/entities/treatment_progress.entity';
 import {
   Column,
   Entity,

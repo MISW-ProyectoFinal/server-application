@@ -5,12 +5,12 @@ import {
   ManyToOne,
   OneToMany,
 } from 'typeorm';
-import { PaymentStatus } from 'src/payment_status/payment_status.enum';
-import { CaseStatus } from 'src/case_status/case_status.enum';
-import { CurrencyType } from 'src/currency_type/currency_type.enum';
-import { Doctor } from 'src/doctor/entities/doctor.entity';
-import { Injury } from 'src/injury/entities/injury.entity';
-import { Treatment } from 'src/treatment/entities/treatment.entity';
+import { PaymentStatus } from './../../payment_status/payment_status.enum';
+import { CaseStatus } from './../../case_status/case_status.enum';
+import { CurrencyType } from './../../currency_type/currency_type.enum';
+import { Doctor } from './../../doctor/entities/doctor.entity';
+import { Injury } from './../../injury/entities/injury.entity';
+import { Treatment } from './../../treatment/entities/treatment.entity';
 
 @Entity()
 export class Case {

@@ -1,7 +1,7 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { ObjectType, Field } from '@nestjs/graphql';
-import { Specification } from 'src/specification/entities/specification.entity';
-import { DoctorSpecialty } from 'src/doctor_specialty/entities/doctor_specialty.entity';
+import { Specification } from './../../specification/entities/specification.entity';
+import { DoctorSpecialty } from './../../doctor_specialty/entities/doctor_specialty.entity';
 
 @ObjectType()
 @Entity()

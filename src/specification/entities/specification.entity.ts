@@ -7,10 +7,10 @@ import {
   JoinTable,
 } from 'typeorm';
 import { ObjectType, Field } from '@nestjs/graphql';
-import { DetailType } from 'src/detail_type/detail_type.enum';
-import { Specialty } from 'src/specialty/entities/specialty.entity';
-import { Allergy } from 'src/allergy/entities/allergy.entity';
-import { Illness } from 'src/illness/entities/illness.entity';
+import { DetailType } from './../../detail_type/detail_type.enum';
+import { Specialty } from './../../specialty/entities/specialty.entity';
+import { Allergy } from './../../allergy/entities/allergy.entity';
+import { Illness } from './../../illness/entities/illness.entity';
 
 @ObjectType()
 @Entity()

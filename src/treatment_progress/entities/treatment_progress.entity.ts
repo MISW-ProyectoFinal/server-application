@@ -1,5 +1,5 @@
-import { Treatment } from 'src/treatment/entities/treatment.entity';
-import { TreatmentProgressPhoto } from 'src/treatment_progress_photo/entities/treatment_progress_photo.entity';
+import { Treatment } from './../../treatment/entities/treatment.entity';
+import { TreatmentProgressPhoto } from './../../treatment_progress_photo/entities/treatment_progress_photo.entity';
 import {
   Column,
   Entity,

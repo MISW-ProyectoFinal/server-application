@@ -6,10 +6,10 @@ import {
   JoinTable,
   OneToOne,
 } from 'typeorm';
-import { Allergy } from 'src/allergy/entities/allergy.entity';
-import { User } from 'src/user/entities/user.entity';
-import { Illness } from 'src/illness/entities/illness.entity';
-import { SkynTypes } from 'src/skin_type/skin_type.enum';
+import { Allergy } from './../../allergy/entities/allergy.entity';
+import { User } from './../../user/entities/user.entity';
+import { Illness } from './../../illness/entities/illness.entity';
+import { SkynTypes } from './../../skin_type/skin_type.enum';
 
 @Entity()
 export class Patient extends User {

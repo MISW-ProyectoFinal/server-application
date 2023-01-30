@@ -12,15 +12,25 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
+import { LoginUserDto } from './dto/login-user.dto';
+import { AuthService } from 'src/auth/auth.service';
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly authService: AuthService,
+  ) {}
 
   @Post()
   async create(@Body() createUserDto: CreateUserDto) {
     const user: User = plainToInstance(User, createUserDto);
     return await this.usersService.create(user);
+  }
+
+  @Post('login')
+  async login(@Body() loginUserDto: LoginUserDto) {
+    return this.authService.login(loginUserDto);
   }
 
   @Get()

@@ -1,6 +1,6 @@
 import { Column, Entity, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import { ObjectType, Field } from '@nestjs/graphql';
-import { Injury } from 'src/injury/entities/injury.entity';
+import { Injury } from './../../injury/entities/injury.entity';
 
 @ObjectType()
 @Entity()
