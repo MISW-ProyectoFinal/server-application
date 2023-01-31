@@ -8,6 +8,8 @@ import {
   Delete,
 } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
+import { AuthService } from 'src/auth/auth.service';
+import { LoginUserDto } from 'src/user/dto/login-user.dto';
 import { DoctorService } from './doctor.service';
 import { CreateDoctorDto } from './dto/create-doctor.dto';
 import { UpdateDoctorDto } from './dto/update-doctor.dto';
@@ -15,7 +17,10 @@ import { Doctor } from './entities/doctor.entity';
 
 @Controller('doctor')
 export class DoctorController {
-  constructor(private readonly doctorService: DoctorService) {}
+  constructor(
+    private readonly doctorService: DoctorService,
+    private readonly authService: AuthService,
+    ) {}
 
   @Post()
   async create(@Body() createDoctorDto: CreateDoctorDto) {
@@ -41,5 +46,12 @@ export class DoctorController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.doctorService.remove(+id);
+  }
+
+  //METODOS PROPIOS
+  @Post('login')
+  async login(@Body() loginUserDto: LoginUserDto) {
+    loginUserDto.who = "doctor"
+    return this.authService.login(loginUserDto);
   }
 }

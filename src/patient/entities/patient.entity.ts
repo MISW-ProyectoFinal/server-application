@@ -19,19 +19,24 @@ export class Patient extends User {
   @Column()
   accept_terms: boolean;
 
-  @Column({ type: 'date' })
+  @Column({ 
+    type: 'date', 
+    nullable: true
+  })
   enabled_date: string;
 
   @Column({
     type: 'enum',
     enum: SkynTypes,
     default: SkynTypes.BLANCO,
+    nullable: true
   })
   skyn_type: SkynTypes;
 
   @Column({
     type: 'varchar',
     default: '',
+    nullable: true
   })
   url_foto_tipo_piel: string;
 

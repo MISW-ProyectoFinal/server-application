@@ -6,6 +6,7 @@ import { Doctor } from './entities/doctor.entity';
 import { from, lastValueFrom, Observable } from 'rxjs';
 import * as bcrypt from 'bcrypt';
 import { User } from 'src/user/entities/user.entity';
+import { BusinessLogicException, BusinessError } from 'src/shared/errors/business-errors';
 
 const saltRounds = 10;
 @Injectable()
@@ -21,7 +22,7 @@ export class DoctorService {
     doctroCreated.password = await lastValueFrom(
       this.hashPassword(doctroCreated.password),
     );
-    await this.userRepository.save(doctroCreated);
+    
     return await this.doctorRepository.save(doctroCreated);
   }
 
@@ -44,4 +45,19 @@ export class DoctorService {
   remove(id: number) {
     return `This action removes a #${id} doctor`;
   }
+
+  async findByEmail(email: string): Promise<Doctor> {
+    const doctor = await this.doctorRepository.findOne({
+      where: { email: email },
+    });
+    if (!doctor) {
+      throw new BusinessLogicException(
+        'El doctor que esta buscando no existe',
+        BusinessError.NOT_FOUND,
+      );
+    }
+
+    return doctor;
+  }
+  
 }
