@@ -18,21 +18,26 @@ export class Patient extends User {
   @Column({ default: true })
   accept_terms: boolean;
 
-  @Column({ type: 'date' })
+  @Column({
+    type: 'date',
+    nullable: true,
+  })
   approval_date: string;
 
   @Column({
     type: 'enum',
     enum: SkinType,
     default: SkinType.BLANCO,
+    nullable: true,
   })
-  skyn_type: SkinType;
+  skin_type: SkinType;
 
   @Column({
     type: 'varchar',
     default: '',
+    nullable: true,
   })
-  skin_type_photo_url: string;
+  skin_type_photo_filename: string;
 
   @ManyToMany(() => Allergy, (allergy) => allergy.patients)
   @JoinTable()

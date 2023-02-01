@@ -1,20 +1,32 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { DoctorService } from 'src/doctor/doctor.service';
+import { Doctor } from 'src/doctor/entities/doctor.entity';
+import { Patient } from 'src/patient/entities/patient.entity';
+import { PatientService } from 'src/patient/patient.service';
 import constants from '../shared/security/constants';
-import { User } from '../user/entities/user.entity';
-import { UsersService } from '../user/users.service';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private usersService: UsersService,
     private jwtService: JwtService,
+    private patientService: PatientService,
+    private doctorService: DoctorService
   ) {}
 
-  async validateUser(email: string, password: string): Promise<any> {
-    const user: User = await this.usersService.findByEmail(email);
-    if (user && user.password === password) {
-      const { ...result } = user;
+  async validateDoctor(email: string, password: string): Promise<any> {
+    const doctor: Doctor = await this.doctorService.findByEmail(email);
+    if (doctor && doctor.password === password) {
+      const { ...result } = doctor;
+      return result;
+    }
+    return null;
+  }
+
+  async validatePatient(email: string, password: string): Promise<any> {
+    const patient: Patient = await this.patientService.findByEmail(email);
+    if (patient && patient.password === password) {
+      const { ...result } = patient;
       return result;
     }
     return null;

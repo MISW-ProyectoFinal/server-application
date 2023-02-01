@@ -14,6 +14,9 @@ import { PatientService } from './patient.service';
 import { CreatePatientDto } from './dto/create-patient.dto';
 import { UpdatePatientDto } from './dto/update-patient.dto';
 import { Patient } from './entities/patient.entity';
+import { LoginUserDto } from 'src/user/dto/login-user.dto';
+import { AuthService } from 'src/auth/auth.service';
+import { BusinessErrorsInterceptor } from 'src/shared/interceptors/business-errors.interceptor';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { v4 as uuidv4 } from 'uuid';
@@ -33,16 +36,15 @@ export const storage = {
 };
 
 @Controller('patient')
+@UseInterceptors(BusinessErrorsInterceptor)
 export class PatientController {
-  constructor(private readonly patientService: PatientService) {}
+  constructor(
+    private readonly patientService: PatientService,
+    private readonly authService: AuthService,
+  ) {}
 
   @Post()
-  @UseInterceptors(FileInterceptor('file', storage))
-  async create(
-    @Body() createPatientDto: CreatePatientDto,
-    @UploadedFile() file: Express.Multer.File,
-  ) {
-    createPatientDto.skin_type_photo_url = file.filename;
+  async create(@Body() createPatientDto: CreatePatientDto) {
     const patient: Patient = plainToInstance(Patient, createPatientDto);
     return this.patientService.create(patient);
   }
@@ -58,12 +60,25 @@ export class PatientController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePatientDto: UpdatePatientDto) {
+  @UseInterceptors(FileInterceptor('file', storage))
+  update(
+    @Param('id') id: string,
+    @Body() updatePatientDto: UpdatePatientDto,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    updatePatientDto.skin_type_photo_url = file.filename;
     return this.patientService.update(+id, updatePatientDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.patientService.remove(+id);
+  }
+
+  //METODOS PROPIOS
+  @Post('login')
+  async login(@Body() loginUserDto: LoginUserDto) {
+    loginUserDto.who = 'patient';
+    return this.authService.login(loginUserDto);
   }
 }

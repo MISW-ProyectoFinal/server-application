@@ -1,19 +1,37 @@
-import { IsBoolean, IsEnum, IsNotEmpty, IsString } from 'class-validator';
-import { SkinType } from './../../skin_type/skin_type.enum';
+import {
+  IsBoolean,
+  IsNotEmpty,
+  IsString,
+  IsEmail,
+  Matches,
+} from 'class-validator';
 
 export class CreatePatientDto {
+  @IsString()
+  @IsEmail()
+  @IsNotEmpty()
+  email: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @Matches(
+    '^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{8,})',
+  )
+  password: string;
+
+  @IsNotEmpty()
   @IsBoolean()
-  accept_terms = true;
+  accept_terms: boolean;
 
   @IsString()
   @IsNotEmpty()
-  approval_date: string;
+  name: string;
 
   @IsString()
   @IsNotEmpty()
-  @IsEnum(SkinType)
-  skyn_type: string;
+  surname: string;
 
-  @IsString()
-  skin_type_photo_url: string;
+  @IsNotEmpty()
+  @IsBoolean()
+  active: boolean;
 }

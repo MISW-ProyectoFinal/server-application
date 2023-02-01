@@ -2,9 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { from, lastValueFrom, Observable } from 'rxjs';
 import { Repository } from 'typeorm';
-import * as bcrypt from 'bcrypt';
 import { UpdatePatientDto } from './dto/update-patient.dto';
 import { Patient } from './entities/patient.entity';
+import * as bcrypt from 'bcrypt';
+import {
+  BusinessLogicException,
+  BusinessError,
+} from 'src/shared/errors/business-errors';
 
 const saltRounds = 10;
 @Injectable()
@@ -14,11 +18,22 @@ export class PatientService {
     private readonly patientRepository: Repository<Patient>,
   ) {}
 
-  async create(patientCreated: Patient): Promise<Patient> {
-    patientCreated.password = await lastValueFrom(
-      this.hashPassword(patientCreated.password),
-    );
-    return await this.patientRepository.save(patientCreated);
+  async create(createPatientDto: Patient): Promise<Patient> {
+    const patient = await this.patientRepository.findOne({
+      where: { email: createPatientDto.email },
+    });
+    if (!patient) {
+      createPatientDto.password = await lastValueFrom(
+        this.hashPassword(createPatientDto.password),
+      );
+
+      return await this.patientRepository.save(createPatientDto);
+    } else {
+      throw new BusinessLogicException(
+        'email registered',
+        BusinessError.PRECONDITION_FAILED,
+      );
+    }
   }
 
   findAll() {
@@ -39,5 +54,19 @@ export class PatientService {
 
   private hashPassword(password: string): Observable<string> {
     return from<Promise<string>>(bcrypt.hash(password, saltRounds));
+  }
+
+  async findByEmail(email: string): Promise<Patient> {
+    const patient = await this.patientRepository.findOne({
+      where: { email: email },
+    });
+    if (!patient) {
+      throw new BusinessLogicException(
+        'El patient que esta buscando no existe',
+        BusinessError.NOT_FOUND,
+      );
+    }
+
+    return patient;
   }
 }
