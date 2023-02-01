@@ -6,6 +6,10 @@ import { Doctor } from './entities/doctor.entity';
 import { from, lastValueFrom, Observable } from 'rxjs';
 import * as bcrypt from 'bcrypt';
 import { User } from 'src/user/entities/user.entity';
+import {
+  BusinessLogicException,
+  BusinessError,
+} from 'src/shared/errors/business-errors';
 
 const saltRounds = 10;
 @Injectable()
@@ -17,16 +21,16 @@ export class DoctorService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  async create(doctroCreated: Doctor): Promise<Doctor> {
-    doctroCreated.password = await lastValueFrom(
-      this.hashPassword(doctroCreated.password),
+  async create(doctorCreated: Doctor): Promise<Doctor> {
+    doctorCreated.password = await lastValueFrom(
+      this.hashPassword(doctorCreated.password),
     );
-    await this.userRepository.save(doctroCreated);
-    return await this.doctorRepository.save(doctroCreated);
+
+    return await this.doctorRepository.save(doctorCreated);
   }
 
   private hashPassword(password: string): Observable<string> {
-    return from<string>(bcrypt.hash(password, saltRounds));
+    return from<Promise<string>>(bcrypt.hash(password, saltRounds));
   }
 
   findAll() {
@@ -43,5 +47,19 @@ export class DoctorService {
 
   remove(id: number) {
     return `This action removes a #${id} doctor`;
+  }
+
+  async findByEmail(email: string): Promise<Doctor> {
+    const doctor = await this.doctorRepository.findOne({
+      where: { email: email },
+    });
+    if (!doctor) {
+      throw new BusinessLogicException(
+        'El doctor que esta buscando no existe',
+        BusinessError.NOT_FOUND,
+      );
+    }
+
+    return doctor;
   }
 }

@@ -4,12 +4,11 @@ import {
   PrimaryGeneratedColumn,
   ManyToMany,
   JoinTable,
-  OneToOne,
 } from 'typeorm';
 import { Allergy } from './../../allergy/entities/allergy.entity';
 import { User } from './../../user/entities/user.entity';
 import { Illness } from './../../illness/entities/illness.entity';
-import { SkynTypes } from './../../skin_type/skin_type.enum';
+import { SkinType } from './../../skin_type/skin_type.enum';
 
 @Entity()
 export class Patient extends User {
@@ -19,21 +18,26 @@ export class Patient extends User {
   @Column()
   accept_terms: boolean;
 
-  @Column({ type: 'date' })
-  enabled_date: string;
+  @Column({
+    type: 'date',
+    nullable: true,
+  })
+  approval_date: string;
 
   @Column({
     type: 'enum',
-    enum: SkynTypes,
-    default: SkynTypes.BLANCO,
+    enum: SkinType,
+    default: SkinType.BLANCO,
+    nullable: true,
   })
-  skyn_type: SkynTypes;
+  skin_type: SkinType;
 
   @Column({
     type: 'varchar',
     default: '',
+    nullable: true,
   })
-  url_foto_tipo_piel: string;
+  skin_type_photo_filename: string;
 
   @ManyToMany(() => Allergy, (allergy) => allergy.patients)
   @JoinTable()
