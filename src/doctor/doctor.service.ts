@@ -26,7 +26,7 @@ export class DoctorService {
   }
 
   private hashPassword(password: string): Observable<string> {
-    return from<string>(bcrypt.hash(password, saltRounds));
+    return from<Promise<string>>(bcrypt.hash(password, saltRounds));
   }
 
   findAll() {

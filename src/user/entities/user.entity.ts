@@ -28,6 +28,9 @@ export class User {
   phone: string;
 
   @Column()
+  document_number: string;
+
+  @Column()
   cell_phone: string;
 
   @Column({ type: 'date' })
