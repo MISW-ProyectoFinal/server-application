@@ -1,13 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { from, lastValueFrom, Observable } from 'rxjs';
-import { User } from 'src/user/entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreatePatientDto } from './dto/create-patient.dto';
 import { UpdatePatientDto } from './dto/update-patient.dto';
 import { Patient } from './entities/patient.entity';
 import * as bcrypt from 'bcrypt';
-import { BusinessLogicException, BusinessError } from 'src/shared/errors/business-errors';
+import { BusinessLogicException, BusinessError } from '../shared/errors/business-errors';
 
 const saltRounds = 10;
 @Injectable()
@@ -16,8 +15,7 @@ export class PatientService {
   constructor(
     @InjectRepository(Patient)
     private readonly patientRepository: Repository<Patient>,
-    @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
+   
   ) {}
 
   async create(createPatientDto: Patient): Promise<Patient>{
