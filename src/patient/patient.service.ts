@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { from, lastValueFrom, Observable } from 'rxjs';
 import { Repository } from 'typeorm';
-import { UpdatePatientDto } from './dto/update-patient.dto';
 import { Patient } from './entities/patient.entity';
 import * as bcrypt from 'bcrypt';
 import {
@@ -44,8 +43,25 @@ export class PatientService {
     return `This action returns a #${id} patient`;
   }
 
-  update(id: number, updatePatientDto: UpdatePatientDto) {
-    return `This action updates a #${id} patient`;
+  async update(id: string, updatePatientDto: Patient): Promise<Patient> {
+    const patient = await this.patientRepository.findOne({
+      where: { id: id },
+    });
+    if (!patient) {
+      throw new BusinessLogicException(
+        'Paciente no encontrado',
+        BusinessError.NOT_FOUND,
+      );
+    }
+
+    updatePatientDto.password = await lastValueFrom(
+      this.hashPassword(updatePatientDto.password),
+    );
+
+    return await this.patientRepository.save({
+      ...patient,
+      ...updatePatientDto,
+    });
   }
 
   remove(id: number) {

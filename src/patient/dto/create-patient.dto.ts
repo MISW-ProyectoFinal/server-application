@@ -30,8 +30,4 @@ export class CreatePatientDto {
   @IsString()
   @IsNotEmpty()
   surname: string;
-
-  @IsNotEmpty()
-  @IsBoolean()
-  active: boolean;
 }

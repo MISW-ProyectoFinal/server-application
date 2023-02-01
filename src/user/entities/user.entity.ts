@@ -15,7 +15,7 @@ export class User {
   @Column({ select: false })
   password: string;
 
-  @Column()
+  @Column({ default: true })
   active: boolean;
 
   @Column()
@@ -27,7 +27,7 @@ export class User {
   @Column({ nullable: true })
   phone: string;
 
-  @Column()
+  @Column({ nullable: true })
   document_number: string;
 
   @Column({ nullable: true })

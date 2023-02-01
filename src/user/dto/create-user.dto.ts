@@ -23,8 +23,7 @@ export class CreateUserDto {
   password: string;
 
   @IsBoolean()
-  @IsNotEmpty()
-  active: boolean;
+  active = true;
 
   @IsString()
   @IsNotEmpty()
@@ -67,4 +66,8 @@ export class CreateUserDto {
   @IsString()
   @IsNotEmpty()
   document_type: string;
+
+  @IsString()
+  @IsNotEmpty()
+  document_number: string;
 }

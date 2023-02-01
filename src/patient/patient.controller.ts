@@ -66,8 +66,11 @@ export class PatientController {
     @Body() updatePatientDto: UpdatePatientDto,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    updatePatientDto.skin_type_photo_url = file.filename;
-    return this.patientService.update(+id, updatePatientDto);
+    if (file) {
+      updatePatientDto.skin_type_photo_filename = file.filename;
+    }
+    const patient: Patient = plainToInstance(Patient, updatePatientDto);
+    return this.patientService.update(id, patient);
   }
 
   @Delete(':id')
