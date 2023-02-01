@@ -20,7 +20,7 @@ export class DoctorController {
   constructor(
     private readonly doctorService: DoctorService,
     private readonly authService: AuthService,
-    ) {}
+  ) {}
 
   @Post()
   async create(@Body() createDoctorDto: CreateDoctorDto) {
@@ -51,7 +51,7 @@ export class DoctorController {
   //METODOS PROPIOS
   @Post('login')
   async login(@Body() loginUserDto: LoginUserDto) {
-    loginUserDto.who = "doctor"
+    loginUserDto.who = 'doctor';
     return this.authService.login(loginUserDto);
   }
 }

@@ -7,7 +7,6 @@ import {
 } from 'class-validator';
 
 export class CreatePatientDto {
-
   @IsString()
   @IsEmail()
   @IsNotEmpty()
@@ -34,13 +33,5 @@ export class CreatePatientDto {
 
   @IsNotEmpty()
   @IsBoolean()
-  active: boolean = true;
-
- 
-
- 
-
-
-
-  
+  active: boolean;
 }

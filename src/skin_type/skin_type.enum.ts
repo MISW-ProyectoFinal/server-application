@@ -1,4 +1,4 @@
-export enum SkynTypes {
+export enum SkinType {
   BLACO_PALIDO = 'blancoPalido',
   BLANCO = 'blanco',
   BLANCO_OSCURO = 'blancoOscuro',

@@ -6,7 +6,10 @@ import { Doctor } from './entities/doctor.entity';
 import { from, lastValueFrom, Observable } from 'rxjs';
 import * as bcrypt from 'bcrypt';
 import { User } from 'src/user/entities/user.entity';
-import { BusinessLogicException, BusinessError } from 'src/shared/errors/business-errors';
+import {
+  BusinessLogicException,
+  BusinessError,
+} from 'src/shared/errors/business-errors';
 
 const saltRounds = 10;
 @Injectable()
@@ -18,16 +21,16 @@ export class DoctorService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  async create(doctroCreated: Doctor): Promise<Doctor> {
-    doctroCreated.password = await lastValueFrom(
-      this.hashPassword(doctroCreated.password),
+  async create(doctorCreated: Doctor): Promise<Doctor> {
+    doctorCreated.password = await lastValueFrom(
+      this.hashPassword(doctorCreated.password),
     );
-    
-    return await this.doctorRepository.save(doctroCreated);
+
+    return await this.doctorRepository.save(doctorCreated);
   }
 
   private hashPassword(password: string): Observable<string> {
-    return from<string>(bcrypt.hash(password, saltRounds));
+    return from<Promise<string>>(bcrypt.hash(password, saltRounds));
   }
 
   findAll() {
@@ -59,5 +62,4 @@ export class DoctorService {
 
     return doctor;
   }
-  
 }

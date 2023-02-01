@@ -57,7 +57,7 @@ export class PatientService {
   }
 
   private hashPassword(password: string): Observable<string> {
-    return from<string>(bcrypt.hash(password, saltRounds));
+    return from<Promise<string>>(bcrypt.hash(password, saltRounds));
   }
 
   async findByEmail(email: string): Promise<Patient> {

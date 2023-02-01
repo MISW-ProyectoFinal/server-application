@@ -24,22 +24,25 @@ export class User {
   @Column()
   surname: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   phone: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   cell_phone: string;
 
-  @Column({ type: 'date' ,nullable: true})
+  @Column({ type: 'date', nullable: true })
   date_of_birth: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   address: string;
+
+  @Column({ nullable: true })
+  document_number: string;
 
   @Column({
     type: 'enum',
     enum: Sex,
-    nullable: true
+    nullable: true,
   })
   sex: Sex;
 
