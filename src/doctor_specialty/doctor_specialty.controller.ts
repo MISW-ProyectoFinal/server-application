@@ -8,6 +8,7 @@ import {
   Delete,
   UseInterceptors,
   UploadedFile,
+  UseGuards,
 } from '@nestjs/common';
 import { DoctorSpecialtyService } from './doctor_specialty.service';
 import { CreateDoctorSpecialtyDto } from './dto/create-doctor_specialty.dto';
@@ -19,6 +20,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { Express } from 'express'
 import { DoctorSpecialty } from './entities/doctor_specialty.entity';
 import { plainToInstance } from 'class-transformer';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
 
 export const storage = {
@@ -41,7 +43,8 @@ export class DoctorSpecialtyController {
 
   @Post()
   @UseInterceptors(FileInterceptor('file', storage))
-  create(
+  @UseGuards(JwtAuthGuard)
+  async create(
     @Body() createDoctorSpecialtyDto: CreateDoctorSpecialtyDto,
     @UploadedFile() file: Express.Multer.File,) {
 
