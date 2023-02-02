@@ -5,11 +5,10 @@ import { Repository } from 'typeorm';
 import { Doctor } from './entities/doctor.entity';
 import { from, lastValueFrom, Observable } from 'rxjs';
 import * as bcrypt from 'bcrypt';
-import { User } from 'src/user/entities/user.entity';
 import {
   BusinessLogicException,
   BusinessError,
-} from 'src/shared/errors/business-errors';
+} from '../shared/errors/business-errors';
 
 const saltRounds = 10;
 @Injectable()
@@ -17,8 +16,7 @@ export class DoctorService {
   constructor(
     @InjectRepository(Doctor)
     private readonly doctorRepository: Repository<Doctor>,
-    @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
+    
   ) {}
 
   async create(doctorCreated: Doctor): Promise<Doctor> {
