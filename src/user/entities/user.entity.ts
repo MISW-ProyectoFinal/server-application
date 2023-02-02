@@ -3,6 +3,7 @@ import { Country } from './../../country/entities/country.entity';
 import { DocumentType } from './../../document_type/entities/document_type.entity';
 import { Column, Entity, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import { Sex } from './../../sex/sex.enum';
+import { Language } from 'src/language/language.enum';
 
 @Entity()
 export class User {
@@ -54,4 +55,17 @@ export class User {
 
   @ManyToOne(() => DocumentType, (document_type) => document_type.users)
   document_type: DocumentType;
+
+  @ManyToOne(() => Country, (fav_country) => fav_country.users)
+  virt_country: Country;
+
+  @ManyToOne(() => City, (fav_city) => fav_city.users)
+  virt_city: City;
+
+  @Column({
+    type: 'enum',
+    enum: Language,
+    default: Language.SPANISH,
+  })
+  fav_language: Language;
 }

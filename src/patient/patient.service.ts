@@ -9,14 +9,12 @@ import {
   BusinessError,
 } from 'src/shared/errors/business-errors';
 
-
 const saltRounds = 10;
 @Injectable()
 export class PatientService {
   constructor(
     @InjectRepository(Patient)
     private readonly patientRepository: Repository<Patient>,
-
   ) {}
 
   async create(createPatientDto: Patient): Promise<Patient> {
@@ -35,6 +33,10 @@ export class PatientService {
         BusinessError.PRECONDITION_FAILED,
       );
     }
+  }
+
+  private hashPassword(password: string): Observable<string> {
+    return from<Promise<string>>(bcrypt.hash(password, saltRounds));
   }
 
   findAll() {
@@ -56,9 +58,11 @@ export class PatientService {
       );
     }
 
-    updatePatientDto.password = await lastValueFrom(
-      this.hashPassword(updatePatientDto.password),
-    );
+    if (updatePatientDto.password !== undefined) {
+      updatePatientDto.password = await lastValueFrom(
+        this.hashPassword(updatePatientDto.password),
+      );
+    }
 
     return await this.patientRepository.save({
       ...patient,
@@ -68,10 +72,6 @@ export class PatientService {
 
   remove(id: number) {
     return `This action removes a #${id} patient`;
-  }
-
-  private hashPassword(password: string): Observable<string> {
-    return from<Promise<string>>(bcrypt.hash(password, saltRounds));
   }
 
   async findByEmail(email: string): Promise<Patient> {
