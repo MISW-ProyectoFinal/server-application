@@ -15,7 +15,7 @@ export class User {
   @Column({ select: false })
   password: string;
 
-  @Column()
+  @Column({ default: true })
   active: boolean;
 
   @Column()
@@ -28,6 +28,9 @@ export class User {
   phone: string;
 
   @Column({ nullable: true })
+  document_number: string;
+
+  @Column({ nullable: true })
   cell_phone: string;
 
   @Column({ type: 'date', nullable: true })
@@ -35,9 +38,6 @@ export class User {
 
   @Column({ nullable: true })
   address: string;
-
-  @Column({ nullable: true })
-  document_number: string;
 
   @Column({
     type: 'enum',

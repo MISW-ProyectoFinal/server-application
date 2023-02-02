@@ -49,6 +49,7 @@ import { User } from './user/entities/user.entity';
 import { DocumentTypeModule } from './document_type/document_type.module';
 import { DocumentType } from './document_type/entities/document_type.entity';
 import { AuthModule } from './auth/auth.module';
+import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
   imports: [
@@ -78,6 +79,7 @@ import { AuthModule } from './auth/auth.module';
     TreatmentProgressModule,
     TreatmentProgressPhotoModule,
     DocumentTypeModule,
+    MulterModule.registerAsync({ useFactory: () => ({ dest: './uploads' }) }),
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env['PG_DB_HOSTURL'] || 'localhost',

@@ -11,7 +11,7 @@ import { Doctor } from 'src/doctor/entities/doctor.entity';
 
 @Module({
   controllers: [PatientController],
-  providers: [PatientService, AuthService, JwtService,DoctorService],
-  imports: [TypeOrmModule.forFeature([Patient, User,Doctor])],
+  providers: [PatientService, AuthService, JwtService, DoctorService],
+  imports: [TypeOrmModule.forFeature([Patient, User, Doctor])],
 })
 export class PatientModule {}

@@ -15,7 +15,7 @@ export class Patient extends User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column({ default: true })
   accept_terms: boolean;
 
   @Column({
@@ -31,13 +31,6 @@ export class Patient extends User {
     nullable: true,
   })
   skin_type: SkinType;
-
-  @Column({
-    type: 'varchar',
-    default: '',
-    nullable: true,
-  })
-  skin_type_photo_filename: string;
 
   @ManyToMany(() => Allergy, (allergy) => allergy.patients)
   @JoinTable()

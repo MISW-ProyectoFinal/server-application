@@ -22,7 +22,6 @@ export class CountryController {
     return this.countryService.create(createCountryDto);
   }
 
-  @UseGuards(JwtAuthGuard)
   @Get()
   async findAll() {
     return await this.countryService.findAll();

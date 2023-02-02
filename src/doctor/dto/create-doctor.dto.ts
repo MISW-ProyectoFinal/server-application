@@ -1,5 +1,5 @@
 import { CreateUserDto } from './../../user/dto/create-user.dto';
-import { IsBoolean, IsNotEmpty, IsString, IsUrl } from 'class-validator';
+import { IsBoolean } from 'class-validator';
 
 export class CreateDoctorDto extends CreateUserDto {
   @IsBoolean()

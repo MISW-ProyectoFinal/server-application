@@ -24,8 +24,7 @@ export class CreateUserDto {
   password: string;
 
   @IsBoolean()
-  @IsNotEmpty()
-  active: boolean;
+  active = true;
 
   @IsString()
   @IsNotEmpty()
