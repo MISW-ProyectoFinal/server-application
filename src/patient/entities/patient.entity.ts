@@ -32,13 +32,6 @@ export class Patient extends User {
   })
   skin_type: SkinType;
 
-  @Column({
-    type: 'varchar',
-    default: '',
-    nullable: true,
-  })
-  skin_type_photo_filename: string;
-
   @ManyToMany(() => Allergy, (allergy) => allergy.patients)
   @JoinTable()
   allergies: Allergy[];

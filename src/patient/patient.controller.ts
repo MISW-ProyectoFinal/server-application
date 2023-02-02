@@ -7,7 +7,6 @@ import {
   Param,
   Delete,
   UseInterceptors,
-  UploadedFile,
 } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { PatientService } from './patient.service';
@@ -17,23 +16,6 @@ import { Patient } from './entities/patient.entity';
 import { LoginUserDto } from 'src/user/dto/login-user.dto';
 import { AuthService } from 'src/auth/auth.service';
 import { BusinessErrorsInterceptor } from 'src/shared/interceptors/business-errors.interceptor';
-import { FileInterceptor } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
-import { v4 as uuidv4 } from 'uuid';
-import path = require('path');
-
-export const storage = {
-  storage: diskStorage({
-    destination: './uploads/patient_skin_types',
-    filename: (req, file, cb) => {
-      const filename: string =
-        path.parse(file.originalname).name.replace(/\s/g, '') + uuidv4();
-      const extension: string = path.parse(file.originalname).ext;
-
-      cb(null, `${filename}${extension}`);
-    },
-  }),
-};
 
 @Controller('patient')
 @UseInterceptors(BusinessErrorsInterceptor)
@@ -60,15 +42,7 @@ export class PatientController {
   }
 
   @Patch(':id')
-  @UseInterceptors(FileInterceptor('file', storage))
-  update(
-    @Param('id') id: string,
-    @Body() updatePatientDto: UpdatePatientDto,
-    @UploadedFile() file: Express.Multer.File,
-  ) {
-    if (file) {
-      updatePatientDto.skin_type_photo_filename = file.filename;
-    }
+  update(@Param('id') id: string, @Body() updatePatientDto: UpdatePatientDto) {
     const patient: Patient = plainToInstance(Patient, updatePatientDto);
     return this.patientService.update(id, patient);
   }
