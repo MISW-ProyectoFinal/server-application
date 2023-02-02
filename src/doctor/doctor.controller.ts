@@ -8,8 +8,8 @@ import {
   Delete,
 } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
-import { AuthService } from 'src/auth/auth.service';
-import { LoginUserDto } from 'src/user/dto/login-user.dto';
+import { AuthService } from '../auth/auth.service';
+import { LoginUserDto } from '../user/dto/login-user.dto';
 import { DoctorService } from './doctor.service';
 import { CreateDoctorDto } from './dto/create-doctor.dto';
 import { UpdateDoctorDto } from './dto/update-doctor.dto';

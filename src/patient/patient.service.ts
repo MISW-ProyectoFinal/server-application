@@ -9,12 +9,14 @@ import {
   BusinessError,
 } from 'src/shared/errors/business-errors';
 
+
 const saltRounds = 10;
 @Injectable()
 export class PatientService {
   constructor(
     @InjectRepository(Patient)
     private readonly patientRepository: Repository<Patient>,
+
   ) {}
 
   async create(createPatientDto: Patient): Promise<Patient> {

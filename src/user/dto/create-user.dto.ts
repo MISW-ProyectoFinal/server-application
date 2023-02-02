@@ -18,7 +18,8 @@ export class CreateUserDto {
   @IsString()
   @IsNotEmpty()
   @Matches(
-    '^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{8,})',
+    /^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{8,})/,
+    {message:"Invalid password"}
   )
   password: string;
 
@@ -70,4 +71,10 @@ export class CreateUserDto {
   @IsString()
   @IsNotEmpty()
   document_number: string;
+
+  doctor_specialties: [];
+
+  enabled_date:string;
+
+  cases:[];
 }

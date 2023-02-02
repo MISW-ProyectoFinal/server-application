@@ -24,8 +24,10 @@ export const TypeOrmTestingConfig = () => [
   TypeOrmModule.forRoot({
     type: 'postgres',
     database: 'testing_db',
+    host: process.env['PG_DB_HOSTURL'] || 'localhost',
+    port: +process.env['PG_DB_PORT'] || 5432,
     username: process.env['PG_DB_USERNAME'] || 'postgres',
-    password: process.env['PG_DB_PASSWORD'] || 'postgres',
+    password: process.env['PG_DB_PASSWORD'] || 'asdfgh',
     dropSchema: false,
     entities: [
       Doctor,
