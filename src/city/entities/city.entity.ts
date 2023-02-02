@@ -21,4 +21,7 @@ export class City {
 
   @OneToMany(() => User, (users) => users.city)
   users: User[];
+
+  @OneToMany(() => User, (virt_user) => virt_user.city)
+  virt_users: User[];
 }

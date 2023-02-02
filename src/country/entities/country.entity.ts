@@ -19,4 +19,7 @@ export class Country {
 
   @OneToMany(() => DocumentType, (document_type) => document_type.country)
   document_types: DocumentType[];
+
+  @OneToMany(() => User, (virt_user) => virt_user.country)
+  virt_users: User[];
 }
