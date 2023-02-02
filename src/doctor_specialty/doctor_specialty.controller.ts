@@ -6,11 +6,35 @@ import {
   Patch,
   Param,
   Delete,
+  UseInterceptors,
+  UploadedFile,
+  UseGuards,
 } from '@nestjs/common';
 import { DoctorSpecialtyService } from './doctor_specialty.service';
 import { CreateDoctorSpecialtyDto } from './dto/create-doctor_specialty.dto';
 import { UpdateDoctorSpecialtyDto } from './dto/update-doctor_specialty.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
+import path = require('path');
+import { diskStorage,Multer } from 'multer';
+import { v4 as uuidv4 } from 'uuid';
+import { Express } from 'express'
+import { DoctorSpecialty } from './entities/doctor_specialty.entity';
+import { plainToInstance } from 'class-transformer';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
+
+export const storage = {
+  storage: diskStorage({
+    destination: './uploads/specialties',
+    filename: (req, file, cb) => {
+      const filename: string =
+        path.parse(file.originalname).name.replace(/\s/g, '') + uuidv4();
+      const extension: string = path.parse(file.originalname).ext;
+
+      cb(null, `${filename}${extension}`);
+    },
+  }),
+};
 @Controller('specialty-doctor')
 export class DoctorSpecialtyController {
   constructor(
@@ -18,8 +42,19 @@ export class DoctorSpecialtyController {
   ) {}
 
   @Post()
-  create(@Body() createDoctorSpecialtyDto: CreateDoctorSpecialtyDto) {
-    return this.specialtyDoctorService.create(createDoctorSpecialtyDto);
+  @UseInterceptors(FileInterceptor('file', storage))
+  @UseGuards(JwtAuthGuard)
+  async create(
+    @Body() createDoctorSpecialtyDto: CreateDoctorSpecialtyDto,
+    @UploadedFile() file: Express.Multer.File,) {
+
+    
+    if (file) {
+      createDoctorSpecialtyDto.file_name = file.filename;
+    }
+
+    const doctorSpecialty: DoctorSpecialty = plainToInstance(DoctorSpecialty,createDoctorSpecialtyDto) 
+    return this.specialtyDoctorService.create(doctorSpecialty);
   }
 
   @Get()

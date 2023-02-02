@@ -13,7 +13,7 @@ export class DoctorSpecialty {
   @Column({ type: 'date' })
   expiration_date: string;
 
-  @Column()
+  @Column({default:false})
   authorized: boolean;
 
   @Column({
@@ -21,6 +21,9 @@ export class DoctorSpecialty {
     default: '',
   })
   file_name: string;
+
+  @Column()
+  registry_number: string;
 
   @ManyToOne(() => Specialty, (specialty) => specialty.doctor_specialties)
   specialty: Specialty;

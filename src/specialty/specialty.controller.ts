@@ -21,7 +21,7 @@ export class SpecialtyController {
   }
 
   @Get()
-  findAll() {
+  async findAll() {
     return this.specialtyService.findAll();
   }
 
