@@ -16,8 +16,11 @@ export class DoctorSpecialty {
   @Column()
   authorized: boolean;
 
-  @Column()
-  specialty_name: string;
+  @Column({
+    type: 'text',
+    default: '',
+  })
+  file_name: string;
 
   @ManyToOne(() => Specialty, (specialty) => specialty.doctor_specialties)
   specialty: Specialty;
