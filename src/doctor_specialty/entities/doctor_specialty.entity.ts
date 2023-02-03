@@ -13,7 +13,7 @@ export class DoctorSpecialty {
   @Column({ type: 'date' })
   expiration_date: string;
 
-  @Column({default:false})
+  @Column({ default: false })
   authorized: boolean;
 
   @Column({
