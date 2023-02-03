@@ -3,7 +3,7 @@ import { Country } from './../../country/entities/country.entity';
 import { DocumentType } from './../../document_type/entities/document_type.entity';
 import { Column, Entity, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import { Sex } from './../../sex/sex.enum';
-import { Language } from 'src/language/language.enum';
+import { Language } from './../../language/language.enum';
 
 @Entity()
 export class User {

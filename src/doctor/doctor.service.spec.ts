@@ -11,6 +11,7 @@ import { DocumentType } from '../document_type/entities/document_type.entity';
 import { CreateDoctorDto } from './dto/create-doctor.dto';
 import { plainToInstance } from 'class-transformer';
 import { validate, ValidationError } from 'class-validator';
+import { Language } from './../language/language.enum';
 
 export function stringified(errors: ValidationError[]): string {
   return JSON.stringify(errors);
@@ -55,6 +56,9 @@ describe('DoctorService', () => {
       enabled: false,
       enabled_date: '20203-02-01',
       cases: [],
+      virt_country: null,
+      virt_city: null,
+      fav_language: Language.SPANISH,
     };
     const doctor: Doctor = await service.create(doctorCreate);
     expect(doctor).not.toBeNull();

@@ -11,12 +11,12 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
+import { AuthService } from '../auth/auth.service';
+import { LoginUserDto } from '../user/dto/login-user.dto';
 import { PatientService } from './patient.service';
 import { CreatePatientDto } from './dto/create-patient.dto';
 import { UpdatePatientDto } from './dto/update-patient.dto';
 import { Patient } from './entities/patient.entity';
-import { LoginUserDto } from 'src/user/dto/login-user.dto';
-import { AuthService } from 'src/auth/auth.service';
 import { BusinessErrorsInterceptor } from 'src/shared/interceptors/business-errors.interceptor';
 import { LocalAuthGuard } from 'src/auth/guards/local-auth.guard';
 

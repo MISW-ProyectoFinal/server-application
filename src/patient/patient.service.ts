@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { from, lastValueFrom, Observable } from 'rxjs';
 import { Repository } from 'typeorm';
 import { Patient } from './entities/patient.entity';
+import { from, lastValueFrom, Observable } from 'rxjs';
 import * as bcrypt from 'bcrypt';
 import {
   BusinessLogicException,
   BusinessError,
-} from 'src/shared/errors/business-errors';
+} from '../shared/errors/business-errors';
 
 const saltRounds = 10;
 @Injectable()
@@ -80,7 +80,7 @@ export class PatientService {
     });
     if (!patient) {
       throw new BusinessLogicException(
-        'El patient que esta buscando no existe',
+        'El paciente que esta buscando no existe',
         BusinessError.NOT_FOUND,
       );
     }
