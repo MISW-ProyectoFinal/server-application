@@ -16,7 +16,6 @@ export class DoctorService {
   constructor(
     @InjectRepository(Doctor)
     private readonly doctorRepository: Repository<Doctor>,
-    
   ) {}
 
   async create(doctorCreated: Doctor): Promise<Doctor> {

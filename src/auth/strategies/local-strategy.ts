@@ -21,9 +21,8 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
       case "patient":
          user = await this.authService.validatePatient(username, password);
         break;
-      
     }
-    
+
     if (!user) {
       throw new UnauthorizedException();
     }

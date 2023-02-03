@@ -24,7 +24,7 @@ import { User } from 'src/user/entities/user.entity';
       secret: constants.JWT_SECRET,
       signOptions: { expiresIn: constants.JWT_EXPIRES_IN },
     }),
-    TypeOrmModule.forFeature([User,Patient,Doctor]),
+    TypeOrmModule.forFeature([User, Patient, Doctor]),
   ],
   providers: [
     AuthService,
