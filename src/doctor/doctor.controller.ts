@@ -6,8 +6,11 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
+  Req,
 } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
+import { LocalAuthGuard } from 'src/auth/guards/local-auth.guard';
 import { AuthService } from '../auth/auth.service';
 import { LoginUserDto } from '../user/dto/login-user.dto';
 import { DoctorService } from './doctor.service';
@@ -49,9 +52,9 @@ export class DoctorController {
   }
 
   //METODOS PROPIOS
+  @UseGuards(LocalAuthGuard)
   @Post('login')
-  async login(@Body() loginUserDto: LoginUserDto) {
-    loginUserDto.who = 'doctor';
-    return this.authService.login(loginUserDto);
+  async login(@Req() req) {
+    return this.authService.login(req);
   }
 }
