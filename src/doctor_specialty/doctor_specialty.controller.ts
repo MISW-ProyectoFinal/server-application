@@ -15,13 +15,12 @@ import { CreateDoctorSpecialtyDto } from './dto/create-doctor_specialty.dto';
 import { UpdateDoctorSpecialtyDto } from './dto/update-doctor_specialty.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import path = require('path');
-import { diskStorage,Multer } from 'multer';
+import { diskStorage, Multer } from 'multer';
 import { v4 as uuidv4 } from 'uuid';
-import { Express } from 'express'
+import { Express } from 'express';
 import { DoctorSpecialty } from './entities/doctor_specialty.entity';
 import { plainToInstance } from 'class-transformer';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-
 
 export const storage = {
   storage: diskStorage({
@@ -46,14 +45,16 @@ export class DoctorSpecialtyController {
   @UseGuards(JwtAuthGuard)
   async create(
     @Body() createDoctorSpecialtyDto: CreateDoctorSpecialtyDto,
-    @UploadedFile() file: Express.Multer.File,) {
-
-    
+    @UploadedFile() file: Express.Multer.File,
+  ) {
     if (file) {
       createDoctorSpecialtyDto.file_name = file.filename;
     }
 
-    const doctorSpecialty: DoctorSpecialty = plainToInstance(DoctorSpecialty,createDoctorSpecialtyDto) 
+    const doctorSpecialty: DoctorSpecialty = plainToInstance(
+      DoctorSpecialty,
+      createDoctorSpecialtyDto,
+    );
     return this.specialtyDoctorService.create(doctorSpecialty);
   }
 
