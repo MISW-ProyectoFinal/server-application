@@ -14,5 +14,4 @@ export class LoginUserDto {
   password: string;
 
   who: string;
-
 }
