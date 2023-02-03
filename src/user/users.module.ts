@@ -12,7 +12,13 @@ import { PatientService } from 'src/patient/patient.service';
 
 @Module({
   controllers: [UsersController],
-  providers: [UsersService, AuthService, JwtService,DoctorService,PatientService],
-  imports: [TypeOrmModule.forFeature([User,Doctor,Patient])],
+  providers: [
+    UsersService,
+    AuthService,
+    JwtService,
+    DoctorService,
+    PatientService,
+  ],
+  imports: [TypeOrmModule.forFeature([User, Doctor, Patient])],
 })
 export class UsersModule {}

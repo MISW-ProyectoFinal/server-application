@@ -11,7 +11,7 @@ export class AuthService {
   constructor(
     private jwtService: JwtService,
     private patientService: PatientService,
-    private doctorService: DoctorService
+    private doctorService: DoctorService,
   ) {}
 
   async validateDoctor(email: string, password: string): Promise<any> {
