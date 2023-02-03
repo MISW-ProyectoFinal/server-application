@@ -7,6 +7,8 @@ import {
   Param,
   Delete,
   UseInterceptors,
+  Req,
+  UseGuards,
 } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { PatientService } from './patient.service';
@@ -16,6 +18,7 @@ import { Patient } from './entities/patient.entity';
 import { LoginUserDto } from 'src/user/dto/login-user.dto';
 import { AuthService } from 'src/auth/auth.service';
 import { BusinessErrorsInterceptor } from 'src/shared/interceptors/business-errors.interceptor';
+import { LocalAuthGuard } from 'src/auth/guards/local-auth.guard';
 
 @Controller('patient')
 @UseInterceptors(BusinessErrorsInterceptor)
@@ -53,9 +56,10 @@ export class PatientController {
   }
 
   //METODOS PROPIOS
+  //METODOS PROPIOS
+  @UseGuards(LocalAuthGuard)
   @Post('login')
-  async login(@Body() loginUserDto: LoginUserDto) {
-    loginUserDto.who = 'patient';
-    return this.authService.login(loginUserDto);
+  async login(@Req() req) {
+    return this.authService.login(req);
   }
 }
