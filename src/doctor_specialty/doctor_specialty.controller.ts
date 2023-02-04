@@ -22,6 +22,9 @@ import { Express } from 'express';
 import { DoctorSpecialty } from './entities/doctor_specialty.entity';
 import { plainToInstance } from 'class-transformer';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { BusinessErrorsInterceptor } from 'src/shared/interceptors/business-errors.interceptor';
+import { DoctorService } from 'src/doctor/doctor.service';
+import { Doctor } from 'src/doctor/entities/doctor.entity';
 
 export const storage = {
   storage: diskStorage({
@@ -36,11 +39,14 @@ export const storage = {
   }),
 };
 @Controller('specialty-doctor')
+@UseInterceptors(BusinessErrorsInterceptor)
 export class DoctorSpecialtyController {
   constructor(
     private readonly specialtyDoctorService: DoctorSpecialtyService,
+    private readonly doctorService: DoctorService,
   ) {}
 
+  //CREA ESPECIALIDAD DE DOCTOR
   @Post()
   @UseInterceptors(FileInterceptor('file', storage))
   @UseGuards(JwtAuthGuard)
@@ -59,11 +65,13 @@ export class DoctorSpecialtyController {
     return this.specialtyDoctorService.create(doctorSpecialty);
   }
 
+  //OBTENER ESPECIALIDADES DE UN DOCTOR
   @UseGuards(JwtAuthGuard)
   @Get()
   async findAll(@Req() req: any) {
     const { id } = req.user;
-    return this.specialtyDoctorService.findAll(id);
+    const doctor: Doctor = await this.doctorService.findOne(id);
+    return this.specialtyDoctorService.findAll(doctor);
   }
 
   @Get(':id')

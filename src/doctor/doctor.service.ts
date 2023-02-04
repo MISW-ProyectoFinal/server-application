@@ -19,11 +19,22 @@ export class DoctorService {
   ) {}
 
   async create(doctorCreated: Doctor): Promise<Doctor> {
-    doctorCreated.password = await lastValueFrom(
-      this.hashPassword(doctorCreated.password),
-    );
+    const doctorRegister = await this.doctorRepository.findOne({
+      where: { email: doctorCreated.email },
+    });
 
-    return await this.doctorRepository.save(doctorCreated);
+    if (!doctorRegister) {
+      doctorCreated.password = await lastValueFrom(
+        this.hashPassword(doctorCreated.password),
+      );
+
+      return await this.doctorRepository.save(doctorCreated);
+    } else {
+      throw new BusinessLogicException(
+        'email exist',
+        BusinessError.UNPROCESSABLE_ENTITY,
+      );
+    }
   }
 
   private hashPassword(password: string): Observable<string> {

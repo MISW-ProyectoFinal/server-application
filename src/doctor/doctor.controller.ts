@@ -8,17 +8,19 @@ import {
   Delete,
   UseGuards,
   Req,
+  UseInterceptors,
 } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { LocalAuthGuard } from 'src/auth/guards/local-auth.guard';
+import { BusinessErrorsInterceptor } from 'src/shared/interceptors/business-errors.interceptor';
 import { AuthService } from '../auth/auth.service';
-import { LoginUserDto } from '../user/dto/login-user.dto';
 import { DoctorService } from './doctor.service';
 import { CreateDoctorDto } from './dto/create-doctor.dto';
 import { UpdateDoctorDto } from './dto/update-doctor.dto';
 import { Doctor } from './entities/doctor.entity';
 
 @Controller('doctor')
+@UseInterceptors(BusinessErrorsInterceptor)
 export class DoctorController {
   constructor(
     private readonly doctorService: DoctorService,
