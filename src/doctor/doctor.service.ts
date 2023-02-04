@@ -34,8 +34,18 @@ export class DoctorService {
     return `This action returns all doctor`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} doctor`;
+  async findOne(id: string) {
+    const doctor = await this.doctorRepository.findOne({
+      where: { id: id },
+    });
+    if (!doctor) {
+      throw new BusinessLogicException(
+        'El doctor que esta buscando no existe',
+        BusinessError.NOT_FOUND,
+      );
+    }
+
+    return doctor;
   }
 
   update(id: number, updateDoctorDto: UpdateDoctorDto) {

@@ -38,7 +38,7 @@ export class DoctorController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.doctorService.findOne(+id);
+    return this.doctorService.findOne(id);
   }
 
   @Patch(':id')

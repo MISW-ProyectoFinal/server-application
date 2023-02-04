@@ -9,6 +9,7 @@ import {
   UseInterceptors,
   UploadedFile,
   UseGuards,
+  Req,
 } from '@nestjs/common';
 import { DoctorSpecialtyService } from './doctor_specialty.service';
 import { CreateDoctorSpecialtyDto } from './dto/create-doctor_specialty.dto';
@@ -58,9 +59,13 @@ export class DoctorSpecialtyController {
     return this.specialtyDoctorService.create(doctorSpecialty);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get()
-  findAll() {
-    return this.specialtyDoctorService.findAll();
+  async findAll(@Req() req: any) {
+    console.log(req.user)
+    const { id } = req.user;
+    console.log(id)
+    return this.specialtyDoctorService.findAll(id);
   }
 
   @Get(':id')

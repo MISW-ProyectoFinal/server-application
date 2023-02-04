@@ -1,5 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { DoctorService } from 'src/doctor/doctor.service';
+import { Doctor } from 'src/doctor/entities/doctor.entity';
+import { BusinessLogicException, BusinessError } from 'src/shared/errors/business-errors';
 import { Repository } from 'typeorm';
 import { CreateDoctorSpecialtyDto } from './dto/create-doctor_specialty.dto';
 import { UpdateDoctorSpecialtyDto } from './dto/update-doctor_specialty.dto';
@@ -10,6 +13,7 @@ export class DoctorSpecialtyService {
   constructor(
     @InjectRepository(DoctorSpecialty)
     private readonly doctorSpecialtyRepository: Repository<DoctorSpecialty>,
+    private readonly doctorService: DoctorService,
   ) {}
 
   async create(
@@ -18,8 +22,18 @@ export class DoctorSpecialtyService {
     return await this.doctorSpecialtyRepository.save(createDoctorSpecialtyDto);
   }
 
-  findAll() {
-    return `This action returns all specialtyDoctor`;
+  async findAll(idDoctor): Promise<DoctorSpecialty[]> {
+    console.log("en el servico ", idDoctor)
+    const doctor: Doctor = await this.doctorService.findOne(idDoctor)
+    const specialties = await this.doctorSpecialtyRepository.find({where: { doctor: doctor },relations: ['specialty']});
+
+    if (!specialties) {
+      throw new BusinessLogicException(
+        'El doctor no tiene especialidades',
+        BusinessError.NOT_FOUND,
+      );
+    }
+    return specialties
   }
 
   findOne(id: number) {
