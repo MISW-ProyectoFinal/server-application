@@ -28,7 +28,7 @@ export class AzureBlobService {
         'bad size file',
         BusinessError.BAD_REQUEST,
       );
-    }else if(validationtype == null){
+    }else{
       this.containerName = containerName
       const imgUrl = uuidv4()+file.originalname;
       const blobClient = this.getBlobClient(imgUrl);
