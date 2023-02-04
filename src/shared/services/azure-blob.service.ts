@@ -19,7 +19,14 @@ export class AzureBlobService {
     const imgUrl = uuidv4()+file.originalname;
     const blobClient = this.getBlobClient(imgUrl);
     await blobClient.uploadData(file.buffer);
-    console.log(imgUrl);
+    return (imgUrl);
+  }
+
+  async getfile(fileName: string,containerName:string){
+    this.containerName= containerName;
+    const blobClient = this.getBlobClient(fileName);
+    const blobDownloaded = await blobClient.download();
+    return blobDownloaded.readableStreamBody;
   }
 
 }

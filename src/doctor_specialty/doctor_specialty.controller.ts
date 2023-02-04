@@ -10,6 +10,9 @@ import {
   UploadedFile,
   UseGuards,
   Req,
+  Header,
+  Query,
+  Res,
 } from '@nestjs/common';
 import { DoctorSpecialtyService } from './doctor_specialty.service';
 import { CreateDoctorSpecialtyDto } from './dto/create-doctor_specialty.dto';
@@ -25,39 +28,31 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { BusinessErrorsInterceptor } from 'src/shared/interceptors/business-errors.interceptor';
 import { DoctorService } from 'src/doctor/doctor.service';
 import { Doctor } from 'src/doctor/entities/doctor.entity';
+import { AzureBlobService } from 'src/shared/services/azure-blob.service';
 
-export const storage = {
-  storage: diskStorage({
-    destination: './uploads/specialties',
-    filename: (req, file, cb) => {
-      const filename: string =
-        path.parse(file.originalname).name.replace(/\s/g, '') + uuidv4();
-      const extension: string = path.parse(file.originalname).ext;
 
-      cb(null, `${filename}${extension}`);
-    },
-  }),
-};
 @Controller('specialty-doctor')
 @UseInterceptors(BusinessErrorsInterceptor)
 export class DoctorSpecialtyController {
+
+   containerName = "specialities"
+
   constructor(
     private readonly specialtyDoctorService: DoctorSpecialtyService,
     private readonly doctorService: DoctorService,
+    private readonly azureBlobService: AzureBlobService,
   ) {}
 
   //CREA ESPECIALIDAD DE DOCTOR
   @Post()
-  @UseInterceptors(FileInterceptor('file', storage))
+  @UseInterceptors(FileInterceptor('file'))
   @UseGuards(JwtAuthGuard)
   async create(
     @Body() createDoctorSpecialtyDto: CreateDoctorSpecialtyDto,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    if (file) {
-      createDoctorSpecialtyDto.file_name = file.filename;
-    }
-
+    
+    createDoctorSpecialtyDto.file_name = await this.azureBlobService.upload(file,this.containerName);
     const doctorSpecialty: DoctorSpecialty = plainToInstance(
       DoctorSpecialty,
       createDoctorSpecialtyDto,
@@ -76,7 +71,7 @@ export class DoctorSpecialtyController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.specialtyDoctorService.findOne(+id);
+    return this.specialtyDoctorService.findOne(id);
   }
 
   @Patch(':id')
@@ -91,4 +86,20 @@ export class DoctorSpecialtyController {
   remove(@Param('id') id: string) {
     return this.specialtyDoctorService.remove(+id);
   }
+
+  //METODOS PROPIOS
+
+  ////DESCARGAR PDF DE ESPECIALIDAD
+  @Get('/download/:doctorspesialty')
+  @Header('Content-Type','application/pdf')
+  @Header('Content-Disposition', 'attachment; filename=spesialty.pdf')
+  @UseGuards(JwtAuthGuard)
+  async downloadPDF(@Res() res,@Param('doctorspesialty') doctorspesialtyId){
+
+      let specialityDoctor = await  this.specialtyDoctorService.findOne(doctorspesialtyId);
+
+      const file = await this.azureBlobService.getfile(specialityDoctor.file_name,this.containerName);
+      return file.pipe(res);
+  }
+
 }
