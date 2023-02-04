@@ -60,6 +60,6 @@ export class PatientController {
   @UseGuards(LocalAuthGuard)
   @Post('login')
   async login(@Req() req) {
-    return this.authService.login(req);
+    return this.authService.login(req.user);
   }
 }
