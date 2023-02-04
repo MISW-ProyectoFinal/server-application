@@ -5,10 +5,11 @@ import { DoctorSpecialty } from './entities/doctor_specialty.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DoctorService } from 'src/doctor/doctor.service';
 import { Doctor } from 'src/doctor/entities/doctor.entity';
+import { AzureBlobService } from 'src/shared/services/azure-blob.service';
 
 @Module({
   controllers: [DoctorSpecialtyController],
-  providers: [DoctorSpecialtyService, DoctorService],
+  providers: [DoctorSpecialtyService, DoctorService,AzureBlobService],
   imports: [TypeOrmModule.forFeature([DoctorSpecialty, Doctor])],
 })
 export class DoctorSpecialtyModule {}
