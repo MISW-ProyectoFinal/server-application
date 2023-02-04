@@ -23,7 +23,7 @@ export class AzureBlobService {
         'bad extentionfile',
         BusinessError.BAD_REQUEST,
       );
-    }else if(validationsize != null && parseFloat(validationsize) > file.size){
+    }else if(validationsize != null && parseFloat(validationsize) < file.size){
       throw new BusinessLogicException(
         'bad size file',
         BusinessError.BAD_REQUEST,
