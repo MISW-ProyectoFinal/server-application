@@ -62,9 +62,7 @@ export class DoctorSpecialtyController {
   @UseGuards(JwtAuthGuard)
   @Get()
   async findAll(@Req() req: any) {
-    console.log(req.user)
     const { id } = req.user;
-    console.log(id)
     return this.specialtyDoctorService.findAll(id);
   }
 

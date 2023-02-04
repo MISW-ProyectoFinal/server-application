@@ -8,7 +8,7 @@ import { Doctor } from 'src/doctor/entities/doctor.entity';
 
 @Module({
   controllers: [DoctorSpecialtyController],
-  providers: [DoctorSpecialtyService,DoctorService],
-  imports: [TypeOrmModule.forFeature([DoctorSpecialty,Doctor])],
+  providers: [DoctorSpecialtyService, DoctorService],
+  imports: [TypeOrmModule.forFeature([DoctorSpecialty, Doctor])],
 })
 export class DoctorSpecialtyModule {}
