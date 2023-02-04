@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DoctorService } from 'src/doctor/doctor.service';
-import { Doctor } from 'src/doctor/entities/doctor.entity';
+import { DoctorService } from '../doctor/doctor.service';
+import { Doctor } from '../doctor/entities/doctor.entity';
 import {
   BusinessLogicException,
   BusinessError,
-} from 'src/shared/errors/business-errors';
+} from '../shared/errors/business-errors';
 import { Repository } from 'typeorm';
 import { CreateDoctorSpecialtyDto } from './dto/create-doctor_specialty.dto';
 import { UpdateDoctorSpecialtyDto } from './dto/update-doctor_specialty.dto';
@@ -16,17 +16,25 @@ export class DoctorSpecialtyService {
   constructor(
     @InjectRepository(DoctorSpecialty)
     private readonly doctorSpecialtyRepository: Repository<DoctorSpecialty>,
-    private readonly doctorService: DoctorService,
   ) {}
 
   async create(
     createDoctorSpecialtyDto: DoctorSpecialty,
   ): Promise<DoctorSpecialty> {
-    return await this.doctorSpecialtyRepository.save(createDoctorSpecialtyDto);
+    const emission_date = new Date(createDoctorSpecialtyDto.emission_date);
+    if (new Date().getTime() < emission_date.getTime()) {
+      throw new BusinessLogicException(
+        'emission_date > today',
+        BusinessError.UNPROCESSABLE_ENTITY,
+      );
+    } else {
+      return await this.doctorSpecialtyRepository.save(
+        createDoctorSpecialtyDto,
+      );
+    }
   }
 
-  async findAll(idDoctor): Promise<DoctorSpecialty[]> {
-    const doctor: Doctor = await this.doctorService.findOne(idDoctor);
+  async findAll(doctor: Doctor): Promise<DoctorSpecialty[]> {
     const specialties = await this.doctorSpecialtyRepository.find({
       where: { doctor: doctor },
       relations: ['specialty'],
