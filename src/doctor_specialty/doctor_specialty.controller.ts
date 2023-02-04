@@ -48,15 +48,22 @@ export class DoctorSpecialtyController {
   @UseInterceptors(FileInterceptor('file'))
   @UseGuards(JwtAuthGuard)
   async create(
+    @Req() req: any,
     @Body() createDoctorSpecialtyDto: CreateDoctorSpecialtyDto,
     @UploadedFile() file: Express.Multer.File,
   ) {
     
-    createDoctorSpecialtyDto.file_name = await this.azureBlobService.upload(file,this.containerName);
+    const { id } = req.user;
+    const doctor: Doctor = await this.doctorService.findOne(id);
+    
+    createDoctorSpecialtyDto.file_name = await this.azureBlobService.upload(file,this.containerName,"application/pdf","5000000");
     const doctorSpecialty: DoctorSpecialty = plainToInstance(
       DoctorSpecialty,
       createDoctorSpecialtyDto,
     );
+
+    doctorSpecialty.doctor = doctor;
+
     return this.specialtyDoctorService.create(doctorSpecialty);
   }
 

@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import { Injectable } from '@nestjs/common';
 import { BlobServiceClient, BlockBlobClient } from '@azure/storage-blob';
+import { BusinessLogicException, BusinessError } from '../errors/business-errors';
 
 @Injectable()
 export class AzureBlobService {
@@ -14,12 +15,26 @@ export class AzureBlobService {
     return blobClient;
   }
 
-  async upload(file:Express.Multer.File,containerName:string){
-    this.containerName = containerName
-    const imgUrl = uuidv4()+file.originalname;
-    const blobClient = this.getBlobClient(imgUrl);
-    await blobClient.uploadData(file.buffer);
-    return (imgUrl);
+  async upload(file:Express.Multer.File,containerName:string,validationtype: string = null,validationsize: string = null){
+
+
+    if(validationtype != null && validationtype!= file.mimetype){
+      throw new BusinessLogicException(
+        'bad extentionfile',
+        BusinessError.BAD_REQUEST,
+      );
+    }else if(validationsize != null && parseFloat(validationsize) > file.size){
+      throw new BusinessLogicException(
+        'bad size file',
+        BusinessError.BAD_REQUEST,
+      );
+    }else{
+      this.containerName = containerName
+      const imgUrl = uuidv4()+file.originalname;
+      const blobClient = this.getBlobClient(imgUrl);
+      await blobClient.uploadData(file.buffer);
+      return (imgUrl);
+    }
   }
 
   async getfile(fileName: string,containerName:string){
