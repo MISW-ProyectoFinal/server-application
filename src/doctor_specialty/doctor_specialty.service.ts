@@ -49,16 +49,13 @@ export class DoctorSpecialtyService {
     return specialties;
   }
 
-  async findOne(id: string): Promise<DoctorSpecialty>  {
-    console.log(id)
+  async findOne(id: string): Promise<DoctorSpecialty> {
+    console.log(id);
     const doctorSpecialty = await this.doctorSpecialtyRepository.findOne({
-      where: { id }
+      where: { id },
     });
     if (!doctorSpecialty) {
-      throw new BusinessLogicException(
-        'not found',
-        BusinessError.NOT_FOUND,
-      );
+      throw new BusinessLogicException('not found', BusinessError.NOT_FOUND);
     }
 
     return doctorSpecialty;

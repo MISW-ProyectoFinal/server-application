@@ -30,12 +30,10 @@ import { DoctorService } from 'src/doctor/doctor.service';
 import { Doctor } from 'src/doctor/entities/doctor.entity';
 import { AzureBlobService } from 'src/shared/services/azure-blob.service';
 
-
 @Controller('specialty-doctor')
 @UseInterceptors(BusinessErrorsInterceptor)
 export class DoctorSpecialtyController {
-
-   containerName = "specialities"
+  containerName = 'specialities';
 
   constructor(
     private readonly specialtyDoctorService: DoctorSpecialtyService,
@@ -52,11 +50,15 @@ export class DoctorSpecialtyController {
     @Body() createDoctorSpecialtyDto: CreateDoctorSpecialtyDto,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    
     const { id } = req.user;
     const doctor: Doctor = await this.doctorService.findOne(id);
-    
-    createDoctorSpecialtyDto.file_name = await this.azureBlobService.upload(file,this.containerName,"application/pdf","5000000");
+
+    createDoctorSpecialtyDto.file_name = await this.azureBlobService.upload(
+      file,
+      this.containerName,
+      'application/pdf',
+      '5000000',
+    );
     const doctorSpecialty: DoctorSpecialty = plainToInstance(
       DoctorSpecialty,
       createDoctorSpecialtyDto,
@@ -98,15 +100,18 @@ export class DoctorSpecialtyController {
 
   ////DESCARGAR PDF DE ESPECIALIDAD
   @Get('/download/:doctorspesialty')
-  @Header('Content-Type','application/pdf')
+  @Header('Content-Type', 'application/pdf')
   @Header('Content-Disposition', 'attachment; filename=spesialty.pdf')
   @UseGuards(JwtAuthGuard)
-  async downloadPDF(@Res() res,@Param('doctorspesialty') doctorspesialtyId){
+  async downloadPDF(@Res() res, @Param('doctorspesialty') doctorspesialtyId) {
+    const specialityDoctor = await this.specialtyDoctorService.findOne(
+      doctorspesialtyId,
+    );
 
-      let specialityDoctor = await  this.specialtyDoctorService.findOne(doctorspesialtyId);
-
-      const file = await this.azureBlobService.getfile(specialityDoctor.file_name,this.containerName);
-      return file.pipe(res);
+    const file = await this.azureBlobService.getfile(
+      specialityDoctor.file_name,
+      this.containerName,
+    );
+    return file.pipe(res);
   }
-
 }

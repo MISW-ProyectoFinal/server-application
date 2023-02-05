@@ -50,6 +50,7 @@ import { DocumentTypeModule } from './document_type/document_type.module';
 import { DocumentType } from './document_type/entities/document_type.entity';
 import { AuthModule } from './auth/auth.module';
 import { MulterModule } from '@nestjs/platform-express';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -115,6 +116,7 @@ import { MulterModule } from '@nestjs/platform-express';
     }),
     DocumentTypeModule,
     AuthModule,
+    ConfigModule.forRoot(),
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -12,8 +12,8 @@ export class CityService {
     private readonly cityRepository: Repository<City>,
   ) {}
 
-  create(createCityDto: CreateCityDto) {
-    return 'This action adds a new city';
+  async create(createCityDto: CreateCityDto) {
+    return await this.cityRepository.save(createCityDto);
   }
 
   async findAll() {

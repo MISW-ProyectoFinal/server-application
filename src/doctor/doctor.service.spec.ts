@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { DoctorService } from './doctor.service';
 import { Doctor } from './entities/doctor.entity';
 import { TypeOrmTestingConfig } from '../shared/testing-utils/typeorm-testing-config';
-import { Sex } from '../sex/sex.enum';
+import { Gender } from '../gender/gender.enum';
 import { Country } from '../country/entities/country.entity';
 import { City } from '../city/entities/city.entity';
 import { DocumentType } from '../document_type/entities/document_type.entity';
@@ -49,7 +49,7 @@ describe('DoctorService', () => {
       address: 'CArrera 116B # 78B 62',
       city: null,
       country: null,
-      sex: Sex.BINARIO,
+      gender: Gender.BINARIO,
       document_type: null,
       document_number: '12341234',
       doctor_specialties: [],
@@ -78,7 +78,7 @@ describe('DoctorService', () => {
       address: 'CArrera 116B # 78B 62',
       city: null,
       country: null,
-      sex: Sex.BINARIO,
+      gender: Gender.BINARIO,
       document_type: null,
       document_number: '12341234',
       doctor_specialties: [],
@@ -105,7 +105,7 @@ describe('DoctorService', () => {
       address: 'CArrera 116B # 78B 62',
       city: null,
       country: null,
-      sex: Sex.BINARIO,
+      gender: Gender.BINARIO,
       document_type: null,
       document_number: '12341234',
       doctor_specialties: [],

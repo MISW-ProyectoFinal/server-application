@@ -12,8 +12,8 @@ export class DocumentTypeService {
     private readonly documentTypeRepository: Repository<DocumentType>,
   ) {}
 
-  create(createDocumentTypeDto: CreateDocumentTypeDto) {
-    return 'This action adds a new documentType';
+  async create(createDocumentTypeDto: CreateDocumentTypeDto) {
+    return await this.documentTypeRepository.save(createDocumentTypeDto);
   }
 
   async findAll() {

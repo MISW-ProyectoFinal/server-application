@@ -5,7 +5,7 @@ import { PatientService } from './patient.service';
 import { Patient } from './entities/patient.entity';
 import { TypeOrmTestingConfig } from '../shared/testing-utils/typeorm-testing-config';
 import { ValidationError } from 'class-validator';
-import { Sex } from './../sex/sex.enum';
+import { Gender } from '../gender/gender.enum';
 import { SkinType } from './../skin_type/skin_type.enum';
 import { Language } from './../language/language.enum';
 import { faker } from '@faker-js/faker';
@@ -95,7 +95,7 @@ describe('PatientService', () => {
       address: 'Ugarte 116B # 78B 62',
       city: null,
       country: null,
-      sex: Sex.BINARIO,
+      gender: Gender.BINARIO,
       document_type: null,
       document_number: '12341234',
       accept_terms: true,
@@ -133,7 +133,7 @@ describe('PatientService', () => {
       address: 'Ugarte 116B # 78B 62',
       city: null,
       country: null,
-      sex: Sex.BINARIO,
+      gender: Gender.BINARIO,
       document_type: null,
       document_number: '12341234',
       accept_terms: true,

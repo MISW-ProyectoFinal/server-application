@@ -7,7 +7,7 @@ import {
   IsEnum,
   Matches,
 } from 'class-validator';
-import { Sex } from './../../sex/sex.enum';
+import { Gender } from '../../gender/gender.enum';
 
 export class CreateUserDto {
   @IsString()
@@ -61,8 +61,8 @@ export class CreateUserDto {
 
   @IsString()
   @IsNotEmpty()
-  @IsEnum(Sex)
-  sex: string;
+  @IsEnum(Gender)
+  gender: string;
 
   @IsString()
   @IsNotEmpty()

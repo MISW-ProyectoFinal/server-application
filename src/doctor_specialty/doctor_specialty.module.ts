@@ -9,7 +9,7 @@ import { AzureBlobService } from 'src/shared/services/azure-blob.service';
 
 @Module({
   controllers: [DoctorSpecialtyController],
-  providers: [DoctorSpecialtyService, DoctorService,AzureBlobService],
+  providers: [DoctorSpecialtyService, DoctorService, AzureBlobService],
   imports: [TypeOrmModule.forFeature([DoctorSpecialty, Doctor])],
 })
 export class DoctorSpecialtyModule {}
