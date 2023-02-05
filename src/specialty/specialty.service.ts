@@ -12,8 +12,8 @@ export class SpecialtyService {
     private readonly specialtyRepository: Repository<Specialty>,
   ) {}
 
-  create(createSpecialtyDto: CreateSpecialtyDto) {
-    return 'This action adds a new specialty';
+  async create(createSpecialtyDto: CreateSpecialtyDto) {
+    return await this.specialtyRepository.save(createSpecialtyDto);
   }
 
   async findAll() {
