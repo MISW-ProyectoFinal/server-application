@@ -3,7 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Doctor } from '../doctor/entities/doctor.entity';
 import { Language } from '../language/language.enum';
-import { Sex } from '../sex/sex.enum';
+import { Gender } from '../gender/gender.enum';
 import { Specialty } from '../specialty/entities/specialty.entity';
 import { Repository } from 'typeorm';
 import { DoctorSpecialtyService } from './doctor_specialty.service';
@@ -61,7 +61,7 @@ describe('DoctorSpecialtyService', () => {
       address: 'CArrera 116B # 78B 62',
       city: null,
       country: null,
-      sex: Sex.BINARIO,
+      gender: Gender.BINARIO,
       document_type: null,
       document_number: '12341234',
       doctor_specialties: [],

@@ -2,7 +2,7 @@ import { City } from './../../city/entities/city.entity';
 import { Country } from './../../country/entities/country.entity';
 import { DocumentType } from './../../document_type/entities/document_type.entity';
 import { Column, Entity, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
-import { Sex } from './../../sex/sex.enum';
+import { Gender } from '../../gender/gender.enum';
 import { Language } from './../../language/language.enum';
 
 @Entity()
@@ -42,10 +42,10 @@ export class User {
 
   @Column({
     type: 'enum',
-    enum: Sex,
+    enum: Gender,
     nullable: true,
   })
-  sex: Sex;
+  gender: Gender;
 
   @ManyToOne(() => City, (city) => city.users)
   city: City;
