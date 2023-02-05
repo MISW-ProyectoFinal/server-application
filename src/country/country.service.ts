@@ -12,8 +12,8 @@ export class CountryService {
     private readonly countryRepository: Repository<Country>,
   ) {}
 
-  create(createCountryDto: CreateCountryDto) {
-    return 'This action adds a new country';
+  async create(createCountryDto: CreateCountryDto) {
+    return await this.countryRepository.save(createCountryDto);
   }
 
   async findAll(): Promise<Country[]> {
