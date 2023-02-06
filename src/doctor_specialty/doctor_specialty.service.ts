@@ -50,7 +50,6 @@ export class DoctorSpecialtyService {
   }
 
   async findOne(id: string): Promise<DoctorSpecialty> {
-    console.log(id);
     const doctorSpecialty = await this.doctorSpecialtyRepository.findOne({
       where: { id },
     });
@@ -61,11 +60,11 @@ export class DoctorSpecialtyService {
     return doctorSpecialty;
   }
 
-  update(id: number, updateDoctorSpecialtyDto: UpdateDoctorSpecialtyDto) {
-    return `This action updates a #${id} specialtyDoctor`;
-  }
+  // update(id: number, updateDoctorSpecialtyDto: UpdateDoctorSpecialtyDto) {
+  //   return `This action updates a #${id} specialtyDoctor`;
+  // }
 
-  remove(id: number) {
-    return `This action removes a #${id} specialtyDoctor`;
-  }
+  // remove(id: number) {
+  //   return `This action removes a #${id} specialtyDoctor`;
+  // }
 }
