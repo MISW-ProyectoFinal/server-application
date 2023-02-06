@@ -21,6 +21,8 @@ describe('DoctorSpecialtyService', () => {
 
   let repository: Repository<DoctorSpecialty>;
 
+  let specialities_doctor: DoctorSpecialty;
+
   const today = new Date();
 
   beforeEach(async () => {
@@ -82,6 +84,17 @@ describe('DoctorSpecialtyService', () => {
 
     await doctorRepository.save(doctor);
     await specialtyRepository.save(specialty);
+    specialities_doctor = {
+      id: faker.datatype.uuid(),
+      emission_date: '2020-02-03',
+      expiration_date: '2033-02-03',
+      authorized: false,
+      file_name: faker.image.imageUrl(),
+      registry_number: '255544414225',
+      specialty: specialty,
+      doctor: doctor,
+    };
+    await repository.save(specialities_doctor);
   };
 
   it('should be defined', () => {
@@ -122,8 +135,15 @@ describe('DoctorSpecialtyService', () => {
       specialty: specialty,
       doctor: doctor,
     };
-    console.log(specialtyDoctorCreate);
+    try {
+      await service.create(specialtyDoctorCreate);
+    } catch (error) {
+      expect(error.message).toBe('emission_date > today');
+    }
+  });
 
-    await expect(service.create(specialtyDoctorCreate)).rejects;
+  it('should list specialities by doctor', async () => {
+    const specialtyDoctor: DoctorSpecialty[] = await service.findAll(doctor);
+    expect(specialtyDoctor).not.toBeNull();
   });
 });

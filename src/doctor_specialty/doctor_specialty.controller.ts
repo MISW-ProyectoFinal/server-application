@@ -78,23 +78,23 @@ export class DoctorSpecialtyController {
     return this.specialtyDoctorService.findAll(doctor);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.specialtyDoctorService.findOne(id);
-  }
+  // @Get(':id')
+  // findOne(@Param('id') id: string) {
+  //   return this.specialtyDoctorService.findOne(id);
+  // }
 
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateDoctorSpecialtyDto: UpdateDoctorSpecialtyDto,
-  ) {
-    return this.specialtyDoctorService.update(+id, updateDoctorSpecialtyDto);
-  }
+  // @Patch(':id')
+  // update(
+  //   @Param('id') id: string,
+  //   @Body() updateDoctorSpecialtyDto: UpdateDoctorSpecialtyDto,
+  // ) {
+  //   return this.specialtyDoctorService.update(+id, updateDoctorSpecialtyDto);
+  // }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.specialtyDoctorService.remove(+id);
-  }
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.specialtyDoctorService.remove(+id);
+  // }
 
   //METODOS PROPIOS
 

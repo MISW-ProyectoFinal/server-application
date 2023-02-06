@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { UpdateDoctorDto } from './dto/update-doctor.dto';
+// import { UpdateDoctorDto } from './dto/update-doctor.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Doctor } from './entities/doctor.entity';
@@ -59,13 +59,13 @@ export class DoctorService {
     return doctor;
   }
 
-  update(id: number, updateDoctorDto: UpdateDoctorDto) {
-    return `This action updates a #${id} ${updateDoctorDto.name} user`;
-  }
+  // update(id: number, updateDoctorDto: UpdateDoctorDto) {
+  //   return `This action updates a #${id} ${updateDoctorDto.name} user`;
+  // }
 
-  remove(id: number) {
-    return `This action removes a #${id} doctor`;
-  }
+  // remove(id: number) {
+  //   return `This action removes a #${id} doctor`;
+  // }
 
   async findByEmail(email: string): Promise<Doctor> {
     const doctor = await this.doctorRepository.findOne({
