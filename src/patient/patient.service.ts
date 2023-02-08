@@ -43,8 +43,19 @@ export class PatientService {
     return `This action returns all patient`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} patient`;
+  async findOne(id: string) {
+    const patient = await this.patientRepository.findOne({
+      where: { id: id },
+    });
+
+    if (!patient) {
+      throw new BusinessLogicException(
+        'No se logra encontrar al paciente en el sistema',
+        BusinessError.NOT_FOUND,
+      );
+    }
+
+    return patient;
   }
 
   async update(id: string, updatePatientDto: Patient): Promise<Patient> {

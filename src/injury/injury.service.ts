@@ -1,15 +1,18 @@
 import { Injectable } from '@nestjs/common';
-import { CreateInjuryDto } from './dto/create-injury.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { UpdateInjuryDto } from './dto/update-injury.dto';
+import { Injury } from './entities/injury.entity';
 
 @Injectable()
 export class InjuryService {
-  create(createInjuryDto: CreateInjuryDto) {
-    return 'This action adds a new injury';
-  }
+  constructor(
+    @InjectRepository(Injury)
+    private readonly injuryRepository: Repository<Injury>,
+  ) {}
 
-  findAll() {
-    return `This action returns all injury`;
+  async create(createInjury: Injury): Promise<Injury> {
+    return await this.injuryRepository.save(createInjury);
   }
 
   findOne(id: number) {
@@ -18,9 +21,5 @@ export class InjuryService {
 
   update(id: number, updateInjuryDto: UpdateInjuryDto) {
     return `This action updates a #${id} injury`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} injury`;
   }
 }
