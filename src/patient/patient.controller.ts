@@ -19,6 +19,7 @@ import { UpdatePatientDto } from './dto/update-patient.dto';
 import { Patient } from './entities/patient.entity';
 import { BusinessErrorsInterceptor } from 'src/shared/interceptors/business-errors.interceptor';
 import { LocalAuthGuard } from 'src/auth/guards/local-auth.guard';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
 @Controller('patient')
 @UseInterceptors(BusinessErrorsInterceptor)
@@ -44,10 +45,14 @@ export class PatientController {
     return this.patientService.findOne(+id);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePatientDto: UpdatePatientDto) {
+  async update(
+    @Param('id') id: string,
+    @Body() updatePatientDto: UpdatePatientDto,
+  ) {
     const patient: Patient = plainToInstance(Patient, updatePatientDto);
-    return this.patientService.update(id, patient);
+    return await this.patientService.update(id, patient);
   }
 
   @Delete(':id')
@@ -55,7 +60,6 @@ export class PatientController {
     return this.patientService.remove(+id);
   }
 
-  //METODOS PROPIOS
   //METODOS PROPIOS
   @UseGuards(LocalAuthGuard)
   @Post('login')
