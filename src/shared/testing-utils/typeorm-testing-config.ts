@@ -50,7 +50,7 @@ export const TypeOrmTestingConfig = () => [
     host: process.env['PG_DB_HOSTURL'] || 'localhost',
     port: +process.env['PG_DB_PORT'] || 5432,
     username: process.env['PG_DB_USERNAME'] || 'postgres',
-    password: process.env['PG_DB_PASSWORD'] || 'asdfgh',
+    password: process.env['PG_DB_PASSWORD'] || 'postgres',
     dropSchema: false,
     entities: entities,
     synchronize: true,

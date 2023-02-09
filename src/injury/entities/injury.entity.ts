@@ -5,6 +5,7 @@ import {
   OneToMany,
   ManyToMany,
   JoinTable,
+  ManyToOne,
 } from 'typeorm';
 import { ObjectType, Field } from '@nestjs/graphql';
 import { InjuryType } from '../../injury_type/injury_type.enum';
@@ -15,6 +16,7 @@ import { Case } from './../../case/entities/case.entity';
 import { Treatment } from './../../treatment/entities/treatment.entity';
 import { InjuryPhoto } from './../../injury_photo/entities/injury_photo.entity';
 import { AutomaticCase } from './../../automatic_case/entities/automatic_case.entity';
+import { Patient } from './../../patient/entities/patient.entity';
 
 @ObjectType()
 @Entity()
@@ -83,4 +85,7 @@ export class Injury {
 
   @OneToMany(() => AutomaticCase, (automaticCase) => automaticCase.injury)
   automatic_cases: AutomaticCase[];
+
+  @ManyToOne(() => Patient, (patient) => patient.injuries)
+  patient: Patient;
 }

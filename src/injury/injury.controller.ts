@@ -52,6 +52,7 @@ export class InjuryController {
     const patient: Patient = await this.patientService.findOne(id);
 
     if (patient) {
+      createInjuryDto.patient = patient;
       const injury: Injury = plainToInstance(Injury, createInjuryDto);
       const createdInjury: Injury = await this.injuryService.create(injury);
 
@@ -66,7 +67,7 @@ export class InjuryController {
         createInjuryPhotoDto.file_name = await this.azureBlobService.upload(
           file,
           this.containerName,
-          'application/jpeg',
+          'image/jpeg',
           '5000000',
         );
 

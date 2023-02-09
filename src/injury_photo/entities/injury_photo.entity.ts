@@ -17,7 +17,7 @@ export class InjuryPhoto {
 
   @Column({
     type: 'date',
-    default: ('0' + new Date().getDate()).slice(-2),
+    default: new Date(),
   })
   upload_date: string;
 

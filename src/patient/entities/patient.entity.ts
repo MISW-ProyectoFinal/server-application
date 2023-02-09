@@ -4,11 +4,13 @@ import {
   PrimaryGeneratedColumn,
   ManyToMany,
   JoinTable,
+  OneToMany,
 } from 'typeorm';
 import { Allergy } from './../../allergy/entities/allergy.entity';
 import { User } from './../../user/entities/user.entity';
 import { Illness } from './../../illness/entities/illness.entity';
 import { SkinType } from './../../skin_type/skin_type.enum';
+import { Injury } from './../../injury/entities/injury.entity';
 
 @Entity()
 export class Patient extends User {
@@ -39,4 +41,7 @@ export class Patient extends User {
   @ManyToMany(() => Illness, (illness) => illness.patients)
   @JoinTable()
   illnesses: Illness[];
+
+  @OneToMany(() => Injury, (injury) => injury.patient)
+  injuries: Injury[];
 }

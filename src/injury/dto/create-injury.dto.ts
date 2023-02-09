@@ -7,6 +7,7 @@ import { Treatment } from './../../treatment/entities/treatment.entity';
 import { InjuryDistribution } from './../../injury_distribution/injury_distribution.enum';
 import { InjuryShape } from './../../injury_shape/injury_shape.enum';
 import { InjuryType } from './../../injury_type/injury_type.enum';
+import { Patient } from './../../patient/entities/patient.entity';
 
 export class CreateInjuryDto {
   @IsEnum(InjuryType)
@@ -17,7 +18,6 @@ export class CreateInjuryDto {
   @IsNotEmpty()
   shape: string;
 
-  @IsNumber()
   @IsNotEmpty()
   number: number;
 
@@ -37,6 +37,7 @@ export class CreateInjuryDto {
   @IsNotEmpty()
   location: string;
 
+  patient: Patient;
   photos: InjuryPhoto[];
   symptoms: Symptom[];
   cases: Case[];
