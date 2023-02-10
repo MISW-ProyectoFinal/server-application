@@ -42,7 +42,7 @@ export class PatientController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.patientService.findOne(+id);
+    return this.patientService.findOne(id);
   }
 
   @UseGuards(JwtAuthGuard)

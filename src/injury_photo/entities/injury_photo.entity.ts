@@ -13,9 +13,12 @@ export class InjuryPhoto {
     type: 'varchar',
     default: '',
   })
-  url: string;
+  file_name: string;
 
-  @Column({ type: 'date' })
+  @Column({
+    type: 'date',
+    default: new Date(),
+  })
   upload_date: string;
 
   @ManyToOne(() => Injury, (injury) => injury.photos)

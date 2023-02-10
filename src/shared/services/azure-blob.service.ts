@@ -29,6 +29,7 @@ export class AzureBlobService {
     validationsize: string = null,
   ) {
     if (validationtype != null && validationtype != file.mimetype) {
+      console.log(file.mimetype);
       throw new BusinessLogicException(
         'bad extentionfile',
         BusinessError.BAD_REQUEST,

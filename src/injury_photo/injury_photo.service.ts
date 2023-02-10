@@ -1,26 +1,16 @@
 import { Injectable } from '@nestjs/common';
-import { CreateInjuryPhotoDto } from './dto/create-injury_photo.dto';
-import { UpdateInjuryPhotoDto } from './dto/update-injury_photo.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { InjuryPhoto } from './entities/injury_photo.entity';
 
 @Injectable()
 export class InjuryPhotoService {
-  create(createInjuryPhotoDto: CreateInjuryPhotoDto) {
-    return 'This action adds a new injuryPhoto';
-  }
+  constructor(
+    @InjectRepository(InjuryPhoto)
+    private readonly injuryPhotoRepository: Repository<InjuryPhoto>,
+  ) {}
 
-  findAll() {
-    return `This action returns all injuryPhoto`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} injuryPhoto`;
-  }
-
-  update(id: number, updateInjuryPhotoDto: UpdateInjuryPhotoDto) {
-    return `This action updates a #${id} injuryPhoto`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} injuryPhoto`;
+  async create(createInjuryPhoto: InjuryPhoto): Promise<InjuryPhoto> {
+    return await this.injuryPhotoRepository.save(createInjuryPhoto);
   }
 }

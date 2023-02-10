@@ -5,16 +5,18 @@ import {
   OneToMany,
   ManyToMany,
   JoinTable,
+  ManyToOne,
 } from 'typeorm';
 import { ObjectType, Field } from '@nestjs/graphql';
-import { InjuryTypes } from './../../injury_type/injury_typr.enum';
-import { Shapes } from './../../shape/shapes.enum';
-import { Distribution } from './../../distribution/distribution.enum';
+import { InjuryType } from '../../injury_type/injury_type.enum';
+import { InjuryShape } from './../../injury_shape/injury_shape.enum';
+import { InjuryDistribution } from './../../injury_distribution/injury_distribution.enum';
 import { Symptom } from './../../symptom/entities/symptom.entity';
 import { Case } from './../../case/entities/case.entity';
 import { Treatment } from './../../treatment/entities/treatment.entity';
 import { InjuryPhoto } from './../../injury_photo/entities/injury_photo.entity';
 import { AutomaticCase } from './../../automatic_case/entities/automatic_case.entity';
+import { Patient } from './../../patient/entities/patient.entity';
 
 @ObjectType()
 @Entity()
@@ -25,30 +27,30 @@ export class Injury {
 
   @Column({
     type: 'enum',
-    enum: InjuryTypes,
-    default: InjuryTypes.AMPOLLA,
+    enum: InjuryType,
+    default: InjuryType.AMPOLLA,
   })
-  injury_type: InjuryTypes;
+  type: InjuryType;
 
   @Column({
     type: 'enum',
-    enum: Shapes,
-    default: Shapes.ANILLO,
+    enum: InjuryShape,
+    default: InjuryShape.ANILLO,
   })
-  shapes: Shapes;
+  shape: InjuryShape;
 
   @Column({
     type: 'numeric',
     default: 0,
   })
-  injuryNUmber: number;
+  number: number;
 
   @Column({
     type: 'enum',
-    enum: Distribution,
-    default: Distribution.ASIMETRICA,
+    enum: InjuryDistribution,
+    default: InjuryDistribution.ASIMETRICA,
   })
-  distribution: Distribution;
+  distribution: InjuryDistribution;
 
   @Column({
     type: 'text',
@@ -83,4 +85,7 @@ export class Injury {
 
   @OneToMany(() => AutomaticCase, (automaticCase) => automaticCase.injury)
   automatic_cases: AutomaticCase[];
+
+  @ManyToOne(() => Patient, (patient) => patient.injuries)
+  patient: Patient;
 }
