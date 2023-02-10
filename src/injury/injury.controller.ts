@@ -27,6 +27,7 @@ import {
   BusinessLogicException,
 } from './../shared/errors/business-errors';
 import { InjuryPhoto } from './../injury_photo/entities/injury_photo.entity';
+import { CreateInjuryPhotoDto } from './../injury_photo/dto/create-injury_photo.dto';
 
 @Controller('injury')
 export class InjuryController {
@@ -47,8 +48,6 @@ export class InjuryController {
     @Body() createInjuryDto: CreateInjuryDto,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    console.log(createInjuryDto);
-    console.log(file);
     const { id } = req.user;
     const patient: Patient = await this.patientService.findOne(id);
 
@@ -58,21 +57,23 @@ export class InjuryController {
       const createdInjury: Injury = await this.injuryService.create(injury);
 
       if (createdInjury) {
-        const createInjuryPhotoDto: InjuryPhoto = {
-          id: null,
-          upload_date: null,
+        const createInjuryPhotoDto: CreateInjuryPhotoDto = {
           file_name: '',
           injury: null,
         };
-        createInjuryPhotoDto.injury = createdInjury;
-        createInjuryPhotoDto.file_name = await this.azureBlobService.upload(
+        const createdInjuryPhoto: InjuryPhoto = plainToInstance(
+          InjuryPhoto,
+          createInjuryPhotoDto,
+        );
+        createdInjuryPhoto.injury = createdInjury;
+        createdInjuryPhoto.file_name = await this.azureBlobService.upload(
           file,
           this.containerName,
           'image/jpeg',
           '5000000',
         );
 
-        this.injuryPhotoService.create(createInjuryPhotoDto);
+        this.injuryPhotoService.create(createdInjuryPhoto);
 
         return createdInjury;
       } else {
@@ -89,9 +90,10 @@ export class InjuryController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.injuryService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    return await this.injuryService.findOne(id);
   }
 
   @Patch(':id')

@@ -43,7 +43,7 @@ export class PatientService {
     return `This action returns all patient`;
   }
 
-  async findOne(id: string) {
+  async findOne(id: string): Promise<Patient> {
     const patient = await this.patientRepository.findOne({
       where: { id: id },
     });
