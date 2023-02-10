@@ -25,9 +25,8 @@ import { Injury } from './entities/injury.entity';
 import {
   BusinessError,
   BusinessLogicException,
-} from 'src/shared/errors/business-errors';
-import { CreateInjuryPhotoDto } from './../injury_photo/dto/create-injury_photo.dto';
-import { InjuryPhoto } from 'src/injury_photo/entities/injury_photo.entity';
+} from './../shared/errors/business-errors';
+import { InjuryPhoto } from './../injury_photo/entities/injury_photo.entity';
 
 @Controller('injury')
 export class InjuryController {
@@ -48,12 +47,14 @@ export class InjuryController {
     @Body() createInjuryDto: CreateInjuryDto,
     @UploadedFile() file: Express.Multer.File,
   ) {
+    console.log(createInjuryDto);
+    console.log(file);
     const { id } = req.user;
     const patient: Patient = await this.patientService.findOne(id);
 
     if (patient) {
-      createInjuryDto.patient = patient;
       const injury: Injury = plainToInstance(Injury, createInjuryDto);
+      injury.patient = patient;
       const createdInjury: Injury = await this.injuryService.create(injury);
 
       if (createdInjury) {
