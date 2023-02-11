@@ -7,14 +7,13 @@ import { Allergy } from './entities/allergy.entity';
 
 @Injectable()
 export class AllergyService {
-
   constructor(
     @InjectRepository(Allergy)
     private readonly allergyRepository: Repository<Allergy>,
   ) {}
 
-  create(createAllergyDto: CreateAllergyDto) {
-    return 'This action adds a new allergy';
+  async create(createAllergyDto: CreateAllergyDto) {
+    return await this.allergyRepository.save(createAllergyDto);
   }
 
   async findAll() {
