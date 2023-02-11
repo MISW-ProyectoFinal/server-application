@@ -19,6 +19,10 @@ jobs:
           node-version: '16.x'
       - run: |
           npm install
+          PG_DB_HOSTURL=${{ secrets.PG_DB_HOSTURL }}
+          PG_DB_PORT=${{ secrets.PG_DB_PORT }}
+          PG_DB_USERNAME=${{ secrets.PG_DB_USERNAME }}
+          PG_DB_PASSWORD=${{ secrets.PG_DB_PASSWORD }}
           npm run test:cov
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
