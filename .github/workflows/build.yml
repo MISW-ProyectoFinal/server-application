@@ -23,6 +23,7 @@ jobs:
           PG_DB_PORT=${{ secrets.PG_DB_PORT }}
           PG_DB_USERNAME=${{ secrets.PG_DB_USERNAME }}
           PG_DB_PASSWORD=${{ secrets.PG_DB_PASSWORD }}
+          echo PG_DB_HOSTURL
           npm run test:cov
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
