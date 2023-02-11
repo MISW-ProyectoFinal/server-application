@@ -40,7 +40,7 @@ describe('DoctorService', () => {
   });
 
   const seedDatabase = async () => {
-    //await repository.delete({});
+    await repository.delete({});
 
     doctorSeed = {
       id: faker.datatype.uuid(),
