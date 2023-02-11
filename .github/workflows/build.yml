@@ -15,16 +15,16 @@ jobs:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
       - name: Use Node.js 16.x
         uses: actions/setup-node@v3
-        env:
-          PG_DB_HOSTURL: ${{ secrets.PG_DB_HOSTURL }}
-          PG_DB_PORT: ${{ secrets.PG_DB_PORT }}
-          PG_DB_USERNAME: ${{ secrets.PG_DB_USERNAME }}
-          PG_DB_PASSWORD: ${{ secrets.PG_DB_PASSWORD }}
         with:
           node-version: '16.x'
       - run: |
           npm install
           npm run test:cov
+        env:
+          PG_DB_HOSTURL: ${{ secrets.PG_DB_HOSTURL }}
+          PG_DB_PORT: ${{ secrets.PG_DB_PORT }}
+          PG_DB_USERNAME: ${{ secrets.PG_DB_USERNAME }}
+          PG_DB_PASSWORD: ${{ secrets.PG_DB_PASSWORD }}
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
