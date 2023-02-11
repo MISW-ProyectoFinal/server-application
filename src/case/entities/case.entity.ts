@@ -26,11 +26,13 @@ export class Case {
 
   @Column({
     type: 'date',
+    default: new Date(),
   })
   start_date: string;
 
   @Column({
     type: 'date',
+    default: null,
   })
   end_date: string;
 
@@ -49,18 +51,20 @@ export class Case {
 
   @Column({
     type: 'float',
+    default: null,
   })
   amount: number;
 
   @Column({
     type: 'varchar',
+    default: '',
   })
   cci: string;
 
   @Column({
     type: 'enum',
     enum: CurrencyType,
-    default: CurrencyType.COP,
+    default: CurrencyType.USD,
   })
   currency_type: CurrencyType;
 
