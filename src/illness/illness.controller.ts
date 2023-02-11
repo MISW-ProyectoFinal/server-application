@@ -21,8 +21,8 @@ export class IllnessController {
   }
 
   @Get()
-  findAll() {
-    return this.illnessService.findAll();
+  async findAll() {
+    return await this.illnessService.findAll();
   }
 
   @Get(':id')

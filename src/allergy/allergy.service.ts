@@ -1,15 +1,24 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateAllergyDto } from './dto/create-allergy.dto';
 import { UpdateAllergyDto } from './dto/update-allergy.dto';
+import { Allergy } from './entities/allergy.entity';
 
 @Injectable()
 export class AllergyService {
+
+  constructor(
+    @InjectRepository(Allergy)
+    private readonly allergyRepository: Repository<Allergy>,
+  ) {}
+
   create(createAllergyDto: CreateAllergyDto) {
     return 'This action adds a new allergy';
   }
 
-  findAll() {
-    return `This action returns all allergy`;
+  async findAll() {
+    return await this.allergyRepository.find();
   }
 
   findOne(id: number) {

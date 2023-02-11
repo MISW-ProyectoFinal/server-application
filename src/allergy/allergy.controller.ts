@@ -21,8 +21,8 @@ export class AllergyController {
   }
 
   @Get()
-  findAll() {
-    return this.allergyService.findAll();
+  async findAll() {
+    return await this.allergyService.findAll();
   }
 
   @Get(':id')
