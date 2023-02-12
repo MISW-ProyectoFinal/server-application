@@ -2,29 +2,26 @@ import { All, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Allergy } from '../allergy/entities/allergy.entity';
 import { Patient } from '../patient/entities/patient.entity';
-import { BusinessLogicException, BusinessError } from '../shared/errors/business-errors';
-import { Repository,In } from 'typeorm';
-import { CreatePatientAllergyDto } from './dto/create-patient_allergy.dto';
+import {
+  BusinessLogicException,
+  BusinessError,
+} from '../shared/errors/business-errors';
+import { Repository, In } from 'typeorm';
 import { UpdatePatientAllergyDto } from './dto/update-patient_allergy.dto';
 
 @Injectable()
 export class PatientAllergyService {
-
-
   constructor(
-
     @InjectRepository(Patient)
     private readonly patientRepository: Repository<Patient>,
 
     @InjectRepository(Allergy)
     private readonly allergyRepository: Repository<Allergy>,
+  ) {}
 
-  ){}
-
-  async create(patientId:string, allergyId:string[]){
-
+  async create(patientId: string, allergyId: string[]) {
     const patient = await this.patientRepository.findOne({
-      where:{id:`${patientId}`},
+      where: { id: `${patientId}` },
       relations: ['allergies'],
     });
 
@@ -36,7 +33,7 @@ export class PatientAllergyService {
     }
 
     const allergy = await this.allergyRepository.findBy({
-      id: In(allergyId)
+      id: In(allergyId),
     });
 
     if (!allergy) {
@@ -45,10 +42,10 @@ export class PatientAllergyService {
         BusinessError.NOT_FOUND,
       );
     }
-   
-    patient.allergies=allergy
-    await this.patientRepository.save(patient)
-    return true
+
+    patient.allergies = allergy;
+    await this.patientRepository.save(patient);
+    return true;
   }
 
   findAll() {
