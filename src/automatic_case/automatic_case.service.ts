@@ -1,26 +1,68 @@
 import { Injectable } from '@nestjs/common';
-import { CreateAutomaticCaseDto } from './dto/create-automatic_case.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { CaseStatus } from './../case_status/case_status.enum';
+import { Injury } from './../injury/entities/injury.entity';
+import { Patient } from './../patient/entities/patient.entity';
+import {
+  BusinessError,
+  BusinessLogicException,
+} from './../shared/errors/business-errors';
+import { Repository } from 'typeorm';
 import { UpdateAutomaticCaseDto } from './dto/update-automatic_case.dto';
+import { AutomaticCase } from './entities/automatic_case.entity';
 
 @Injectable()
 export class AutomaticCaseService {
-  create(createAutomaticCaseDto: CreateAutomaticCaseDto) {
-    return 'This action adds a new automaticCase';
+  constructor(
+    @InjectRepository(AutomaticCase)
+    private readonly automaticCaseRepository: Repository<AutomaticCase>,
+  ) {}
+
+  async create(
+    createAutomaticCase: AutomaticCase,
+    injury: Injury,
+    patient: Patient,
+  ) {
+    if (injury.cases.length > 0) {
+      throw new BusinessLogicException(
+        'La lesión ya está asignada a un caso por especialista',
+        BusinessError.NOT_FOUND,
+      );
+    }
+    createAutomaticCase.injury = injury;
+    return await this.automaticCaseRepository.save(createAutomaticCase);
   }
 
-  findAll() {
-    return `This action returns all automaticCase`;
+  async findAll(statusName: string): Promise<AutomaticCase[]> {
+    if (statusName == 'Pendiente') {
+      return await this.automaticCaseRepository.find({
+        where: { case_status: CaseStatus.PENDIENTE },
+      });
+    } else {
+      const statusEnum =
+        statusName == 'En proceso' ? CaseStatus.EN_PROCESO : CaseStatus.CERRADO;
+      return await this.automaticCaseRepository.find({
+        where: { case_status: statusEnum },
+      });
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} automaticCase`;
+  async findOne(id: string) {
+    const automaticCase = await this.automaticCaseRepository.findOne({
+      where: { id: id },
+    });
+
+    if (!automaticCase) {
+      throw new BusinessLogicException(
+        'No se logra encontrar el caso en el sistema',
+        BusinessError.NOT_FOUND,
+      );
+    }
+
+    return automaticCase;
   }
 
   update(id: number, updateAutomaticCaseDto: UpdateAutomaticCaseDto) {
     return `This action updates a #${id} automaticCase`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} automaticCase`;
   }
 }

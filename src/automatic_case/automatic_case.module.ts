@@ -1,9 +1,16 @@
 import { Module } from '@nestjs/common';
 import { AutomaticCaseService } from './automatic_case.service';
 import { AutomaticCaseController } from './automatic_case.controller';
+import { PatientService } from './../patient/patient.service';
+import { InjuryService } from './../injury/injury.service';
+import { Patient } from './../patient/entities/patient.entity';
+import { Injury } from './../injury/entities/injury.entity';
+import { AutomaticCase } from './entities/automatic_case.entity';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
   controllers: [AutomaticCaseController],
-  providers: [AutomaticCaseService],
+  providers: [PatientService, InjuryService, AutomaticCaseService],
+  imports: [TypeOrmModule.forFeature([Patient, Injury, AutomaticCase])],
 })
 export class AutomaticCaseModule {}

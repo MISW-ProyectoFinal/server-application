@@ -66,12 +66,14 @@ export class InjuryController {
           createInjuryPhotoDto,
         );
         createdInjuryPhoto.injury = createdInjury;
-        createdInjuryPhoto.file_name = await this.azureBlobService.upload(
-          file,
-          this.containerName,
-          'image/jpeg',
-          '5000000',
-        );
+        if (file) {
+          createdInjuryPhoto.file_name = await this.azureBlobService.upload(
+            file,
+            this.containerName,
+            'image/jpeg',
+            '5000000',
+          );
+        }
 
         this.injuryPhotoService.create(createdInjuryPhoto);
 
