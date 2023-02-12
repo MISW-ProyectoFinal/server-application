@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Illness } from 'src/illness/entities/illness.entity';
-import { Patient } from 'src/patient/entities/patient.entity';
+import { Illness } from '../illness/entities/illness.entity';
+import { Patient } from '../patient/entities/patient.entity';
+import { BusinessLogicException, BusinessError } from '../shared/errors/business-errors';
 import { Repository,In } from 'typeorm';
 import { CreatePatientIllnessDto } from './dto/create-patient_illness.dto';
 import { UpdatePatientIllnessDto } from './dto/update-patient_illness.dto';
@@ -19,22 +20,32 @@ export class PatientIllnessService {
 
   ){}
 
-  async create(patientId:string, illnessId:string[]): Promise<Patient> {
+  async create(patientId:string, illnessId:string[]) {
 
     const patient = await this.patientRepository.findOne({
       where:{id:`${patientId}`}
     });
 
+    if (!patient) {
+      throw new BusinessLogicException(
+        'patient not found',
+        BusinessError.NOT_FOUND,
+      );
+    }
+    
     const illnesses = await this.illnessRepository.findBy({
       id: In(illnessId),
     });
 
-   
-    patient.illnesses = [];
-    patient.illnesses.concat(illnesses)
+    if (!illnesses) {
+      throw new BusinessLogicException(
+        'illnesses not fund',
+        BusinessError.NOT_FOUND,
+      );
+    }
 
-    
-    return await this.patientRepository.save(patient)
+    patient.illnesses = illnesses;
+    return true
   }
 
   findAll() {

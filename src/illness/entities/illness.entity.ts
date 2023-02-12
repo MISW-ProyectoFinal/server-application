@@ -30,6 +30,5 @@ export class Illness {
   symptoms: Symptom[];
 
   @ManyToMany(() => Patient, (patient) => patient.allergies)
-  @JoinTable()
   patients: Patient[];
 }

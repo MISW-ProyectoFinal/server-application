@@ -1,7 +1,8 @@
 import { All, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Allergy } from 'src/allergy/entities/allergy.entity';
-import { Patient } from 'src/patient/entities/patient.entity';
+import { Allergy } from '../allergy/entities/allergy.entity';
+import { Patient } from '../patient/entities/patient.entity';
+import { BusinessLogicException, BusinessError } from '../shared/errors/business-errors';
 import { Repository,In } from 'typeorm';
 import { CreatePatientAllergyDto } from './dto/create-patient_allergy.dto';
 import { UpdatePatientAllergyDto } from './dto/update-patient_allergy.dto';
@@ -20,28 +21,34 @@ export class PatientAllergyService {
 
   ){}
 
-  async create(patientId:string, allergyId:string[]): Promise<Patient> {
+  async create(patientId:string, allergyId:string[]){
 
     const patient = await this.patientRepository.findOne({
-      where:{id:`${patientId}`}
+      where:{id:`${patientId}`},
+      relations: ['allergies'],
     });
+
+    if (!patient) {
+      throw new BusinessLogicException(
+        'patient not found',
+        BusinessError.NOT_FOUND,
+      );
+    }
 
     const allergy = await this.allergyRepository.findBy({
       id: In(allergyId)
     });
 
-   
-    //patient.allergies = [];
-    //patient.allergies.concat(allergy)
-    
-
-    for(let arll in allergy){
-      patient.allergies = [
-        ...patient.allergies,
-        allergy[arll],
-      ];
+    if (!allergy) {
+      throw new BusinessLogicException(
+        'alergies not fund',
+        BusinessError.NOT_FOUND,
+      );
     }
-    return await this.patientRepository.save(patient)
+   
+    patient.allergies=allergy
+    await this.patientRepository.save(patient)
+    return true
   }
 
   findAll() {

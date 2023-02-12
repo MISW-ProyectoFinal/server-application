@@ -113,7 +113,7 @@ import { SkinTypeModule } from './skin_type/skin_type.module';
         TreatmentProgressPhoto,
         User,
       ],
-      dropSchema: false,
+      dropSchema: true,
       synchronize: true,
       keepConnectionAlive: true,
     }),

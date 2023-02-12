@@ -24,6 +24,7 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { PatientAllergyService } from 'src/patient_allergy/patient_allergy.service';
 import { PatientIllnessService } from 'src/patient_illness/patient_illness.service';
 import { InfoDermoDto } from './dto/info-dermo.dto';
+import { BusinessLogicException, BusinessError } from 'src/shared/errors/business-errors';
 
 @Controller('patient')
 @UseInterceptors(BusinessErrorsInterceptor)
@@ -85,10 +86,18 @@ export class PatientController {
     ) {
 
     const { id } = req.user;
-    await this.patientAllergyService.create(id, infoDermoDto.allergyId);
-    await this.patientIllnessService.create(id, infoDermoDto.illnessId);
+    let saveAllergy =  await this.patientAllergyService.create(id, infoDermoDto.allergyId);
+    let saveIllness =  await this.patientIllnessService.create(id, infoDermoDto.illnessId);
     
-    return {"msj":"ok"}
+    if (saveAllergy && saveIllness){
+      return {"msj":"CREATED"}
+    }else{
+      throw new BusinessLogicException(
+        'illnesses not fund',
+        BusinessError.UNPROCESSABLE_ENTITY,
+      );
+    }
+
   }
   
 }
