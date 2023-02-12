@@ -3,10 +3,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Gender } from '../gender/gender.enum';
 import { Illness } from '../illness/entities/illness.entity';
-import { IllnessService } from '../illness/illness.service';
 import { Language } from '../language/language.enum';
 import { Patient } from '../patient/entities/patient.entity';
-import { PatientService } from '../patient/patient.service';
 import { SkinType } from '../skin_type/skin_type.enum';
 import { Repository } from 'typeorm';
 import { PatientIllnessService } from './patient_illness.service';
@@ -29,15 +27,20 @@ describe('PatientIllnessService', () => {
 
     service = module.get<PatientIllnessService>(PatientIllnessService);
 
-    patientRepository = module.get<Repository<Patient>>(getRepositoryToken(Patient));
-    illnessRepository = module.get<Repository<Illness>>(getRepositoryToken(Illness));
+    patientRepository = module.get<Repository<Patient>>(
+      getRepositoryToken(Patient),
+    );
+    illnessRepository = module.get<Repository<Illness>>(
+      getRepositoryToken(Illness),
+    );
 
     await seedDatabase();
-
   });
 
   const seedDatabase = async () => {
-    
+    await patientRepository.delete({});
+    await illnessRepository.delete({});
+
     patient = {
       id: faker.datatype.uuid(),
       email: faker.internet.email(),
@@ -65,55 +68,54 @@ describe('PatientIllnessService', () => {
       fav_language: Language.ENGLISH,
     };
 
-    illness={
+    illness = {
       id: faker.datatype.uuid(),
-      name:"De prueba",
-      specifications:null,
-      patients:null,
-      symptoms:null
+      name: 'De prueba',
+      specifications: null,
+      patients: null,
+      symptoms: null,
     };
 
     await patientRepository.save(patient);
     await illnessRepository.save(illness);
-  }
+  };
 
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
 
   it('should be create PatienIllness', async () => {
-
-    let id = patient.id
-    let illnessId = [illness.id]
-    let saveIllness =  await service.create(id, illnessId);
-    expect(saveIllness).toBe(true)
+    const id = patient.id;
+    const illnessId = [illness.id];
+    const saveIllness = await service.create(id, illnessId);
+    expect(saveIllness).toBe(true);
   });
 
-
   it('should not be create PatienIllness by patient not found', async () => {
+    const id = faker.datatype.uuid();
+    const illnessId = [illness.id];
 
-    let id = faker.datatype.uuid()
-    let illnessId = [illness.id]
-    
     try {
       await service.create(id, illnessId);
     } catch (error) {
-      console.log(error)
+      console.log(error);
       expect(error.message).toBe('patient not found');
     }
   });
 
   it('should not be create PatienIllness by illness not found', async () => {
+    const id = patient.id;
+    const illnessId = [
+      faker.datatype.uuid(),
+      faker.datatype.uuid(),
+      faker.datatype.uuid(),
+    ];
 
-    let id = patient.id
-    let illnessId = [faker.datatype.uuid(),faker.datatype.uuid(),faker.datatype.uuid()]
-    
     try {
       await service.create(id, illnessId);
     } catch (error) {
-      console.log(error)
+      console.log(error);
       expect(error.message).toBe('illnesses not fund');
     }
   });
-
 });

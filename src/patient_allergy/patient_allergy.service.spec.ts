@@ -3,10 +3,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Gender } from '../gender/gender.enum';
 import { Allergy } from '../allergy/entities/allergy.entity';
-import { AllergyService } from '../allergy/allergy.service';
 import { Language } from '../language/language.enum';
 import { Patient } from '../patient/entities/patient.entity';
-import { PatientService } from '../patient/patient.service';
 import { SkinType } from '../skin_type/skin_type.enum';
 import { Repository } from 'typeorm';
 import { PatientAllergyService } from './patient_allergy.service';
@@ -29,15 +27,20 @@ describe('PatientAllergyService', () => {
 
     service = module.get<PatientAllergyService>(PatientAllergyService);
 
-    patientRepository = module.get<Repository<Patient>>(getRepositoryToken(Patient));
-    allergyRepository = module.get<Repository<Allergy>>(getRepositoryToken(Allergy));
+    patientRepository = module.get<Repository<Patient>>(
+      getRepositoryToken(Patient),
+    );
+    allergyRepository = module.get<Repository<Allergy>>(
+      getRepositoryToken(Allergy),
+    );
 
     await seedDatabase();
-
   });
 
   const seedDatabase = async () => {
-    
+    await patientRepository.delete({});
+    await allergyRepository.delete({});
+
     patient = {
       id: faker.datatype.uuid(),
       email: faker.internet.email(),
@@ -65,55 +68,54 @@ describe('PatientAllergyService', () => {
       fav_language: Language.ENGLISH,
     };
 
-    allergy={
+    allergy = {
       id: faker.datatype.uuid(),
-      name:"De prueba",
-      specifications:null,
-      patients:null,
-      symptoms:null
+      name: 'De prueba',
+      specifications: null,
+      patients: null,
+      symptoms: null,
     };
 
     await patientRepository.save(patient);
     await allergyRepository.save(allergy);
-  }
+  };
 
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
 
   it('should be create PatienAllergy', async () => {
-
-    let id = patient.id
-    let allergyId = [allergy.id]
-    let saveAllergy =  await service.create(id, allergyId);
-    expect(saveAllergy).toBe(true)
+    const id = patient.id;
+    const allergyId = [allergy.id];
+    const saveAllergy = await service.create(id, allergyId);
+    expect(saveAllergy).toBe(true);
   });
 
-
   it('should not be create PatienAllergy by patient not found', async () => {
+    const id = faker.datatype.uuid();
+    const allergyId = [allergy.id];
 
-    let id = faker.datatype.uuid()
-    let allergyId = [allergy.id]
-    
     try {
       await service.create(id, allergyId);
     } catch (error) {
-      console.log(error)
+      console.log(error);
       expect(error.message).toBe('patient not found');
     }
   });
 
   it('should not be create PatienAllergy by allergy not found', async () => {
+    const id = patient.id;
+    const allergyId = [
+      faker.datatype.uuid(),
+      faker.datatype.uuid(),
+      faker.datatype.uuid(),
+    ];
 
-    let id = patient.id
-    let allergyId = [faker.datatype.uuid(),faker.datatype.uuid(),faker.datatype.uuid()]
-    
     try {
       await service.create(id, allergyId);
     } catch (error) {
-      console.log(error)
+      console.log(error);
       expect(error.message).toBe('allergyes not fund');
     }
   });
-
 });

@@ -51,7 +51,7 @@ describe('AutomaticCaseService', () => {
     );
 
     await seedDatabase();
-  });src/
+  });
 
   it('should be defined', () => {
     expect(patientService).toBeDefined();

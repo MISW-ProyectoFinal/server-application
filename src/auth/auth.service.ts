@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { DoctorService } from 'src/doctor/doctor.service';
-import { Doctor } from 'src/doctor/entities/doctor.entity';
-import { Patient } from 'src/patient/entities/patient.entity';
-import { PatientService } from 'src/patient/patient.service';
+import { DoctorService } from './../doctor/doctor.service';
+import { Doctor } from './../doctor/entities/doctor.entity';
+import { Patient } from './../patient/entities/patient.entity';
+import { PatientService } from './../patient/patient.service';
 import constants from '../shared/security/constants';
 import * as bcrypt from 'bcrypt';
 
