@@ -1,5 +1,5 @@
 export enum CaseStatus {
-  PENDIENTE = 'pendiente',
-  EN_PROCESO = 'enProceso',
-  CERRADO = 'cerrado',
+  PENDIENTE = 'Pendiente',
+  EN_PROCESO = 'En proceso',
+  CERRADO = 'Cerrado',
 }
