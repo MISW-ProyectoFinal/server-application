@@ -22,6 +22,7 @@ export class InjuryService {
   async findOne(id: string) {
     const injury = await this.injuryRepository.findOne({
       where: { id: id },
+      relations: ['cases'],
     });
 
     if (!injury) {
