@@ -18,7 +18,7 @@
     "test:doctor": "jest --verbose ./src/doctor/",
     "test:watch": "jest --watch",
     "test:ci": "jest --coverage --runInBand --ci",
-    "test:cov": "jest --coverage",
+    "test:cov": "jest --coverage --verbose \"{src}/**/*.service.spec.ts\"",
     "test:cov:doctor": "jest --verbose ./src/doctor/ --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json"
@@ -48,7 +48,8 @@
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
-    "pg": "^8.8.0",
+    "pg": "^8.9.0",
+    "pg-pool": "^3.5.2",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
