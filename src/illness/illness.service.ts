@@ -1,15 +1,23 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateIllnessDto } from './dto/create-illness.dto';
 import { UpdateIllnessDto } from './dto/update-illness.dto';
+import { Illness } from './entities/illness.entity';
 
 @Injectable()
 export class IllnessService {
-  create(createIllnessDto: CreateIllnessDto) {
-    return 'This action adds a new illness';
+  constructor(
+    @InjectRepository(Illness)
+    private readonly illnessRepository: Repository<Illness>,
+  ) {}
+
+  async create(createIllnessDto: CreateIllnessDto) {
+    return await this.illnessRepository.save(createIllnessDto);
   }
 
-  findAll() {
-    return `This action returns all illness`;
+  async findAll() {
+    return await this.illnessRepository.find();
   }
 
   findOne(id: number) {

@@ -8,10 +8,14 @@ import { AuthService } from 'src/auth/auth.service';
 import { DoctorService } from 'src/doctor/doctor.service';
 import { Doctor } from 'src/doctor/entities/doctor.entity';
 import { User } from 'src/user/entities/user.entity';
+import { PatientAllergyService } from 'src/patient_allergy/patient_allergy.service';
+import { PatientIllnessService } from 'src/patient_illness/patient_illness.service';
+import { Allergy } from 'src/allergy/entities/allergy.entity';
+import { Illness } from 'src/illness/entities/illness.entity';
 
 @Module({
   controllers: [PatientController],
-  providers: [PatientService, AuthService, JwtService, DoctorService],
-  imports: [TypeOrmModule.forFeature([Patient, Doctor, User])],
+  providers: [PatientService, AuthService, JwtService, DoctorService,PatientAllergyService,PatientIllnessService],
+  imports: [TypeOrmModule.forFeature([Patient, Doctor, User,Allergy,Illness])],
 })
 export class PatientModule {}

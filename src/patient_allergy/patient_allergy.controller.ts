@@ -17,7 +17,7 @@ export class PatientAllergyController {
 
   @Post()
   create(@Body() createPatientAllergyDto: CreatePatientAllergyDto) {
-    return this.patientAllergyService.create(createPatientAllergyDto);
+    //return this.patientAllergyService.create(createPatientAllergyDto);
   }
 
   @Get()

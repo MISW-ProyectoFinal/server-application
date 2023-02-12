@@ -10,19 +10,22 @@ import {
 import { IllnessService } from './illness.service';
 import { CreateIllnessDto } from './dto/create-illness.dto';
 import { UpdateIllnessDto } from './dto/update-illness.dto';
+import { Illness } from './entities/illness.entity';
+import { plainToInstance } from 'class-transformer';
 
 @Controller('illness')
 export class IllnessController {
   constructor(private readonly illnessService: IllnessService) {}
 
   @Post()
-  create(@Body() createIllnessDto: CreateIllnessDto) {
-    return this.illnessService.create(createIllnessDto);
+  async create(@Body() createIllnessDto: CreateIllnessDto) {
+    const illness: Illness = plainToInstance(Illness, createIllnessDto);
+    return this.illnessService.create(illness);
   }
 
   @Get()
-  findAll() {
-    return this.illnessService.findAll();
+  async findAll() {
+    return await this.illnessService.findAll();
   }
 
   @Get(':id')

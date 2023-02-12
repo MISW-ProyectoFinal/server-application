@@ -17,7 +17,7 @@ export class PatientIllnessController {
 
   @Post()
   create(@Body() createPatientIllnessDto: CreatePatientIllnessDto) {
-    return this.patientIllnessService.create(createPatientIllnessDto);
+    //return this.patientIllnessService.create(createPatientIllnessDto);
   }
 
   @Get()

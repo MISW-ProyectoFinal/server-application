@@ -9,6 +9,7 @@ import {
   UseInterceptors,
   Req,
   UseGuards,
+  UploadedFile,
 } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { AuthService } from '../auth/auth.service';
@@ -20,13 +21,23 @@ import { Patient } from './entities/patient.entity';
 import { BusinessErrorsInterceptor } from 'src/shared/interceptors/business-errors.interceptor';
 import { LocalAuthGuard } from 'src/auth/guards/local-auth.guard';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { PatientAllergyService } from 'src/patient_allergy/patient_allergy.service';
+import { PatientIllnessService } from 'src/patient_illness/patient_illness.service';
+import { InfoDermoDto } from './dto/info-dermo.dto';
+import { BusinessLogicException, BusinessError } from 'src/shared/errors/business-errors';
 
 @Controller('patient')
 @UseInterceptors(BusinessErrorsInterceptor)
 export class PatientController {
+
+  containerName = 'specialities';
+
+  azureBlobService: any;
   constructor(
     private readonly patientService: PatientService,
     private readonly authService: AuthService,
+    private readonly patientAllergyService: PatientAllergyService,
+    private readonly patientIllnessService: PatientIllnessService
   ) {}
 
   @Post()
@@ -66,4 +77,27 @@ export class PatientController {
   async login(@Req() req) {
     return this.authService.login(req.user);
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('info-dermatological')
+  async infoDermatological(
+    @Req() req: any,
+    @Body() infoDermoDto: InfoDermoDto,
+    ) {
+
+    const { id } = req.user;
+    let saveAllergy =  await this.patientAllergyService.create(id, infoDermoDto.allergyId);
+    let saveIllness =  await this.patientIllnessService.create(id, infoDermoDto.illnessId);
+    
+    if (saveAllergy && saveIllness){
+      return {"msj":"CREATED"}
+    }else{
+      throw new BusinessLogicException(
+        'illnesses not fund',
+        BusinessError.UNPROCESSABLE_ENTITY,
+      );
+    }
+
+  }
+  
 }
