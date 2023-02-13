@@ -11,6 +11,7 @@ import {
   BusinessLogicException,
 } from './../shared/errors/business-errors';
 import { Doctor } from './../doctor/entities/doctor.entity';
+import { doc } from 'prettier';
 
 @Injectable()
 export class CaseService {
@@ -70,5 +71,30 @@ export class CaseService {
 
   update(id: number, updateCaseDto: UpdateCaseDto) {
     return `This action updates a #${id} case`;
+  }
+
+  async asignCase(id: string, caseData: Case, doctor: Doctor): Promise<Case> {
+    if (!doctor) {
+      throw new BusinessLogicException(
+        'Doctor no encontrado',
+        BusinessError.NOT_FOUND,
+      );
+    }
+
+    const caseToUpdate = await this.caseRepository.findOne({
+      where: { id: id },
+    });
+
+    if (!caseToUpdate) {
+      throw new BusinessLogicException(
+        'Caso no encontrado',
+        BusinessError.NOT_FOUND,
+      );
+    }
+
+    return await this.caseRepository.save({
+      ...caseToUpdate,
+      ...caseData,
+    });
   }
 }
