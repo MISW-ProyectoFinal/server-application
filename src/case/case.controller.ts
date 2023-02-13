@@ -64,4 +64,15 @@ export class CaseController {
   update(@Param('id') id: string, @Body() updateCaseDto: UpdateCaseDto) {
     return this.caseService.update(+id, updateCaseDto);
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Patch('asign-case/:id')
+  async asignCase(@Req() req: any, @Param('id') id: string) {
+    const { doctorId } = req.user;
+    const doctor: Doctor = await this.doctorService.findOne(doctorId);
+
+    const updateCaseDto: UpdateCaseDto = { doctor: doctor };
+    const caseInstance: Case = plainToInstance(Case, updateCaseDto);
+    return await this.caseService.asignCase(id, caseInstance, doctor);
+  }
 }

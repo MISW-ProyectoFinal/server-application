@@ -34,6 +34,8 @@ describe('CaseService', () => {
 
   let patient1: Patient;
   let injury1: Injury;
+  let doctor1: Doctor;
+  let case1: Case;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -99,7 +101,6 @@ describe('CaseService', () => {
       virt_city: null,
       fav_language: Language.SPANISH,
     };
-
     await patientRepository.save(patient1);
 
     injury1 = {
@@ -118,8 +119,49 @@ describe('CaseService', () => {
       automatic_cases: [],
       patient: patient1,
     };
-
     await injuryRepository.save(injury1);
+
+    case1 = {
+      id: faker.datatype.uuid(),
+      case_status: CaseStatus.PENDIENTE,
+      start_date: '2023-02-01',
+      end_date: null,
+      pending_payment: false,
+      payment_status: PaymentStatus.PENDIENTE,
+      amount: null,
+      cci: '1234567812341234',
+      currency_type: CurrencyType.USD,
+      doctor: null,
+      injury: injury1,
+      treatments: [],
+    };
+    await caseRepository.save(case1);
+
+    doctor1 = {
+      id: faker.datatype.uuid(),
+      email: faker.internet.email(),
+      password: 'TEst13$$',
+      active: false,
+      name: 'Miguel',
+      surname: 'Camargo',
+      phone: '3125270304',
+      cell_phone: '3125270304',
+      date_of_birth: '1991-10-03',
+      address: 'CArrera 116B # 78B 62',
+      city: null,
+      country: null,
+      gender: Gender.MASCULINO,
+      document_type: null,
+      document_number: '12341234',
+      doctor_specialties: [],
+      enabled: false,
+      enabled_date: '20203-02-01',
+      cases: [],
+      virt_country: null,
+      virt_city: null,
+      fav_language: Language.ENGLISH,
+    };
+    await doctorRepository.save(doctor1);
   };
 
   it('should create case', async () => {
@@ -144,5 +186,18 @@ describe('CaseService', () => {
     );
     expect(caseInstance).not.toBeNull();
     expect(caseInstance.injury.id).toEqual(injury1.id);
+  });
+
+  it('should asign case to a doctor', async () => {
+    const caseData = {
+      ...case1,
+      ...{ doctor: doctor1 },
+    };
+    const caseInstance: Case = await caseService.asignCase(
+      case1.id,
+      caseData,
+      doctor1,
+    );
+    expect(caseInstance.doctor.id).toEqual(doctor1.id);
   });
 });
