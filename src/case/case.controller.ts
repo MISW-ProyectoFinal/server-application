@@ -20,6 +20,7 @@ import { UpdateCaseDto } from './dto/update-case.dto';
 import { Case } from './entities/case.entity';
 import { Doctor } from './../doctor/entities/doctor.entity';
 import { DoctorService } from './../doctor/doctor.service';
+import { CaseStatus } from './../case_status/case_status.enum';
 
 @Controller('case')
 export class CaseController {
@@ -71,7 +72,10 @@ export class CaseController {
     const { doctorId } = req.user;
     const doctor: Doctor = await this.doctorService.findOne(doctorId);
 
-    const updateCaseDto: UpdateCaseDto = { doctor: doctor };
+    const updateCaseDto: UpdateCaseDto = {
+      doctor: doctor,
+      case_status: CaseStatus.EN_PROCESO,
+    };
     const caseInstance: Case = plainToInstance(Case, updateCaseDto);
     return await this.caseService.asignCase(id, caseInstance, doctor);
   }

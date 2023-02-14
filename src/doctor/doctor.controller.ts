@@ -11,12 +11,13 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { LocalAuthGuard } from 'src/auth/guards/local-auth.guard';
 import { BusinessErrorsInterceptor } from 'src/shared/interceptors/business-errors.interceptor';
 import { AuthService } from '../auth/auth.service';
 import { DoctorService } from './doctor.service';
 import { CreateDoctorDto } from './dto/create-doctor.dto';
-// import { UpdateDoctorDto } from './dto/update-doctor.dto';
+import { UpdateDoctorDto } from './dto/update-doctor.dto';
 import { Doctor } from './entities/doctor.entity';
 
 @Controller('doctor')
@@ -43,15 +44,16 @@ export class DoctorController {
     return this.doctorService.findOne(id);
   }
 
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateDoctorDto: UpdateDoctorDto) {
-  //   return this.doctorService.update(+id, updateDoctorDto);
-  // }
-
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.doctorService.remove(+id);
-  // }
+  @UseGuards(JwtAuthGuard)
+  @Patch('update-preferences')
+  async updatePreferences(
+    @Req() req: any,
+    @Body() updateDoctorDto: UpdateDoctorDto,
+  ) {
+    const { doctorId } = req.user;
+    const doctorData: Doctor = plainToInstance(Doctor, updateDoctorDto);
+    return await this.doctorService.update(doctorId, doctorData);
+  }
 
   //METODOS PROPIOS
   @UseGuards(LocalAuthGuard)

@@ -5,15 +5,12 @@ import {
   Body,
   Patch,
   Param,
-  Delete,
   UseInterceptors,
   Req,
   UseGuards,
-  UploadedFile,
 } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { AuthService } from '../auth/auth.service';
-import { LoginUserDto } from '../user/dto/login-user.dto';
 import { PatientService } from './patient.service';
 import { CreatePatientDto } from './dto/create-patient.dto';
 import { UpdatePatientDto } from './dto/update-patient.dto';
@@ -66,11 +63,6 @@ export class PatientController {
   ) {
     const patient: Patient = plainToInstance(Patient, updatePatientDto);
     return await this.patientService.update(id, patient);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.patientService.remove(+id);
   }
 
   //METODOS PROPIOS

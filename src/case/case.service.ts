@@ -36,9 +36,10 @@ export class CaseService {
   }
 
   async findAll(doctor: Doctor, statusName: string): Promise<Case[]> {
-    if (statusName == 'Pendiente') {
+    if (statusName == 'pending') {
       return await this.caseRepository.find({
         where: { case_status: CaseStatus.PENDIENTE },
+        relations: ['injury'],
       });
     } else {
       if (!doctor) {
@@ -49,7 +50,8 @@ export class CaseService {
       }
 
       return await this.caseRepository.find({
-        where: { doctor: doctor },
+        where: { doctor: { id: doctor.id } },
+        relations: ['injury'],
       });
     }
   }
@@ -57,6 +59,7 @@ export class CaseService {
   async findOne(id: string) {
     const caseInstance = await this.caseRepository.findOne({
       where: { id: id },
+      relations: ['injury'],
     });
 
     if (!caseInstance) {
@@ -83,6 +86,7 @@ export class CaseService {
 
     const caseToUpdate = await this.caseRepository.findOne({
       where: { id: id },
+      relations: ['doctor'],
     });
 
     if (!caseToUpdate) {
@@ -90,6 +94,13 @@ export class CaseService {
         'Caso no encontrado',
         BusinessError.NOT_FOUND,
       );
+    } else {
+      if (caseToUpdate.doctor) {
+        throw new BusinessLogicException(
+          'El caso ya tiene asignado un doctor',
+          BusinessError.PRECONDITION_FAILED,
+        );
+      }
     }
 
     return await this.caseRepository.save({
