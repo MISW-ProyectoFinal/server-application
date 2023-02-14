@@ -4,6 +4,7 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
   OneToMany,
+  JoinColumn,
 } from 'typeorm';
 import { PaymentStatus } from './../../payment_status/payment_status.enum';
 import { CaseStatus } from './../../case_status/case_status.enum';
@@ -68,7 +69,8 @@ export class Case {
   })
   currency_type: CurrencyType;
 
-  @ManyToOne(() => Doctor, (doctor) => doctor.cases)
+  @ManyToOne(() => Doctor, (doctor) => doctor.cases, { eager: true })
+  @JoinColumn()
   doctor: Doctor;
 
   @ManyToOne(() => Injury, (injury) => injury.cases)

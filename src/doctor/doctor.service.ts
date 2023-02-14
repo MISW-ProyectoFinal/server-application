@@ -59,13 +59,23 @@ export class DoctorService {
     return doctor;
   }
 
-  // update(id: number, updateDoctorDto: UpdateDoctorDto) {
-  //   return `This action updates a #${id} ${updateDoctorDto.name} user`;
-  // }
+  async update(id: string, updateDoctor: Doctor): Promise<Doctor> {
+    const doctor = await this.doctorRepository.findOne({
+      where: { id: id },
+    });
 
-  // remove(id: number) {
-  //   return `This action removes a #${id} doctor`;
-  // }
+    if (!doctor) {
+      throw new BusinessLogicException(
+        'Doctor no encontrado',
+        BusinessError.NOT_FOUND,
+      );
+    }
+
+    return await this.doctorRepository.save({
+      ...doctor,
+      ...updateDoctor,
+    });
+  }
 
   async findByEmail(email: string): Promise<Doctor> {
     const doctor = await this.doctorRepository.findOne({
