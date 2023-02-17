@@ -47,7 +47,8 @@ export class DoctorService {
 
   async findOne(id: string) {
     const doctor = await this.doctorRepository.findOne({
-      where: { id: id },
+      where: { id },
+      relations: ['country', 'city', 'virt_country', 'virt_city'],
     });
     if (!doctor) {
       throw new BusinessLogicException(
