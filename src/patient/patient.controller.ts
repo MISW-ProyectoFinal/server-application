@@ -79,6 +79,20 @@ export class PatientController {
     @Body() infoDermoDto: InfoDermoDto,
   ) {
     const { id } = req.user;
+
+    let skinSaved = true;
+    if (infoDermoDto.skin_type != null) {
+      const patient: Patient = plainToInstance(Patient, {
+        skin_type: infoDermoDto.skin_type,
+      });
+      const saveSkinType = await this.patientService.update(id, patient);
+      skinSaved = saveSkinType ? true : false;
+    }
+
+    // Ensure that infoDermoDto.allergyId values are unique
+    infoDermoDto.allergyId = [...new Set(infoDermoDto.allergyId)];
+    infoDermoDto.illnessId = [...new Set(infoDermoDto.illnessId)];
+
     const saveAllergy = await this.patientAllergyService.create(
       id,
       infoDermoDto.allergyId,
@@ -88,7 +102,7 @@ export class PatientController {
       infoDermoDto.illnessId,
     );
 
-    if (saveAllergy && saveIllness) {
+    if (saveAllergy && saveIllness && skinSaved) {
       return { msj: 'CREATED' };
     } else {
       throw new BusinessLogicException(

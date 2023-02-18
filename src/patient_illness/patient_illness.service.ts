@@ -43,6 +43,7 @@ export class PatientIllnessService {
     }
 
     patient.illnesses = illnesses;
+    await this.patientRepository.save(patient);
     return true;
   }
 
