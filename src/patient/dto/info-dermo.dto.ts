@@ -1,8 +1,7 @@
-import { IsString, IsNotEmpty, IsEnum, IsArray } from "class-validator";
-import { SkinType } from "src/skin_type/skin_type.enum";
+import { IsString, IsNotEmpty, IsEnum, IsArray } from 'class-validator';
+import { SkinType } from 'src/skin_type/skin_type.enum';
 
-export class InfoDermoDto  {
-  
+export class InfoDermoDto {
   @IsArray()
   @IsNotEmpty()
   @IsString({ each: true })
@@ -17,6 +16,4 @@ export class InfoDermoDto  {
   @IsNotEmpty()
   @IsEnum(SkinType)
   skin_type: SkinType;
-
-
 }

@@ -84,7 +84,7 @@ export class CaseService {
     return `This action updates a #${id} case`;
   }
 
-  async asignCase(id: string, caseData: Case, doctorId: string): Promise<Case> {
+  async assignCase(id: string, caseData: Case, doctorId: string): Promise<Case> {
 
     const doctor = await this.doctorRepository.findOne({
       where: { id: `${doctorId}` },
