@@ -196,8 +196,75 @@ describe('CaseService', () => {
     const caseInstance: Case = await caseService.asignCase(
       case1.id,
       caseData,
-      doctor1,
+      doctor1.id,
     );
     expect(caseInstance.doctor.id).toEqual(doctor1.id);
   });
+
+  
+  it('should find all', async () => {
+    const caseData = {
+      ...case1,
+      ...{ doctor: doctor1 },
+    };
+   
+    const allCase: Case[] = await caseService.findAll(
+      doctor1.id,
+      CaseStatus.PENDIENTE,
+    );
+    expect(allCase).not.toBeNull();
+  });
+
+  it('should not find all', async () => {
+    const caseData = {
+      ...case1,
+      ...{ doctor: doctor1 },
+    };
+   
+    try {
+      await caseService.findAll(
+        faker.datatype.uuid(),
+        CaseStatus.PENDIENTE,
+      );
+    } catch (error) {
+      expect(error.message).toBe('El doctor no pudo ser encontrado');
+    }
+  });
+
+  it('should not asign case to a doctor', async () => {
+    const caseData = {
+      ...case1,
+      ...{ doctor: doctor1 },
+    };
+ 
+    
+    try {
+      await caseService.asignCase(
+        case1.id,
+        caseData,
+        faker.datatype.uuid(),
+      );
+    } catch (error) {
+      expect(error.message).toBe('Doctor no encontrado');
+    }
+  });
+
+  it('should not find one case', async () => {
+    try {
+      await caseService.findOne(
+        faker.datatype.uuid()
+      );
+    } catch (error) {
+      expect(error.message).toBe('No se logra encontrar el caso en el sistema');
+    }
+  });
+
+  it('should find one case', async () => {
+
+    const caseFind: Case = await caseService.findOne(
+      case1.id
+    );
+    expect(caseFind).not.toBeNull();
+  });
+
 });

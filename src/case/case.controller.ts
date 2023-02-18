@@ -52,7 +52,7 @@ export class CaseController {
     const { id } = req.user;
     const doctor: Doctor = await this.doctorService.findOne(id);
 
-    return await this.caseService.findAll(doctor, statusName);
+    return await this.caseService.findAll(id, statusName);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -77,6 +77,6 @@ export class CaseController {
       case_status: CaseStatus.EN_PROCESO,
     };
     const caseInstance: Case = plainToInstance(Case, updateCaseDto);
-    return await this.caseService.asignCase(id, caseInstance, doctor);
+    return await this.caseService.asignCase(id, caseInstance, doctorId);
   }
 }

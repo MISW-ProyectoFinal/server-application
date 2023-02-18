@@ -18,6 +18,9 @@ export class CaseService {
   constructor(
     @InjectRepository(Case)
     private readonly caseRepository: Repository<Case>,
+
+    @InjectRepository(Doctor)
+    private readonly doctorRepository: Repository<Doctor>
   ) {}
 
   async create(
@@ -35,7 +38,12 @@ export class CaseService {
     return await this.caseRepository.save(createCase);
   }
 
-  async findAll(doctor: Doctor, statusName: string): Promise<Case[]> {
+  async findAll(doctorId: string, statusName: string): Promise<Case[]> {
+
+    const doctor = await this.doctorRepository.findOne({
+      where: { id: `${doctorId}` },
+    });
+
     if (statusName == 'pending') {
       return await this.caseRepository.find({
         where: { case_status: CaseStatus.PENDIENTE },
@@ -76,7 +84,12 @@ export class CaseService {
     return `This action updates a #${id} case`;
   }
 
-  async asignCase(id: string, caseData: Case, doctor: Doctor): Promise<Case> {
+  async asignCase(id: string, caseData: Case, doctorId: string): Promise<Case> {
+
+    const doctor = await this.doctorRepository.findOne({
+      where: { id: `${doctorId}` },
+    });
+
     if (!doctor) {
       throw new BusinessLogicException(
         'Doctor no encontrado',
