@@ -188,12 +188,12 @@ describe('CaseService', () => {
     expect(caseInstance.injury.id).toEqual(injury1.id);
   });
 
-  it('should asign case to a doctor', async () => {
+  it('should assign case to a doctor', async () => {
     const caseData = {
       ...case1,
       ...{ doctor: doctor1 },
     };
-    const caseInstance: Case = await caseService.asignCase(
+    const caseInstance: Case = await caseService.assignCase(
       case1.id,
       caseData,
       doctor1,

@@ -76,7 +76,7 @@ export class CaseService {
     return `This action updates a #${id} case`;
   }
 
-  async asignCase(id: string, caseData: Case, doctor: Doctor): Promise<Case> {
+  async assignCase(id: string, caseData: Case, doctor: Doctor): Promise<Case> {
     if (!doctor) {
       throw new BusinessLogicException(
         'Doctor no encontrado',
