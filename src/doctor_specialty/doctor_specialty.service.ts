@@ -60,9 +60,25 @@ export class DoctorSpecialtyService {
     return doctorSpecialty;
   }
 
-  // update(id: number, updateDoctorSpecialtyDto: UpdateDoctorSpecialtyDto) {
-  //   return `This action updates a #${id} specialtyDoctor`;
-  // }
+  async update(
+    id: string,
+    updateDoctorSpecialtyDto: DoctorSpecialty,
+  ): Promise<DoctorSpecialty> {
+    const doctorSpecialty = await this.doctorSpecialtyRepository.findOne({
+      where: { id: id },
+    });
+    if (!doctorSpecialty) {
+      throw new BusinessLogicException(
+        'Especialidad no encontrada',
+        BusinessError.NOT_FOUND,
+      );
+    }
+
+    return await this.doctorSpecialtyRepository.save({
+      ...doctorSpecialty,
+      ...updateDoctorSpecialtyDto,
+    });
+  }
 
   // remove(id: number) {
   //   return `This action removes a #${id} specialtyDoctor`;

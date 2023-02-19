@@ -18,7 +18,7 @@
     "test:doctor": "jest --verbose ./src/doctor/",
     "test:watch": "jest --watch",
     "test:ci": "jest --coverage --runInBand --ci",
-    "test:cov": "jest --coverage --verbose \"{src}/**/*.service.spec.ts\"",
+    "test:cov": "jest --coverage --verbose \"./src/**/*.service.spec.ts\"",
     "test:cov:doctor": "jest --verbose ./src/doctor/ --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json"
