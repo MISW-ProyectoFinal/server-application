@@ -86,7 +86,7 @@ export class CaseController {
   @UseGuards(JwtAuthGuard)
   @Patch('assign/:id')
   async assignCase(@Req() req: any, @Param('id') id: string) {
-    const { doctorId } = req.user;
+    const doctorId = req.user.id;
     const doctor: Doctor = await this.doctorService.findOne(doctorId);
 
     const updateCaseDto: UpdateCaseDto = {
