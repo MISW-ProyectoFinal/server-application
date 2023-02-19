@@ -46,7 +46,7 @@ export class CaseService {
     if (statusName == 'pending') {
       return await this.caseRepository.find({
         where: { case_status: CaseStatus.PENDIENTE },
-        relations: ['injury','injury.photos','injury.patient'],
+        relations: ['injury', 'injury.photos', 'injury.patient'],
       });
     } else {
       if (!doctor) {
@@ -58,7 +58,7 @@ export class CaseService {
 
       return await this.caseRepository.find({
         where: { doctor: { id: doctor.id } },
-        relations: ['injury','injury.photos','injury.patient'],
+        relations: ['injury', 'injury.photos', 'injury.patient'],
       });
     }
   }
