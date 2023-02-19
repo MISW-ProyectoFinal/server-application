@@ -98,6 +98,13 @@ export class InjuryController {
     return await this.injuryService.findOne(id);
   }
 
+  @UseGuards(JwtAuthGuard)
+  @Get()
+  async findAll(@Req() req: any) {
+    const { id } = req.user;
+    return await this.injuryService.findAll(id);
+  }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateInjuryDto: UpdateInjuryDto) {
     return this.injuryService.update(+id, updateInjuryDto);

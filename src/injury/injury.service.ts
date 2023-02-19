@@ -35,6 +35,23 @@ export class InjuryService {
     return injury;
   }
 
+  async findAll(patientId: string) {
+    const injuries = await this.injuryRepository.find({
+      where: {
+        patient: { id: patientId },
+      },
+    });
+
+    if (!injuries) {
+      throw new BusinessLogicException(
+        'No se logra encontrar al paciente en el sistema',
+        BusinessError.NOT_FOUND,
+      );
+    }
+
+    return injuries;
+  }
+
   update(id: number, updateInjuryDto: UpdateInjuryDto) {
     return `This action updates a #${id} injury`;
   }
