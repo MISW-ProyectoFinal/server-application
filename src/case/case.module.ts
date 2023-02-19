@@ -9,10 +9,11 @@ import { Injury } from './../injury/entities/injury.entity';
 import { DoctorService } from './../doctor/doctor.service';
 import { PatientService } from './../patient/patient.service';
 import { InjuryService } from './../injury/injury.service';
+import { AzureBlobService } from 'src/shared/services/azure-blob.service';
 
 @Module({
   controllers: [CaseController],
-  providers: [PatientService, DoctorService, InjuryService, CaseService],
+  providers: [PatientService, DoctorService, InjuryService, CaseService,AzureBlobService],
   imports: [TypeOrmModule.forFeature([Patient, Doctor, Injury, Case])],
 })
 export class CaseModule {}

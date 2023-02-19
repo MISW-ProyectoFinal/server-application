@@ -21,14 +21,19 @@ import { Case } from './entities/case.entity';
 import { Doctor } from './../doctor/entities/doctor.entity';
 import { DoctorService } from './../doctor/doctor.service';
 import { CaseStatus } from './../case_status/case_status.enum';
+import { AzureBlobService } from 'src/shared/services/azure-blob.service';
 
 @Controller('case')
 export class CaseController {
+
+  containerName = 'injuries';
+
   constructor(
     private readonly caseService: CaseService,
     private readonly injuryService: InjuryService,
     private readonly patientService: PatientService,
     private readonly doctorService: DoctorService,
+    private readonly azureBlobService: AzureBlobService,
   ) {}
 
   @UseGuards(JwtAuthGuard)
@@ -50,9 +55,23 @@ export class CaseController {
   @Get('/bystatus/:statusName')
   async findAll(@Req() req: any, @Param('statusName') statusName: string) {
     const { id } = req.user;
-    const doctor: Doctor = await this.doctorService.findOne(id);
+    const rta = await this.caseService.findAll(id, statusName);
 
-    return await this.caseService.findAll(id, statusName);
+    let cases = rta.map((myCase)=>{
+      
+      let photo = myCase.injury.photos.map((photo)=>{
+        const filePath = this.azureBlobService.getfilePath(
+          photo.file_name,
+          this.containerName,
+        );
+        photo.file_name = filePath.url;
+        return photo;
+      })
+      
+      myCase.injury.photos = photo;
+      return myCase;
+    })
+    return cases
   }
 
   @UseGuards(JwtAuthGuard)

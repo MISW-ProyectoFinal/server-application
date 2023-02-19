@@ -10,6 +10,7 @@ import { PatientService } from './../patient/patient.service';
 import { AzureBlobService } from './../shared/services/azure-blob.service';
 import { Case } from './../case/entities/case.entity';
 import { CaseService } from './../case/case.service';
+import { Doctor } from 'src/doctor/entities/doctor.entity';
 
 @Module({
   controllers: [InjuryController],
@@ -20,6 +21,6 @@ import { CaseService } from './../case/case.service';
     CaseService,
     AzureBlobService,
   ],
-  imports: [TypeOrmModule.forFeature([Patient, Injury, InjuryPhoto, Case])],
+  imports: [TypeOrmModule.forFeature([Patient, Injury, InjuryPhoto, Case,Doctor])],
 })
 export class InjuryModule {}
