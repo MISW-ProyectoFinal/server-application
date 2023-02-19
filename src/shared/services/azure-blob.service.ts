@@ -57,4 +57,10 @@ export class AzureBlobService {
     const blobDownloaded = await blobClient.download();
     return blobDownloaded.readableStreamBody;
   }
+
+  getfilePath(fileName: string, containerName: string) {
+    this.containerName = containerName;
+    const blobClient = this.getBlobClient(fileName);
+    return blobClient;
+  }
 }

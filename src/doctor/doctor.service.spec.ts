@@ -160,13 +160,13 @@ describe('DoctorService', () => {
   });
 
   it('Should not update doctor', async () => {
-    let updateDoctorDto = {
-      cell_phone:"+57855454655"
-    }
+    const updateDoctorDto = {
+      cell_phone: '+57855454655',
+    };
     const doctorData: Doctor = plainToInstance(Doctor, updateDoctorDto);
 
     try {
-      await service.update(faker.datatype.uuid(),doctorData);
+      await service.update(faker.datatype.uuid(), doctorData);
     } catch (error) {
       console.log(error);
       expect(error.message).toBe('Doctor no encontrado');
@@ -174,12 +174,10 @@ describe('DoctorService', () => {
   });
 
   it('Should not find doctor by email', async () => {
-   
     try {
       await service.findByEmail(faker.internet.email());
     } catch (error) {
       expect(error.message).toBe('El doctor que esta buscando no existe');
     }
   });
-
 });
