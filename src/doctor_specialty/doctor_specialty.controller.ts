@@ -5,30 +5,25 @@ import {
   Body,
   Patch,
   Param,
-  Delete,
   UseInterceptors,
   UploadedFile,
   UseGuards,
   Req,
   Header,
-  Query,
   Res,
 } from '@nestjs/common';
 import { DoctorSpecialtyService } from './doctor_specialty.service';
 import { CreateDoctorSpecialtyDto } from './dto/create-doctor_specialty.dto';
 import { UpdateDoctorSpecialtyDto } from './dto/update-doctor_specialty.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
-import path = require('path');
-import { diskStorage, Multer } from 'multer';
-import { v4 as uuidv4 } from 'uuid';
 import { Express } from 'express';
 import { DoctorSpecialty } from './entities/doctor_specialty.entity';
 import { plainToInstance } from 'class-transformer';
-import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-import { BusinessErrorsInterceptor } from 'src/shared/interceptors/business-errors.interceptor';
-import { DoctorService } from 'src/doctor/doctor.service';
-import { Doctor } from 'src/doctor/entities/doctor.entity';
-import { AzureBlobService } from 'src/shared/services/azure-blob.service';
+import { JwtAuthGuard } from './../auth/guards/jwt-auth.guard';
+import { BusinessErrorsInterceptor } from './../shared/interceptors/business-errors.interceptor';
+import { DoctorService } from './../doctor/doctor.service';
+import { Doctor } from './../doctor/entities/doctor.entity';
+import { AzureBlobService } from './../shared/services/azure-blob.service';
 
 @Controller('specialty-doctor')
 @UseInterceptors(BusinessErrorsInterceptor)
@@ -90,6 +85,18 @@ export class DoctorSpecialtyController {
   // ) {
   //   return this.specialtyDoctorService.update(+id, updateDoctorSpecialtyDto);
   // }
+
+  @Patch('authorize/:id')
+  async authorize(@Param('id') id: string) {
+    const updateDoctorSpecialtyDto: UpdateDoctorSpecialtyDto = {
+      authorized: true,
+    };
+    const doctorSpecialty: DoctorSpecialty = plainToInstance(
+      DoctorSpecialty,
+      updateDoctorSpecialtyDto,
+    );
+    return await this.specialtyDoctorService.update(id, doctorSpecialty);
+  }
 
   // @Delete(':id')
   // remove(@Param('id') id: string) {

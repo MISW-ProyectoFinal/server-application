@@ -146,4 +146,17 @@ describe('DoctorSpecialtyService', () => {
     const specialtyDoctor: DoctorSpecialty[] = await service.findAll(doctor);
     expect(specialtyDoctor).not.toBeNull();
   });
+
+  it('should authorize a specialtyDoctor', async () => {
+    let doctorSpecialtyToUpdate: DoctorSpecialty = {
+      ...specialities_doctor,
+      authorized: true,
+    };
+
+    doctorSpecialtyToUpdate = await service.update(
+      doctorSpecialtyToUpdate.id,
+      doctorSpecialtyToUpdate,
+    );
+    expect(doctorSpecialtyToUpdate.authorized).toEqual(true);
+  });
 });
