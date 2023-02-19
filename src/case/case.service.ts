@@ -20,7 +20,7 @@ export class CaseService {
     private readonly caseRepository: Repository<Case>,
 
     @InjectRepository(Doctor)
-    private readonly doctorRepository: Repository<Doctor>
+    private readonly doctorRepository: Repository<Doctor>,
   ) {}
 
   async create(
@@ -39,7 +39,6 @@ export class CaseService {
   }
 
   async findAll(doctorId: string, statusName: string): Promise<Case[]> {
-
     const doctor = await this.doctorRepository.findOne({
       where: { id: `${doctorId}` },
     });
@@ -47,7 +46,7 @@ export class CaseService {
     if (statusName == 'pending') {
       return await this.caseRepository.find({
         where: { case_status: CaseStatus.PENDIENTE },
-        relations: ['injury','injury.photos','injury.patient'],
+        relations: ['injury', 'injury.photos', 'injury.patient'],
       });
     } else {
       if (!doctor) {
@@ -59,7 +58,7 @@ export class CaseService {
 
       return await this.caseRepository.find({
         where: { doctor: { id: doctor.id } },
-        relations: ['injury','injury.photos','injury.patient'],
+        relations: ['injury', 'injury.photos', 'injury.patient'],
       });
     }
   }
@@ -84,8 +83,11 @@ export class CaseService {
     return `This action updates a #${id} case`;
   }
 
-  async assignCase(id: string, caseData: Case, doctorId: string): Promise<Case> {
-
+  async assignCase(
+    id: string,
+    caseData: Case,
+    doctorId: string,
+  ): Promise<Case> {
     const doctor = await this.doctorRepository.findOne({
       where: { id: `${doctorId}` },
     });

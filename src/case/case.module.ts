@@ -13,7 +13,13 @@ import { AzureBlobService } from 'src/shared/services/azure-blob.service';
 
 @Module({
   controllers: [CaseController],
-  providers: [PatientService, DoctorService, InjuryService, CaseService,AzureBlobService],
+  providers: [
+    PatientService,
+    DoctorService,
+    InjuryService,
+    CaseService,
+    AzureBlobService,
+  ],
   imports: [TypeOrmModule.forFeature([Patient, Doctor, Injury, Case])],
 })
 export class CaseModule {}

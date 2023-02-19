@@ -25,7 +25,6 @@ import { AzureBlobService } from 'src/shared/services/azure-blob.service';
 
 @Controller('case')
 export class CaseController {
-
   containerName = 'injuries';
 
   constructor(
@@ -57,21 +56,20 @@ export class CaseController {
     const { id } = req.user;
     const rta = await this.caseService.findAll(id, statusName);
 
-    let cases = rta.map((myCase)=>{
-      
-      let photo = myCase.injury.photos.map((photo)=>{
+    const cases = rta.map((myCase) => {
+      const photo = myCase.injury.photos.map((photo) => {
         const filePath = this.azureBlobService.getfilePath(
           photo.file_name,
           this.containerName,
         );
         photo.file_name = filePath.url;
         return photo;
-      })
-      
+      });
+
       myCase.injury.photos = photo;
       return myCase;
-    })
-    return cases
+    });
+    return cases;
   }
 
   @UseGuards(JwtAuthGuard)

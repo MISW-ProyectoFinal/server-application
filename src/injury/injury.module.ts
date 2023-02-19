@@ -21,6 +21,8 @@ import { Doctor } from 'src/doctor/entities/doctor.entity';
     CaseService,
     AzureBlobService,
   ],
-  imports: [TypeOrmModule.forFeature([Patient, Injury, InjuryPhoto, Case,Doctor])],
+  imports: [
+    TypeOrmModule.forFeature([Patient, Injury, InjuryPhoto, Case, Doctor]),
+  ],
 })
 export class InjuryModule {}
