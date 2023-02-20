@@ -66,7 +66,7 @@ export class CaseService {
   async findOne(id: string) {
     const caseInstance = await this.caseRepository.findOne({
       where: { id: id },
-      relations: ['injury'],
+      relations: ['injury', 'injury.photos', 'injury.patient'],
     });
 
     if (!caseInstance) {

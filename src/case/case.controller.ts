@@ -75,7 +75,19 @@ export class CaseController {
   @UseGuards(JwtAuthGuard)
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    return await this.caseService.findOne(id);
+    const rta = await this.caseService.findOne(id);
+
+    const photo = rta.injury.photos.map((photo) => {
+      const filePath = this.azureBlobService.getfilePath(
+        photo.file_name,
+        this.containerName,
+      );
+      photo.file_name = filePath.url;
+      return photo;
+    });
+
+    rta.injury.photos = photo;
+    return rta;
   }
 
   @Patch(':id')
