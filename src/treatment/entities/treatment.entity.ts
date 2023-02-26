@@ -16,11 +16,13 @@ export class Treatment {
 
   @Column({
     type: 'date',
+    default: new Date(),
   })
   start_date: string;
 
   @Column({
     type: 'date',
+    default: null,
   })
   end_date: string;
 
