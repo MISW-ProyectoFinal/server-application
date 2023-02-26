@@ -252,4 +252,32 @@ describe('CaseService', () => {
     const caseFind: Case = await caseService.findOne(case1.id);
     expect(caseFind).not.toBeNull();
   });
+
+  it('should accept a request to take case by a doctor', async () => {
+    const caseData = {
+      ...case1,
+      ...{ case_status: CaseStatus.EN_PROCESO },
+    };
+    const caseInstance: Case = await caseService.answerRequest(
+      case1.id,
+      caseData,
+      patient1.id,
+    );
+    expect(caseInstance.case_status).toEqual(caseData.case_status);
+    expect(caseInstance.doctor).toEqual(caseData.doctor);
+  });
+
+  it('should refuse a request to take case by a doctor', async () => {
+    const caseData = {
+      ...case1,
+      ...{ case_status: CaseStatus.PENDIENTE, doctor: null },
+    };
+    const caseInstance: Case = await caseService.answerRequest(
+      case1.id,
+      caseData,
+      patient1.id,
+    );
+    expect(caseInstance.case_status).toEqual(caseData.case_status);
+    expect(caseInstance.doctor).toEqual(null);
+  });
 });

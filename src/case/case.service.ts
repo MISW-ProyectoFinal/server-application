@@ -21,6 +21,9 @@ export class CaseService {
 
     @InjectRepository(Doctor)
     private readonly doctorRepository: Repository<Doctor>,
+
+    @InjectRepository(Patient)
+    private readonly patientRepository: Repository<Patient>,
   ) {}
 
   async create(
@@ -113,6 +116,47 @@ export class CaseService {
       if (caseToUpdate.doctor) {
         throw new BusinessLogicException(
           'El caso ya tiene asignado un doctor',
+          BusinessError.PRECONDITION_FAILED,
+        );
+      }
+    }
+
+    return await this.caseRepository.save({
+      ...caseToUpdate,
+      ...caseData,
+    });
+  }
+
+  async answerRequest(
+    id: string,
+    caseData: Case,
+    patientId: string,
+  ): Promise<Case> {
+    const patient = await this.patientRepository.findOne({
+      where: { id: `${patientId}` },
+    });
+
+    if (!patient) {
+      throw new BusinessLogicException(
+        'Paciente no encontrado',
+        BusinessError.NOT_FOUND,
+      );
+    }
+
+    const caseToUpdate = await this.caseRepository.findOne({
+      where: { id: id },
+      relations: ['injury', 'injury.patient', 'injury.photos'],
+    });
+
+    if (!caseToUpdate) {
+      throw new BusinessLogicException(
+        'Caso no encontrado',
+        BusinessError.NOT_FOUND,
+      );
+    } else {
+      if (caseToUpdate.injury.patient.id != patient.id) {
+        throw new BusinessLogicException(
+          'El caso no pertenece al paciente',
           BusinessError.PRECONDITION_FAILED,
         );
       }
