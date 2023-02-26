@@ -11,7 +11,7 @@ import {
   BusinessLogicException,
 } from './../shared/errors/business-errors';
 import { Doctor } from './../doctor/entities/doctor.entity';
-import { doc } from 'prettier';
+import { CurrencyType } from './../currency_type/currency_type.enum';
 
 @Injectable()
 export class CaseService {
@@ -129,7 +129,7 @@ export class CaseService {
 
   async answerRequest(
     id: string,
-    caseData: Case,
+    requestAnswer: string,
     patientId: string,
   ): Promise<Case> {
     const patient = await this.patientRepository.findOne({
@@ -162,9 +162,16 @@ export class CaseService {
       }
     }
 
-    return await this.caseRepository.save({
-      ...caseToUpdate,
-      ...caseData,
-    });
+    if (requestAnswer == 'yes') {
+      caseToUpdate.case_status = CaseStatus.EN_PROCESO;
+    } else {
+      caseToUpdate.doctor = null;
+      caseToUpdate.case_status = CaseStatus.PENDIENTE;
+      caseToUpdate.cci = '';
+      caseToUpdate.amount = null;
+      caseToUpdate.currency_type = CurrencyType.USD;
+    }
+
+    return await this.caseRepository.save(caseToUpdate);
   }
 }

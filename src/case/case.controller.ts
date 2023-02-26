@@ -97,15 +97,19 @@ export class CaseController {
 
   @UseGuards(JwtAuthGuard)
   @Patch('assign/:id')
-  async assignCase(@Req() req: any, @Param('id') id: string) {
+  async assignCase(
+    @Req() req: any,
+    @Param('id') id: string,
+    @Body() updateCaseDto: UpdateCaseDto,
+  ) {
     const doctorId = req.user.id;
     const doctor: Doctor = await this.doctorService.findOne(doctorId);
 
-    const updateCaseDto: UpdateCaseDto = {
-      doctor: doctor,
-      case_status: CaseStatus.POR_CONFIRMAR,
-    };
     const caseInstance: Case = plainToInstance(Case, updateCaseDto);
+
+    caseInstance.doctor = doctor;
+    caseInstance.case_status = CaseStatus.POR_CONFIRMAR;
+
     return await this.caseService.assignCase(id, caseInstance, doctorId);
   }
 
@@ -117,16 +121,6 @@ export class CaseController {
     @Param('id') id: string,
   ) {
     const patientId = req.user.id;
-
-    const updateCaseDto: UpdateCaseDto =
-      requestAnswer == 'yes'
-        ? { case_status: CaseStatus.EN_PROCESO }
-        : {
-            doctor: null,
-            case_status: CaseStatus.PENDIENTE,
-          };
-
-    const caseInstance: Case = plainToInstance(Case, updateCaseDto);
-    return await this.caseService.answerRequest(id, caseInstance, patientId);
+    return await this.caseService.answerRequest(id, requestAnswer, patientId);
   }
 }
