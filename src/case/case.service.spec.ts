@@ -189,10 +189,18 @@ describe('CaseService', () => {
   });
 
   it('should assign case to a doctor', async () => {
+    case1.doctor = doctor1;
+    case1.case_status = CaseStatus.POR_CONFIRMAR;
+
     const caseData = {
       ...case1,
-      ...{ doctor: doctor1 },
+      ...{
+        cci: '1234567812341234',
+        amount: 6000000,
+        currency_type: CurrencyType.COP,
+      },
     };
+
     const caseInstance: Case = await caseService.assignCase(
       case1.id,
       caseData,
@@ -254,30 +262,27 @@ describe('CaseService', () => {
   });
 
   it('should accept a request to take case by a doctor', async () => {
-    const caseData = {
-      ...case1,
-      ...{ case_status: CaseStatus.EN_PROCESO },
-    };
+    case1.doctor = doctor1;
+    case1.case_status = CaseStatus.POR_CONFIRMAR;
+
     const caseInstance: Case = await caseService.answerRequest(
       case1.id,
-      caseData,
+      'yes',
       patient1.id,
     );
-    expect(caseInstance.case_status).toEqual(caseData.case_status);
-    expect(caseInstance.doctor).toEqual(caseData.doctor);
+    expect(caseInstance.case_status).toEqual(CaseStatus.EN_PROCESO);
   });
 
   it('should refuse a request to take case by a doctor', async () => {
-    const caseData = {
-      ...case1,
-      ...{ case_status: CaseStatus.PENDIENTE, doctor: null },
-    };
+    case1.doctor = doctor1;
+    case1.case_status = CaseStatus.POR_CONFIRMAR;
+
     const caseInstance: Case = await caseService.answerRequest(
       case1.id,
-      caseData,
+      'no',
       patient1.id,
     );
-    expect(caseInstance.case_status).toEqual(caseData.case_status);
+    expect(caseInstance.case_status).toEqual(CaseStatus.PENDIENTE);
     expect(caseInstance.doctor).toEqual(null);
   });
 });
