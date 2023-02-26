@@ -6,18 +6,39 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
+  Req,
 } from '@nestjs/common';
 import { TreatmentService } from './treatment.service';
 import { CreateTreatmentDto } from './dto/create-treatment.dto';
 import { UpdateTreatmentDto } from './dto/update-treatment.dto';
+import { JwtAuthGuard } from './../auth/guards/jwt-auth.guard';
+import { plainToInstance } from 'class-transformer';
+import { Treatment } from './entities/treatment.entity';
+import { CaseService } from './../case/case.service';
+import { PatientService } from './../patient/patient.service';
+import { DoctorService } from './../doctor/doctor.service';
 
 @Controller('treatment')
 export class TreatmentController {
-  constructor(private readonly treatmentService: TreatmentService) {}
+  constructor(
+    private readonly caseService: CaseService,
+    private readonly treatmentService: TreatmentService,
+    private readonly patientService: PatientService,
+    private readonly doctorService: DoctorService,
+  ) {}
 
-  @Post()
-  create(@Body() createTreatmentDto: CreateTreatmentDto) {
-    return this.treatmentService.create(createTreatmentDto);
+  @UseGuards(JwtAuthGuard)
+  @Post(':caseId')
+  async create(
+    @Req() req: any,
+    @Param('caseId') caseId: string,
+    @Body() createTreatmentDto: CreateTreatmentDto,
+  ) {
+    const doctorId = req.user.id;
+    const treatment: Treatment = plainToInstance(Treatment, createTreatmentDto);
+
+    return await this.treatmentService.create(treatment, caseId, doctorId);
   }
 
   @Get()
@@ -25,9 +46,10 @@ export class TreatmentController {
     return this.treatmentService.findAll();
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.treatmentService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    return await this.treatmentService.findOne(id);
   }
 
   @Patch(':id')
