@@ -110,4 +110,61 @@ describe('InjuryService', () => {
     expect(injury).not.toBeNull();
     expect(injury.location).toEqual('Espalda');
   });
+
+  it('should find injury', async () => {
+    const injuryToCreate: Injury = {
+      id: faker.datatype.uuid(),
+      type: InjuryType.AMPOLLA,
+      shape: InjuryShape.ANILLO,
+      number: 2,
+      distribution: InjuryDistribution.ASIMETRICA,
+      description: faker.lorem.paragraph(),
+      color: faker.color.human(),
+      location: 'Espalda',
+      symptoms: [],
+      cases: [],
+      treatments: [],
+      photos: [],
+      automatic_cases: [],
+      patient: patient1,
+    };
+    const injury: Injury = await injuryService.create(injuryToCreate);
+    const findInjury  = await injuryService.findOne(injury.id);
+    expect(findInjury).not.toBeNull();
+  });
+
+  it('should not find all injury by patient', async () => {
+    
+    try {
+      await injuryService.findAll(patient1.id);
+    } catch (error) {
+      expect(error.message).toBe('No se logra encontrar al paciente en el sistema');
+    }
+    
+  });
+
+  it('should find all injury by patient', async () => {
+    
+    const injuryToCreate: Injury = {
+      id: faker.datatype.uuid(),
+      type: InjuryType.AMPOLLA,
+      shape: InjuryShape.ANILLO,
+      number: 2,
+      distribution: InjuryDistribution.ASIMETRICA,
+      description: faker.lorem.paragraph(),
+      color: faker.color.human(),
+      location: 'Espalda',
+      symptoms: [],
+      cases: [],
+      treatments: [],
+      photos: [],
+      automatic_cases: [],
+      patient: patient1,
+    };
+    await injuryService.create(injuryToCreate);
+    const findInjury  = await injuryService.findAll(patient1.id);
+    expect(findInjury).not.toBeNull();
+    
+  });
+
 });
