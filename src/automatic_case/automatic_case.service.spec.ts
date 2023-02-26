@@ -129,4 +129,43 @@ describe('AutomaticCaseService', () => {
     expect(automaticCase).not.toBeNull();
     expect(automaticCase.injury.id).toEqual(injury1.id);
   });
+
+
+  it('should find one automatic case', async () => {
+    const automaticCaseToCreate: AutomaticCase = {
+      id: faker.datatype.uuid(),
+      case_status: CaseStatus.PENDIENTE,
+      generated_date: '2023-02-01',
+      automatic_diagnoses: [],
+      injury: null,
+    };
+    const automaticCase: AutomaticCase = await automaticCaseService.create(
+      automaticCaseToCreate,
+      injury1,
+      patient1,
+    );
+
+    const findAutomaticCase: AutomaticCase = await automaticCaseService.findOne(automaticCase.id)
+    expect(findAutomaticCase).not.toBeNull();
+  });
+
+
+  it('should find all automatic case', async () => {
+    const automaticCaseToCreate: AutomaticCase = {
+      id: faker.datatype.uuid(),
+      case_status: CaseStatus.PENDIENTE,
+      generated_date: '2023-02-01',
+      automatic_diagnoses: [],
+      injury: null,
+    };
+    const automaticCase: AutomaticCase = await automaticCaseService.create(
+      automaticCaseToCreate,
+      injury1,
+      patient1,
+    );
+
+    const findAllAutomaticCase: AutomaticCase[] = await automaticCaseService.findAll("Pendiente")
+    expect(findAllAutomaticCase).not.toBeNull();
+  });
+
 });

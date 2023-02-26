@@ -165,4 +165,13 @@ describe('PatientService', () => {
     expect(patientToUpdate.virt_city).toEqual(city1);
     expect(patientToUpdate.virt_country).toEqual(country1);
   });
+
+  it('should find patient by email', async () => {
+    
+
+    const patient = await service.findByEmail(initialPatient.email);
+    expect(patient.id).toEqual(initialPatient.id);
+    expect(patient.email).toEqual(initialPatient.email);
+  });
+
 });
