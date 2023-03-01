@@ -16,7 +16,7 @@ export class Treatment {
 
   @Column({
     type: 'date',
-    default: new Date(),
+    default: null,
   })
   start_date: string;
 
@@ -25,6 +25,12 @@ export class Treatment {
     default: null,
   })
   end_date: string;
+
+  @Column({
+    type: 'text',
+    default: '',
+  })
+  diagnosis: string;
 
   @Column({
     type: 'text',

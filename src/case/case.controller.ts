@@ -18,10 +18,11 @@ import { CaseService } from './case.service';
 import { CreateCaseDto } from './dto/create-case.dto';
 import { UpdateCaseDto } from './dto/update-case.dto';
 import { Case } from './entities/case.entity';
-import { Doctor } from './../doctor/entities/doctor.entity';
-import { DoctorService } from './../doctor/doctor.service';
-import { CaseStatus } from './../case_status/case_status.enum';
-import { AzureBlobService } from 'src/shared/services/azure-blob.service';
+import { AzureBlobService } from './../shared/services/azure-blob.service';
+import { RequestAssignCaseDto } from './dto/request-assign-case.dto';
+import { Treatment } from './../treatment/entities/treatment.entity';
+import { TreatmentService } from './../treatment/treatment.service';
+import { BusinessError, BusinessLogicException } from 'src/shared/errors/business-errors';
 
 @Controller('case')
 export class CaseController {
@@ -31,7 +32,7 @@ export class CaseController {
     private readonly caseService: CaseService,
     private readonly injuryService: InjuryService,
     private readonly patientService: PatientService,
-    private readonly doctorService: DoctorService,
+    private readonly treatmentService: TreatmentService,
     private readonly azureBlobService: AzureBlobService,
   ) {}
 
@@ -100,17 +101,42 @@ export class CaseController {
   async assignCase(
     @Req() req: any,
     @Param('id') id: string,
-    @Body() updateCaseDto: UpdateCaseDto,
+    @Body() requestAssignCaseDto: RequestAssignCaseDto,
   ) {
     const doctorId = req.user.id;
-    const doctor: Doctor = await this.doctorService.findOne(doctorId);
 
-    const caseInstance: Case = plainToInstance(Case, updateCaseDto);
+    const caseInstance: Case = plainToInstance(Case, {
+      cci: requestAssignCaseDto.cci,
+      amount: requestAssignCaseDto.amount,
+      currency_type: requestAssignCaseDto.currency_type,
+    });
 
-    caseInstance.doctor = doctor;
-    caseInstance.case_status = CaseStatus.POR_CONFIRMAR;
+    const createdCase = await this.caseService.assignCase(
+      id,
+      caseInstance,
+      doctorId,
+    );
 
-    return await this.caseService.assignCase(id, caseInstance, doctorId);
+    if (createdCase) {
+      const treatment: Treatment = plainToInstance(Treatment, {
+        diagnosis: requestAssignCaseDto.diagnosis,
+        description: requestAssignCaseDto.description,
+      });
+
+      const createdTreatment = await this.treatmentService.create(
+        treatment,
+        createdCase.id,
+        doctorId,
+      );
+      createdCase.treatments = [createdTreatment];
+
+      return createdCase;
+    } else {
+      throw new BusinessLogicException(
+        'Ocurrió un error en la asignación del caso',
+        BusinessError.UNPROCESSABLE_ENTITY,
+      );
+    }
   }
 
   @UseGuards(JwtAuthGuard)

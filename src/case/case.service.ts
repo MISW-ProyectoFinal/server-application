@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Injury } from './../injury/entities/injury.entity';
@@ -12,12 +13,16 @@ import {
 } from './../shared/errors/business-errors';
 import { Doctor } from './../doctor/entities/doctor.entity';
 import { CurrencyType } from './../currency_type/currency_type.enum';
+import { Treatment } from './../treatment/entities/treatment.entity';
 
 @Injectable()
 export class CaseService {
   constructor(
     @InjectRepository(Case)
     private readonly caseRepository: Repository<Case>,
+
+    @InjectRepository(Treatment)
+    private readonly treatmentRepository: Repository<Treatment>,
 
     @InjectRepository(Doctor)
     private readonly doctorRepository: Repository<Doctor>,
@@ -113,13 +118,19 @@ export class CaseService {
         BusinessError.NOT_FOUND,
       );
     } else {
-      if (caseToUpdate.doctor) {
+      if (
+        caseToUpdate.doctor ||
+        caseToUpdate.case_status != CaseStatus.PENDIENTE
+      ) {
         throw new BusinessLogicException(
-          'El caso ya tiene asignado un doctor',
+          'El caso ya tiene asignado un doctor o no se encuentra en estado pendiente',
           BusinessError.PRECONDITION_FAILED,
         );
       }
     }
+
+    caseData.doctor = doctor;
+    caseData.case_status = CaseStatus.POR_CONFIRMAR;
 
     return await this.caseRepository.save({
       ...caseToUpdate,
@@ -145,7 +156,7 @@ export class CaseService {
 
     const caseToUpdate = await this.caseRepository.findOne({
       where: { id: id },
-      relations: ['injury', 'injury.patient', 'injury.photos'],
+      relations: ['injury', 'injury.patient', 'injury.photos', 'treatments'],
     });
 
     if (!caseToUpdate) {
@@ -162,14 +173,22 @@ export class CaseService {
       }
     }
 
+    let treatment = caseToUpdate.treatments[0];
+
     if (requestAnswer == 'yes') {
       caseToUpdate.case_status = CaseStatus.EN_PROCESO;
+
+      const date = new Date();
+      treatment.start_date = `${date.getFullYear()}-${date.getMonth()}-${date.getDay()}`;
+      this.treatmentRepository.save(treatment);
     } else {
       caseToUpdate.doctor = null;
       caseToUpdate.case_status = CaseStatus.PENDIENTE;
       caseToUpdate.cci = '';
       caseToUpdate.amount = null;
       caseToUpdate.currency_type = CurrencyType.USD;
+
+      this.treatmentRepository.remove(treatment);
     }
 
     return await this.caseRepository.save(caseToUpdate);
@@ -189,7 +208,7 @@ export class CaseService {
 
     const caseToUpdate = await this.caseRepository.findOne({
       where: { id: id },
-      relations: ['doctor'],
+      relations: ['doctor', 'treatments'],
     });
 
     if (!caseToUpdate) {
@@ -209,6 +228,8 @@ export class CaseService {
         );
       }
     }
+
+    this.treatmentRepository.remove(caseToUpdate.treatments[0]);
 
     return await this.caseRepository.save({
       ...caseToUpdate,
