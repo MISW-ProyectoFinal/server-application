@@ -55,10 +55,7 @@ export class TreatmentService {
         BusinessError.NOT_FOUND,
       );
     } else {
-      if (
-        treatmentCase.doctor.id != doctor.id ||
-        treatmentCase.case_status != CaseStatus.EN_PROCESO
-      ) {
+      if (treatmentCase.doctor.id != doctor.id) {
         throw new BusinessLogicException(
           'No es posible brindar tratamiento',
           BusinessError.PRECONDITION_FAILED,

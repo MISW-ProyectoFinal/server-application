@@ -174,6 +174,7 @@ describe('CaseService', () => {
       id: faker.datatype.uuid(),
       start_date: '2023-02-20',
       end_date: null,
+      diagnosis: faker.lorem.sentence(),
       description: faker.lorem.paragraph(),
       injury: injury1,
       caso: case1,
@@ -307,6 +308,7 @@ describe('CaseService', () => {
   it('should unassign case to myself as doctor', async () => {
     case1.doctor = doctor1;
     case1.case_status = CaseStatus.POR_CONFIRMAR;
+    case1.treatments = [treatment1];
     await caseRepository.save(case1);
 
     const caseInstance: Case = await caseService.unassignCase(

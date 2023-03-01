@@ -178,6 +178,7 @@ describe('TreatmentProgressPhotoService', () => {
       id: faker.datatype.uuid(),
       start_date: '2023-02-20',
       end_date: null,
+      diagnosis: faker.lorem.sentence(),
       description: faker.lorem.paragraph(),
       injury: injury1,
       caso: case1,
