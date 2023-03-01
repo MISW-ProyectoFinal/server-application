@@ -11,6 +11,11 @@ import { Language } from './../language/language.enum';
 import { faker } from '@faker-js/faker';
 import { Country } from './../country/entities/country.entity';
 import { City } from './../city/entities/city.entity';
+import { Doctor } from './../doctor/entities/doctor.entity';
+import { Injury } from './../injury/entities/injury.entity';
+import { InjuryType } from './../injury_type/injury_type.enum';
+import { InjuryShape } from './../injury_shape/injury_shape.enum';
+import { InjuryDistribution } from './../injury_distribution/injury_distribution.enum';
 
 export function stringified(errors: ValidationError[]): string {
   return JSON.stringify(errors);
@@ -20,12 +25,18 @@ describe('PatientService', () => {
   let repository: Repository<Patient>;
   let countryRepository: Repository<Country>;
   let cityRepository: Repository<City>;
+  let doctorRepository: Repository<Doctor>;
+  let injuryRepository: Repository<Injury>;
+
   let service: PatientService;
+
   let country: Country;
   let city: City;
   let country1: Country;
   let city1: City;
   let initialPatient: Patient;
+  let doctor1: Doctor;
+  let injury1: Injury;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -34,11 +45,18 @@ describe('PatientService', () => {
     }).compile();
 
     service = module.get<PatientService>(PatientService);
+
     repository = module.get<Repository<Patient>>(getRepositoryToken(Patient));
     countryRepository = module.get<Repository<Country>>(
       getRepositoryToken(Country),
     );
     cityRepository = module.get<Repository<City>>(getRepositoryToken(City));
+    doctorRepository = module.get<Repository<Doctor>>(
+      getRepositoryToken(Doctor),
+    );
+    injuryRepository = module.get<Repository<Injury>>(
+      getRepositoryToken(Injury),
+    );
 
     await seedDatabase();
   });
@@ -47,6 +65,8 @@ describe('PatientService', () => {
     await repository.delete({});
     await cityRepository.delete({});
     await countryRepository.delete({});
+    await doctorRepository.delete({});
+    await injuryRepository.delete({});
 
     country = {
       id: faker.datatype.uuid(),
@@ -56,6 +76,7 @@ describe('PatientService', () => {
       document_types: [],
       virt_users: [],
     };
+    await countryRepository.save(country);
 
     country1 = {
       id: faker.datatype.uuid(),
@@ -65,6 +86,7 @@ describe('PatientService', () => {
       document_types: [],
       virt_users: [],
     };
+    await countryRepository.save(country1);
 
     city = {
       id: faker.datatype.uuid(),
@@ -73,6 +95,7 @@ describe('PatientService', () => {
       users: [],
       virt_users: [],
     };
+    await cityRepository.save(city);
 
     city1 = {
       id: faker.datatype.uuid(),
@@ -81,6 +104,7 @@ describe('PatientService', () => {
       users: [],
       virt_users: [],
     };
+    await cityRepository.save(city1);
 
     initialPatient = {
       id: faker.datatype.uuid(),
@@ -108,12 +132,51 @@ describe('PatientService', () => {
       virt_city: city,
       fav_language: Language.ENGLISH,
     };
-
-    await countryRepository.save(country);
-    await countryRepository.save(country1);
-    await cityRepository.save(city);
-    await cityRepository.save(city1);
     await repository.save(initialPatient);
+
+    doctor1 = {
+      id: faker.datatype.uuid(),
+      email: faker.internet.email(),
+      password: 'TEst13$$',
+      active: false,
+      name: 'Miguel',
+      surname: 'Camargo',
+      phone: '3125270304',
+      cell_phone: '3125270304',
+      date_of_birth: '1991-10-03',
+      address: 'CArrera 116B # 78B 62',
+      city: null,
+      country: null,
+      gender: Gender.MASCULINO,
+      document_type: null,
+      document_number: '12341234',
+      doctor_specialties: [],
+      enabled: false,
+      enabled_date: '20203-02-01',
+      cases: [],
+      virt_country: null,
+      virt_city: null,
+      fav_language: Language.ENGLISH,
+    };
+    await doctorRepository.save(doctor1);
+
+    injury1 = {
+      id: faker.datatype.uuid(),
+      type: InjuryType.AMPOLLA,
+      shape: InjuryShape.ANILLO,
+      number: 2,
+      distribution: InjuryDistribution.ASIMETRICA,
+      description: faker.lorem.paragraph(),
+      color: faker.color.human(),
+      location: 'Cuello',
+      symptoms: [],
+      cases: [],
+      treatments: [],
+      photos: [],
+      automatic_cases: [],
+      patient: initialPatient,
+    };
+    await injuryRepository.save(injury1);
   };
 
   it('should be defined', () => {
@@ -167,11 +230,48 @@ describe('PatientService', () => {
   });
 
   it('should find patient by email', async () => {
-    
-
     const patient = await service.findByEmail(initialPatient.email);
     expect(patient.id).toEqual(initialPatient.id);
     expect(patient.email).toEqual(initialPatient.email);
   });
 
+  it('should get patient clinic-history as doctor', async () => {
+    const patient = await service.clinicalHistory(
+      initialPatient.id,
+      doctor1.id,
+    );
+    expect(patient).not.toBeNull();
+    expect(patient.id).toEqual(initialPatient.id);
+  });
+
+  it('should not get patient clinic-history without being a doctor', async () => {
+    try {
+      await service.clinicalHistory(initialPatient.id, faker.datatype.uuid());
+    } catch (error) {
+      expect(error.message).toBe(
+        'No tiene autorización de visualizar el historial',
+      );
+    }
+  });
+
+  it('should not get clinic-history of a inexistent patient as a doctor', async () => {
+    try {
+      await service.clinicalHistory(faker.datatype.uuid(), doctor1.id);
+    } catch (error) {
+      expect(error.message).toBe(
+        'El paciente consultado no se encuentra en el sistema',
+      );
+    }
+  });
+
+  it('should not get clinic-history of a patient who does not have injuries as a doctor', async () => {
+    await injuryRepository.delete({});
+    try {
+      await service.clinicalHistory(initialPatient.id, doctor1.id);
+    } catch (error) {
+      expect(error.message).toBe(
+        'El paciente consultado no puede ser consultado debido a que no ha registrado lesiones',
+      );
+    }
+  });
 });
