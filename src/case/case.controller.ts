@@ -130,4 +130,11 @@ export class CaseController {
     const doctorId = req.user.id;
     return await this.caseService.unassignCase(id, doctorId);
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Patch('finish/:id')
+  async finishCase(@Req() req: any, @Param('id') id: string) {
+    const doctorId = req.user.id;
+    return await this.caseService.finishCase(id, doctorId);
+  }
 }

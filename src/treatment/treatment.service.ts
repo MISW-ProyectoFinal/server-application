@@ -60,7 +60,7 @@ export class TreatmentService {
         treatmentCase.case_status != CaseStatus.EN_PROCESO
       ) {
         throw new BusinessLogicException(
-          'No tiene autorización de brindar tratamiento',
+          'No es posible brindar tratamiento',
           BusinessError.PRECONDITION_FAILED,
         );
       }

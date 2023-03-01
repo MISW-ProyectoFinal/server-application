@@ -20,9 +20,11 @@ import { InjuryDistribution } from './../injury_distribution/injury_distribution
 import { CurrencyType } from './../currency_type/currency_type.enum';
 import { PaymentStatus } from './../payment_status/payment_status.enum';
 import { CaseStatus } from './../case_status/case_status.enum';
+import { Treatment } from './../treatment/entities/treatment.entity';
 
 describe('CaseService', () => {
   let caseRepository: Repository<Case>;
+  let treatmentRepository: Repository<Treatment>;
   let patientRepository: Repository<Patient>;
   let doctorRepository: Repository<Doctor>;
   let injuryRepository: Repository<Injury>;
@@ -36,6 +38,7 @@ describe('CaseService', () => {
   let injury1: Injury;
   let doctor1: Doctor;
   let case1: Case;
+  let treatment1: Treatment;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -58,6 +61,9 @@ describe('CaseService', () => {
     injuryRepository = module.get<Repository<Injury>>(
       getRepositoryToken(Injury),
     );
+    treatmentRepository = module.get<Repository<Treatment>>(
+      getRepositoryToken(Treatment),
+    );
 
     await seedDatabase();
   });
@@ -70,6 +76,7 @@ describe('CaseService', () => {
   });
 
   const seedDatabase = async () => {
+    await treatmentRepository.delete({});
     await caseRepository.delete({});
     await patientRepository.delete({});
     await doctorRepository.delete({});
@@ -162,6 +169,17 @@ describe('CaseService', () => {
       fav_language: Language.ENGLISH,
     };
     await doctorRepository.save(doctor1);
+
+    treatment1 = {
+      id: faker.datatype.uuid(),
+      start_date: '2023-02-20',
+      end_date: null,
+      description: faker.lorem.paragraph(),
+      injury: injury1,
+      caso: case1,
+      treatment_progresses: [],
+    };
+    await treatmentRepository.save(treatment1);
   };
 
   it('should create case', async () => {
@@ -327,6 +345,52 @@ describe('CaseService', () => {
   it('should not unassing an unexistent case', async () => {
     try {
       await caseService.unassignCase(faker.datatype.uuid(), doctor1.id);
+    } catch (error) {
+      expect(error.message).toBe('Caso no encontrado');
+    }
+  });
+
+  it('should finish my case as doctor', async () => {
+    case1.doctor = doctor1;
+    case1.case_status = CaseStatus.EN_PROCESO;
+    case1.treatments = [treatment1];
+    await caseRepository.save(case1);
+
+    const caseInstance: Case = await caseService.finishCase(
+      case1.id,
+      doctor1.id,
+    );
+
+    expect(caseInstance.case_status).toEqual(CaseStatus.POR_CONCLUIR);
+  });
+
+  it('should not finish case by its status', async () => {
+    case1.doctor = doctor1;
+    case1.case_status = CaseStatus.POR_CONFIRMAR;
+    await caseRepository.save(case1);
+
+    try {
+      await caseService.finishCase(case1.id, doctor1.id);
+    } catch (error) {
+      expect(error.message).toBe('No es posible concluir este caso');
+    }
+  });
+
+  it('should not finish case as a role different to a doctor', async () => {
+    case1.doctor = null;
+    case1.case_status = CaseStatus.EN_PROCESO;
+    await caseRepository.save(case1);
+
+    try {
+      await caseService.finishCase(case1.id, faker.datatype.uuid());
+    } catch (error) {
+      expect(error.message).toBe('Doctor no encontrado');
+    }
+  });
+
+  it('should not finish an unexistent case', async () => {
+    try {
+      await caseService.finishCase(faker.datatype.uuid(), doctor1.id);
     } catch (error) {
       expect(error.message).toBe('Caso no encontrado');
     }
