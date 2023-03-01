@@ -1,29 +1,23 @@
 import { Injectable } from '@nestjs/common';
-import { CreateTreatmentProgressPhotoDto } from './dto/create-treatment_progress_photo.dto';
-import { UpdateTreatmentProgressPhotoDto } from './dto/update-treatment_progress_photo.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { TreatmentProgress } from './../treatment_progress/entities/treatment_progress.entity';
+import { Repository } from 'typeorm';
+import { TreatmentProgressPhoto } from './entities/treatment_progress_photo.entity';
 
 @Injectable()
 export class TreatmentProgressPhotoService {
-  create(createTreatmentProgressPhotoDto: CreateTreatmentProgressPhotoDto) {
-    return 'This action adds a new treatmentProgressPhoto';
-  }
+  constructor(
+    @InjectRepository(TreatmentProgressPhoto)
+    private readonly treatmentProgressPhotoRepository: Repository<TreatmentProgressPhoto>,
+  ) {}
 
-  findAll() {
-    return `This action returns all treatmentProgressPhoto`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} treatmentProgressPhoto`;
-  }
-
-  update(
-    id: number,
-    updateTreatmentProgressPhotoDto: UpdateTreatmentProgressPhotoDto,
+  async create(
+    treatmentProgress: TreatmentProgress,
+    createTreatmentProgressPhotoToCreate: TreatmentProgressPhoto,
   ) {
-    return `This action updates a #${id} treatmentProgressPhoto`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} treatmentProgressPhoto`;
+    createTreatmentProgressPhotoToCreate.treatment_progress = treatmentProgress;
+    return this.treatmentProgressPhotoRepository.save(
+      createTreatmentProgressPhotoToCreate,
+    );
   }
 }

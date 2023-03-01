@@ -21,10 +21,11 @@ export class TreatmentProgress {
 
   @Column({
     type: 'date',
+    default: new Date(),
   })
   creation_date: string;
 
-  @ManyToOne(() => Treatment, (treatment) => treatment.treatment_progress)
+  @ManyToOne(() => Treatment, (treatment) => treatment.treatment_progresses)
   treatment: Treatment;
 
   @OneToMany(

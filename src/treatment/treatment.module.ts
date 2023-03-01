@@ -9,10 +9,32 @@ import { Case } from './../case/entities/case.entity';
 import { Treatment } from './entities/treatment.entity';
 import { Patient } from './../patient/entities/patient.entity';
 import { Doctor } from './../doctor/entities/doctor.entity';
+import { AzureBlobService } from './../shared/services/azure-blob.service';
+import { TreatmentProgressService } from './../treatment_progress/treatment_progress.service';
+import { TreatmentProgress } from './../treatment_progress/entities/treatment_progress.entity';
+import { TreatmentProgressPhoto } from './../treatment_progress_photo/entities/treatment_progress_photo.entity';
+import { TreatmentProgressPhotoService } from './../treatment_progress_photo/treatment_progress_photo.service';
 
 @Module({
   controllers: [TreatmentController],
-  providers: [CaseService, TreatmentService, PatientService, DoctorService],
-  imports: [TypeOrmModule.forFeature([Case, Treatment, Patient, Doctor])],
+  providers: [
+    CaseService,
+    TreatmentService,
+    PatientService,
+    DoctorService,
+    AzureBlobService,
+    TreatmentProgressService,
+    TreatmentProgressPhotoService,
+  ],
+  imports: [
+    TypeOrmModule.forFeature([
+      Case,
+      Treatment,
+      Patient,
+      Doctor,
+      TreatmentProgress,
+      TreatmentProgressPhoto,
+    ]),
+  ],
 })
 export class TreatmentModule {}

@@ -15,17 +15,17 @@ import { UpdateTreatmentDto } from './dto/update-treatment.dto';
 import { JwtAuthGuard } from './../auth/guards/jwt-auth.guard';
 import { plainToInstance } from 'class-transformer';
 import { Treatment } from './entities/treatment.entity';
-import { CaseService } from './../case/case.service';
-import { PatientService } from './../patient/patient.service';
-import { DoctorService } from './../doctor/doctor.service';
+import { AzureBlobService } from './../shared/services/azure-blob.service';
+import { TreatmentProgressService } from './../treatment_progress/treatment_progress.service';
 
 @Controller('treatment')
 export class TreatmentController {
+  containerName = 'treatment-progress-photos';
+
   constructor(
-    private readonly caseService: CaseService,
     private readonly treatmentService: TreatmentService,
-    private readonly patientService: PatientService,
-    private readonly doctorService: DoctorService,
+    private readonly treatmentProgressService: TreatmentProgressService,
+    private readonly azureBlobService: AzureBlobService,
   ) {}
 
   @UseGuards(JwtAuthGuard)
@@ -49,7 +49,29 @@ export class TreatmentController {
   @UseGuards(JwtAuthGuard)
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    return await this.treatmentService.findOne(id);
+    const treatment = await this.treatmentService.findOne(id);
+
+    if (treatment.treatment_progresses.length > 0) {
+      const treatment_progresses = await this.treatmentProgressService.findAll(
+        treatment.id,
+      );
+
+      for (let i = 0; i < treatment_progresses.length; i++) {
+        const photos = treatment_progresses[i].treatment_progress_photos;
+
+        for (let i = 0; i < photos.length; i++) {
+          const filePath = this.azureBlobService.getfilePath(
+            photos[i].file_name,
+            this.containerName,
+          );
+          photos[i].file_name = filePath.url;
+        }
+      }
+
+      treatment.treatment_progresses = treatment_progresses;
+    }
+
+    return treatment;
   }
 
   @Patch(':id')

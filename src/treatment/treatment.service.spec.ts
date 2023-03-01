@@ -177,7 +177,7 @@ describe('TreatmentService', () => {
       description: faker.lorem.paragraph(),
       injury: injury1,
       caso: case1,
-      treatment_progress: [],
+      treatment_progresses: [],
     };
     await treatmentRepository.save(treatment1);
   };
@@ -190,7 +190,7 @@ describe('TreatmentService', () => {
       description: faker.lorem.paragraph(),
       injury: injury1,
       caso: case1,
-      treatment_progress: [],
+      treatment_progresses: [],
     };
     const treatment: Treatment = await treatmentService.create(
       treatmentToCreate,
