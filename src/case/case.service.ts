@@ -174,4 +174,50 @@ export class CaseService {
 
     return await this.caseRepository.save(caseToUpdate);
   }
+
+  async unassignCase(id: string, doctorId: string): Promise<Case> {
+    const doctor = await this.doctorRepository.findOne({
+      where: { id: `${doctorId}` },
+    });
+
+    if (!doctor) {
+      throw new BusinessLogicException(
+        'Doctor no encontrado',
+        BusinessError.NOT_FOUND,
+      );
+    }
+
+    const caseToUpdate = await this.caseRepository.findOne({
+      where: { id: id },
+      relations: ['doctor'],
+    });
+
+    if (!caseToUpdate) {
+      throw new BusinessLogicException(
+        'Caso no encontrado',
+        BusinessError.NOT_FOUND,
+      );
+    } else {
+      if (
+        !caseToUpdate.doctor ||
+        caseToUpdate.doctor.id != doctor.id ||
+        caseToUpdate.case_status != CaseStatus.POR_CONFIRMAR
+      ) {
+        throw new BusinessLogicException(
+          'No es posible desasignar este caso',
+          BusinessError.PRECONDITION_FAILED,
+        );
+      }
+    }
+
+    return await this.caseRepository.save({
+      ...caseToUpdate,
+      ...{
+        doctor: null,
+        case_status: CaseStatus.PENDIENTE,
+        cci: '',
+        amount: null,
+      },
+    });
+  }
 }

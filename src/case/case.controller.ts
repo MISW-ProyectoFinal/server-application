@@ -123,4 +123,11 @@ export class CaseController {
     const patientId = req.user.id;
     return await this.caseService.answerRequest(id, requestAnswer, patientId);
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Patch('unassign/:id')
+  async unassignCase(@Req() req: any, @Param('id') id: string) {
+    const doctorId = req.user.id;
+    return await this.caseService.unassignCase(id, doctorId);
+  }
 }

@@ -285,4 +285,50 @@ describe('CaseService', () => {
     expect(caseInstance.case_status).toEqual(CaseStatus.PENDIENTE);
     expect(caseInstance.doctor).toEqual(null);
   });
+
+  it('should unassign case to myself as doctor', async () => {
+    case1.doctor = doctor1;
+    case1.case_status = CaseStatus.POR_CONFIRMAR;
+    await caseRepository.save(case1);
+
+    const caseInstance: Case = await caseService.unassignCase(
+      case1.id,
+      doctor1.id,
+    );
+
+    expect(caseInstance.doctor).toEqual(null);
+    expect(caseInstance.case_status).toEqual(CaseStatus.PENDIENTE);
+  });
+
+  it('should not unassing case', async () => {
+    case1.doctor = null;
+    case1.case_status = CaseStatus.POR_CONFIRMAR;
+    await caseRepository.save(case1);
+
+    try {
+      await caseService.unassignCase(case1.id, doctor1.id);
+    } catch (error) {
+      expect(error.message).toBe('No es posible desasignar este caso');
+    }
+  });
+
+  it('should not unassing case for other role different to a doctor', async () => {
+    case1.doctor = null;
+    case1.case_status = CaseStatus.POR_CONFIRMAR;
+    await caseRepository.save(case1);
+
+    try {
+      await caseService.unassignCase(case1.id, faker.datatype.uuid());
+    } catch (error) {
+      expect(error.message).toBe('Doctor no encontrado');
+    }
+  });
+
+  it('should not unassing an unexistent case', async () => {
+    try {
+      await caseService.unassignCase(faker.datatype.uuid(), doctor1.id);
+    } catch (error) {
+      expect(error.message).toBe('Caso no encontrado');
+    }
+  });
 });
