@@ -82,8 +82,6 @@ export class TreatmentService {
       relations: ['treatment_progresses'],
     });
 
-    console.log(treatment);
-
     if (!treatment) {
       throw new BusinessLogicException(
         'No se encontró el progreso de tratamiento en el sistema',

@@ -8,6 +8,7 @@ import {
   BusinessLogicException,
   BusinessError,
 } from '../shared/errors/business-errors';
+import { Doctor } from './../doctor/entities/doctor.entity';
 
 const saltRounds = 10;
 @Injectable()
@@ -15,6 +16,9 @@ export class PatientService {
   constructor(
     @InjectRepository(Patient)
     private readonly patientRepository: Repository<Patient>,
+
+    @InjectRepository(Doctor)
+    private readonly doctorRepository: Repository<Doctor>,
   ) {}
 
   async create(createPatientDto: Patient): Promise<Patient> {
@@ -94,6 +98,53 @@ export class PatientService {
         'El paciente que esta buscando no existe',
         BusinessError.NOT_FOUND,
       );
+    }
+
+    return patient;
+  }
+
+  async clinicalHistory(patientId: string, doctorId: string): Promise<Patient> {
+    const doctor = await this.doctorRepository.findOne({
+      where: { id: doctorId },
+    });
+
+    if (!doctor) {
+      throw new BusinessLogicException(
+        'No tiene autorización de visualizar el historial',
+        BusinessError.PRECONDITION_FAILED,
+      );
+    }
+
+    const patient = await this.patientRepository.findOne({
+      where: { id: patientId },
+      relations: [
+        'allergies',
+        'illnesses',
+        'country',
+        'city',
+        'document_type',
+        'injuries',
+        'injuries.photos',
+        'injuries.automatic_cases',
+        'injuries.cases',
+        'injuries.cases.treatments',
+        'injuries.cases.treatments.treatment_progresses',
+        'injuries.cases.treatments.treatment_progresses.treatment_progress_photos',
+      ],
+    });
+
+    if (!patient) {
+      throw new BusinessLogicException(
+        'El paciente consultado no se encuentra en el sistema',
+        BusinessError.NOT_FOUND,
+      );
+    } else {
+      if (patient.injuries.length == 0) {
+        throw new BusinessLogicException(
+          'El paciente consultado no puede ser consultado debido a que no ha registrado lesiones',
+          BusinessError.PRECONDITION_FAILED,
+        );
+      }
     }
 
     return patient;
