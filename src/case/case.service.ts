@@ -220,4 +220,48 @@ export class CaseService {
       },
     });
   }
+
+  async finishCase(id: string, doctorId: string): Promise<Case> {
+    const doctor = await this.doctorRepository.findOne({
+      where: { id: `${doctorId}` },
+    });
+
+    if (!doctor) {
+      throw new BusinessLogicException(
+        'Doctor no encontrado',
+        BusinessError.NOT_FOUND,
+      );
+    }
+
+    const caseToUpdate = await this.caseRepository.findOne({
+      where: { id: id },
+      relations: ['doctor', 'treatments'],
+    });
+
+    if (!caseToUpdate) {
+      throw new BusinessLogicException(
+        'Caso no encontrado',
+        BusinessError.NOT_FOUND,
+      );
+    } else {
+      if (
+        !caseToUpdate.doctor ||
+        caseToUpdate.doctor.id != doctor.id ||
+        caseToUpdate.case_status != CaseStatus.EN_PROCESO ||
+        caseToUpdate.treatments.length == 0
+      ) {
+        throw new BusinessLogicException(
+          'No es posible concluir este caso',
+          BusinessError.PRECONDITION_FAILED,
+        );
+      }
+    }
+
+    return await this.caseRepository.save({
+      ...caseToUpdate,
+      ...{
+        case_status: CaseStatus.POR_CONCLUIR,
+      },
+    });
+  }
 }
