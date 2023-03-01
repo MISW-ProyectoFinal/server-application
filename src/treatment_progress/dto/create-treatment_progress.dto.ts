@@ -1,1 +1,3 @@
-export class CreateTreatmentProgressDto {}
+export class CreateTreatmentProgressDto {
+  comment: string;
+}

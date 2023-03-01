@@ -1,5 +1,11 @@
 import { TreatmentProgress } from './../../treatment_progress/entities/treatment_progress.entity';
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
 
 @Entity()
 export class TreatmentProgressPhoto {
@@ -10,14 +16,19 @@ export class TreatmentProgressPhoto {
     type: 'text',
     default: '',
   })
-  url: string;
+  file_name: string;
 
-  @Column({ type: 'date' })
+  @Column({
+    type: 'date',
+    default: new Date(),
+  })
   creation_date: string;
 
   @ManyToOne(
     () => TreatmentProgress,
     (treatment_progress) => treatment_progress.treatment_progress_photos,
+    { eager: true },
   )
+  @JoinColumn()
   treatment_progress: TreatmentProgress;
 }

@@ -42,5 +42,5 @@ export class Treatment {
     () => TreatmentProgress,
     (treatment_progress) => treatment_progress.treatment,
   )
-  treatment_progress: TreatmentProgress[];
+  treatment_progresses: TreatmentProgress[];
 }

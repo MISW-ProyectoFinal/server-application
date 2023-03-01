@@ -79,11 +79,14 @@ export class TreatmentService {
   async findOne(id: string) {
     const treatment = await this.treatmentRepository.findOne({
       where: { id: id },
+      relations: ['treatment_progresses'],
     });
+
+    console.log(treatment);
 
     if (!treatment) {
       throw new BusinessLogicException(
-        'No se encontró el tratamiento en el sistema',
+        'No se encontró el progreso de tratamiento en el sistema',
         BusinessError.NOT_FOUND,
       );
     }

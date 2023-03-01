@@ -27,7 +27,7 @@ export class AzureBlobService {
     containerName: string,
     validationtype: string = null,
     validationsize: string = null,
-  ) {
+  ): Promise<string> {
     if (validationtype != null && validationtype != file.mimetype) {
       console.log(file.mimetype);
       throw new BusinessLogicException(
