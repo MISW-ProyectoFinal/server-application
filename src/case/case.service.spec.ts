@@ -395,4 +395,32 @@ describe('CaseService', () => {
       expect(error.message).toBe('Caso no encontrado');
     }
   });
+
+  it('should accept a request to finish case by a doctor', async () => {
+    case1.doctor = doctor1;
+    case1.case_status = CaseStatus.POR_CONCLUIR;
+    await caseRepository.save(case1);
+
+    const caseInstance: Case = await caseService.confirmConclusion(
+      case1.id,
+      'yes',
+      patient1.id,
+    );
+    expect(caseInstance.case_status).toEqual(CaseStatus.CERRADO);
+    expect(caseInstance.end_date).not.toBeNull();
+  });
+
+  it('should refuse a request to take case by a doctor', async () => {
+    case1.doctor = doctor1;
+    case1.case_status = CaseStatus.POR_CONCLUIR;
+    await caseRepository.save(case1);
+
+    const caseInstance: Case = await caseService.confirmConclusion(
+      case1.id,
+      'no',
+      patient1.id,
+    );
+    expect(caseInstance.case_status).toEqual(CaseStatus.EN_PROCESO);
+    expect(caseInstance.end_date).toBeNull();
+  });
 });
