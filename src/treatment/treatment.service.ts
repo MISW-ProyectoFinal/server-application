@@ -84,7 +84,7 @@ export class TreatmentService {
 
     if (!treatment) {
       throw new BusinessLogicException(
-        'No se encontró el progreso de tratamiento en el sistema',
+        'No se encontró el tratamiento en el sistema',
         BusinessError.NOT_FOUND,
       );
     }

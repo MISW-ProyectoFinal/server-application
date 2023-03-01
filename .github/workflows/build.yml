@@ -19,7 +19,7 @@ jobs:
           node-version: '16.x'
       - run: |
           npm install
-          npm run test:cov
+          npm run test:ci
         env:
           PG_DB_HOSTURL: ${{ secrets.PG_DB_HOSTURL }}
           PG_DB_PORT: ${{ secrets.PG_DB_PORT }}
