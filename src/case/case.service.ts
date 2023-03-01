@@ -264,4 +264,53 @@ export class CaseService {
       },
     });
   }
+
+  async confirmConclusion(
+    id: string,
+    requestAnswer: string,
+    patientId: string,
+  ): Promise<Case> {
+    const patient = await this.patientRepository.findOne({
+      where: { id: `${patientId}` },
+    });
+
+    if (!patient) {
+      throw new BusinessLogicException(
+        'Paciente no encontrado',
+        BusinessError.NOT_FOUND,
+      );
+    }
+
+    const caseToUpdate = await this.caseRepository.findOne({
+      where: { id: id },
+      relations: ['injury', 'injury.patient'],
+    });
+
+    if (!caseToUpdate) {
+      throw new BusinessLogicException(
+        'Caso no encontrado',
+        BusinessError.NOT_FOUND,
+      );
+    } else {
+      if (
+        caseToUpdate.injury.patient.id != patient.id ||
+        caseToUpdate.case_status != CaseStatus.POR_CONCLUIR
+      ) {
+        throw new BusinessLogicException(
+          'No se puede responder a conclusión de caso',
+          BusinessError.PRECONDITION_FAILED,
+        );
+      }
+    }
+
+    if (requestAnswer == 'yes') {
+      caseToUpdate.case_status = CaseStatus.CERRADO;
+      const date = new Date();
+      caseToUpdate.end_date = `${date.getFullYear()}-${date.getMonth()}-${date.getDay()}`;
+    } else {
+      caseToUpdate.case_status = CaseStatus.EN_PROCESO;
+    }
+
+    return await this.caseRepository.save(caseToUpdate);
+  }
 }

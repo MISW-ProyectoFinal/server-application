@@ -137,4 +137,19 @@ export class CaseController {
     const doctorId = req.user.id;
     return await this.caseService.finishCase(id, doctorId);
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Patch('confirm-conclusion/:requestAnswer/:id')
+  async confirmConclusion(
+    @Req() req: any,
+    @Param('requestAnswer') requestAnswer: string,
+    @Param('id') id: string,
+  ) {
+    const patientId = req.user.id;
+    return await this.caseService.confirmConclusion(
+      id,
+      requestAnswer,
+      patientId,
+    );
+  }
 }
