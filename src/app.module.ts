@@ -52,6 +52,7 @@ import { AuthModule } from './auth/auth.module';
 import { MulterModule } from '@nestjs/platform-express';
 import { ConfigModule } from '@nestjs/config';
 import { SkinTypeModule } from './skin_type/skin_type.module';
+import { NotificationModule } from './notification/notification.module';
 
 @Module({
   imports: [
@@ -112,6 +113,7 @@ import { SkinTypeModule } from './skin_type/skin_type.module';
         TreatmentProgress,
         TreatmentProgressPhoto,
         User,
+        Notification,
       ],
       dropSchema: true,
       synchronize: true,
@@ -120,6 +122,7 @@ import { SkinTypeModule } from './skin_type/skin_type.module';
     DocumentTypeModule,
     AuthModule,
     ConfigModule.forRoot(),
+    NotificationModule,
   ],
   controllers: [AppController],
   providers: [AppService],
