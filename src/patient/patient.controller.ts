@@ -26,18 +26,19 @@ import {
   BusinessLogicException,
   BusinessError,
 } from './../shared/errors/business-errors';
+import { AzureBlobService } from 'src/shared/services/azure-blob.service';
 
 @Controller('patient')
 @UseInterceptors(BusinessErrorsInterceptor)
 export class PatientController {
   containerName = 'specialities';
 
-  azureBlobService: any;
   constructor(
     private readonly patientService: PatientService,
     private readonly authService: AuthService,
     private readonly patientAllergyService: PatientAllergyService,
     private readonly patientIllnessService: PatientIllnessService,
+    private readonly azureBlobService: AzureBlobService,
   ) {}
 
   @Post()
