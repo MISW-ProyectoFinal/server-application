@@ -13,6 +13,9 @@ import { CaseService } from './../case/case.service';
 import { DoctorService } from './../doctor/doctor.service';
 import { Doctor } from './../doctor/entities/doctor.entity';
 import { Treatment } from './../treatment/entities/treatment.entity';
+import { NotificationService } from './../notification/notification.service';
+import { Notification } from './../notification/entities/notification.entity';
+import { NotificationToken } from './../notification/entities/notification-token.entity';
 
 @Module({
   controllers: [InjuryController],
@@ -23,6 +26,7 @@ import { Treatment } from './../treatment/entities/treatment.entity';
     CaseService,
     AzureBlobService,
     DoctorService,
+    NotificationService,
   ],
   imports: [
     TypeOrmModule.forFeature([
@@ -32,6 +36,8 @@ import { Treatment } from './../treatment/entities/treatment.entity';
       Case,
       Doctor,
       Treatment,
+      Notification,
+      NotificationToken,
     ]),
   ],
 })

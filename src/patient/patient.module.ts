@@ -12,6 +12,9 @@ import { PatientAllergyService } from 'src/patient_allergy/patient_allergy.servi
 import { PatientIllnessService } from 'src/patient_illness/patient_illness.service';
 import { Allergy } from 'src/allergy/entities/allergy.entity';
 import { Illness } from 'src/illness/entities/illness.entity';
+import { NotificationService } from 'src/notification/notification.service';
+import { NotificationToken } from 'src/notification/entities/notification-token.entity';
+import { Notification } from 'src/notification/entities/notification.entity';
 
 @Module({
   controllers: [PatientController],
@@ -22,9 +25,18 @@ import { Illness } from 'src/illness/entities/illness.entity';
     DoctorService,
     PatientAllergyService,
     PatientIllnessService,
+    NotificationService,
   ],
   imports: [
-    TypeOrmModule.forFeature([Patient, Doctor, User, Allergy, Illness]),
+    TypeOrmModule.forFeature([
+      Patient,
+      Doctor,
+      User,
+      Allergy,
+      Illness,
+      NotificationToken,
+      Notification,
+    ]),
   ],
 })
 export class PatientModule {}

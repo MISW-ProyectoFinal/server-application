@@ -12,6 +12,9 @@ import { InjuryService } from './../injury/injury.service';
 import { AzureBlobService } from './../shared/services/azure-blob.service';
 import { Treatment } from './../treatment/entities/treatment.entity';
 import { TreatmentService } from './../treatment/treatment.service';
+import { NotificationService } from './../notification/notification.service';
+import { Notification } from './../notification/entities/notification.entity';
+import { NotificationToken } from './../notification/entities/notification-token.entity';
 
 @Module({
   controllers: [CaseController],
@@ -22,9 +25,18 @@ import { TreatmentService } from './../treatment/treatment.service';
     CaseService,
     AzureBlobService,
     TreatmentService,
+    NotificationService,
   ],
   imports: [
-    TypeOrmModule.forFeature([Patient, Doctor, Injury, Case, Treatment]),
+    TypeOrmModule.forFeature([
+      Patient,
+      Doctor,
+      Injury,
+      Case,
+      Treatment,
+      Notification,
+      NotificationToken,
+    ]),
   ],
 })
 export class CaseModule {}

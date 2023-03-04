@@ -10,6 +10,9 @@ import { Patient } from 'src/patient/entities/patient.entity';
 import { DoctorService } from 'src/doctor/doctor.service';
 import { PatientService } from 'src/patient/patient.service';
 import { NotificationModule } from 'src/notification/notification.module';
+import { NotificationService } from 'src/notification/notification.service';
+import { Notification } from 'src/notification/entities/notification.entity';
+import { NotificationToken } from 'src/notification/entities/notification-token.entity';
 
 @Module({
   controllers: [UsersController],
@@ -20,7 +23,16 @@ import { NotificationModule } from 'src/notification/notification.module';
     DoctorService,
     PatientService,
     NotificationModule,
+    NotificationService,
   ],
-  imports: [TypeOrmModule.forFeature([User, Doctor, Patient])],
+  imports: [
+    TypeOrmModule.forFeature([
+      User,
+      Doctor,
+      Patient,
+      Notification,
+      NotificationToken,
+    ]),
+  ],
 })
 export class UsersModule {}

@@ -48,11 +48,13 @@ import { TreatmentProgressPhoto } from './treatment_progress_photo/entities/trea
 import { User } from './user/entities/user.entity';
 import { DocumentTypeModule } from './document_type/document_type.module';
 import { DocumentType } from './document_type/entities/document_type.entity';
+import { Notification } from './notification/entities/notification.entity';
 import { AuthModule } from './auth/auth.module';
 import { MulterModule } from '@nestjs/platform-express';
 import { ConfigModule } from '@nestjs/config';
 import { SkinTypeModule } from './skin_type/skin_type.module';
 import { NotificationModule } from './notification/notification.module';
+import { NotificationToken } from './notification/entities/notification-token.entity';
 
 @Module({
   imports: [
@@ -114,8 +116,9 @@ import { NotificationModule } from './notification/notification.module';
         TreatmentProgressPhoto,
         User,
         Notification,
+        NotificationToken,
       ],
-      dropSchema: true,
+      dropSchema: false,
       synchronize: true,
       keepConnectionAlive: true,
     }),
