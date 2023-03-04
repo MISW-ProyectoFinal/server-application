@@ -19,8 +19,8 @@ export class Notification {
   @Column()
   title: string;
 
-  @Column({ type: 'longtext', nullable: true })
-  body: any;
+  @Column({ nullable: true })
+  body: string;
 
   @Column()
   created_by: string;

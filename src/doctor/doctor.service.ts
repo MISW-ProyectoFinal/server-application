@@ -9,6 +9,9 @@ import {
   BusinessLogicException,
   BusinessError,
 } from '../shared/errors/business-errors';
+import { NotificationDto } from './../notification/dto/create-notification.dto';
+import { NotificationService } from './../notification/notification.service';
+import { UpdateNotificationDto } from './../notification/dto/update-notification.dto';
 
 const saltRounds = 10;
 @Injectable()
@@ -16,6 +19,7 @@ export class DoctorService {
   constructor(
     @InjectRepository(Doctor)
     private readonly doctorRepository: Repository<Doctor>,
+    private readonly notificationService: NotificationService,
   ) {}
 
   async create(doctorCreated: Doctor): Promise<Doctor> {
@@ -90,5 +94,40 @@ export class DoctorService {
     }
 
     return doctor;
+  }
+
+  async enablePush(
+    doctorId: string,
+    update_dto: NotificationDto,
+  ): Promise<any> {
+    const doctor = await this.doctorRepository.findOne({
+      where: { id: doctorId },
+    });
+
+    const res = await this.notificationService.acceptPushNotification(
+      doctor,
+      update_dto,
+    );
+
+    console.log(res);
+    console.log('probando');
+    return res;
+  }
+
+  async disablePush(
+    doctorId: string,
+    update_dto: UpdateNotificationDto,
+  ): Promise<any> {
+    const doctor = await this.doctorRepository.findOne({
+      where: { id: doctorId },
+    });
+    return await this.notificationService.disablePushNotification(
+      doctor,
+      update_dto,
+    );
+  }
+
+  async getPushNotifications(): Promise<any> {
+    return await this.notificationService.getNotifications();
   }
 }

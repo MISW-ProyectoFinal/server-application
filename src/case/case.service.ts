@@ -14,6 +14,7 @@ import {
 import { Doctor } from './../doctor/entities/doctor.entity';
 import { CurrencyType } from './../currency_type/currency_type.enum';
 import { Treatment } from './../treatment/entities/treatment.entity';
+import { NotificationService } from './../notification/notification.service';
 
 @Injectable()
 export class CaseService {
@@ -29,6 +30,8 @@ export class CaseService {
 
     @InjectRepository(Patient)
     private readonly patientRepository: Repository<Patient>,
+
+    private readonly notificationService: NotificationService,
   ) {}
 
   async create(
@@ -156,7 +159,13 @@ export class CaseService {
 
     const caseToUpdate = await this.caseRepository.findOne({
       where: { id: id },
-      relations: ['injury', 'injury.patient', 'injury.photos', 'treatments'],
+      relations: [
+        'injury',
+        'injury.patient',
+        'injury.photos',
+        'treatments',
+        'doctor',
+      ],
     });
 
     if (!caseToUpdate) {
@@ -167,12 +176,13 @@ export class CaseService {
     } else {
       if (caseToUpdate.injury.patient.id != patient.id) {
         throw new BusinessLogicException(
-          'El caso no pertenece al paciente',
+          'El caso no pertenece al paciente o no se encuentra por confirmar',
           BusinessError.PRECONDITION_FAILED,
         );
       }
     }
 
+    const initialDoctor = caseToUpdate.doctor;
     let treatment = caseToUpdate.treatments[0];
 
     if (requestAnswer == 'yes') {
@@ -191,7 +201,26 @@ export class CaseService {
       this.treatmentRepository.remove(treatment);
     }
 
-    return await this.caseRepository.save(caseToUpdate);
+    const savedCase = await this.caseRepository.save(caseToUpdate);
+
+    if (savedCase) {
+      console.log('entrando');
+      console.log(initialDoctor.id);
+
+      const fullResponse = `${patient.name} ha ${
+        requestAnswer == 'yes' ? 'aceptado' : 'rechazado'
+      } su solicitud de atención.`;
+
+      const not_response = await this.notificationService
+        .sendPush(initialDoctor, 'Solicitud de caso', fullResponse)
+        .catch((e) => {
+          console.log('Error sending push notification', e);
+        });
+
+      console.log(not_response);
+    }
+
+    return savedCase;
   }
 
   async unassignCase(id: string, doctorId: string): Promise<Case> {

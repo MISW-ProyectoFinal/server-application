@@ -23,33 +23,33 @@ export class NotificationService {
     private readonly notificationTokenRepo: Repository<NotificationToken>,
   ) {}
 
-  acceptPushNotification = async (
+  async acceptPushNotification(
     user: any,
     notification_dto: NotificationDto,
-  ): Promise<NotificationToken> => {
+  ): Promise<NotificationToken> {
     await this.notificationTokenRepo.update(
-      { user: { id: user.id } },
+      { userId: user.id },
       {
         active: false,
       },
     );
     // save to db
     const notification_token = await this.notificationTokenRepo.save({
-      user: user,
+      userId: user.id,
       device_type: notification_dto.device_type,
       notification_token: notification_dto.notification_token,
       active: true,
     });
     return notification_token;
-  };
+  }
 
-  disablePushNotification = async (
+  async disablePushNotification(
     user: any,
     update_dto: UpdateNotificationDto,
-  ): Promise<void> => {
+  ): Promise<void> {
     try {
       await this.notificationTokenRepo.update(
-        { user: { id: user.id }, device_type: update_dto.device_type },
+        { userId: user.id, device_type: update_dto.device_type },
         {
           active: false,
         },
@@ -57,31 +57,33 @@ export class NotificationService {
     } catch (error) {
       return error;
     }
-  };
+  }
 
-  getNotifications = async (): Promise<any> => {
+  async getNotifications(): Promise<any> {
     return await this.notificationsRepo.find();
-  };
+  }
 
-  sendPush = async (user: any, title: string, body: string): Promise<void> => {
+  async sendPush(user: any, title: string, body: string): Promise<any> {
     try {
       const notification = await this.notificationTokenRepo.findOne({
-        where: { user: { id: user.id }, active: true },
+        where: { userId: user.id, active: true },
       });
+      console.log(notification);
       if (notification) {
         await this.notificationsRepo.save({
           notification_token: notification,
           title,
           body,
           active: true,
-          created_by: user.username,
+          created_by: user.email,
         });
-        await firebase
+
+        return await firebase
           .messaging()
           .send({
             notification: { title, body },
             token: notification.notification_token,
-            android: { priority: 'high' },
+            // android: { priority: 'high' },
           })
           .catch((error: any) => {
             console.error(error);
@@ -90,5 +92,5 @@ export class NotificationService {
     } catch (error) {
       return error;
     }
-  };
+  }
 }

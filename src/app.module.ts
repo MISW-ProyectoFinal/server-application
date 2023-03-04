@@ -118,7 +118,7 @@ import { NotificationToken } from './notification/entities/notification-token.en
         Notification,
         NotificationToken,
       ],
-      dropSchema: false,
+      dropSchema: true,
       synchronize: true,
       keepConnectionAlive: true,
     }),
