@@ -189,7 +189,7 @@ export class CaseService {
       caseToUpdate.case_status = CaseStatus.EN_PROCESO;
 
       const date = new Date();
-      treatment.start_date = `${date.getFullYear()}-${date.getMonth()}-${date.getDay()}`;
+      treatment.start_date = date.toISOString().slice(0, 10);
       this.treatmentRepository.save(treatment);
     } else {
       caseToUpdate.doctor = null;
@@ -356,7 +356,7 @@ export class CaseService {
     if (requestAnswer == 'yes') {
       caseToUpdate.case_status = CaseStatus.CERRADO;
       const date = new Date();
-      caseToUpdate.end_date = `${date.getFullYear()}-${date.getMonth()}-${date.getDay()}`;
+      caseToUpdate.end_date = date.toISOString().slice(0, 10);
     } else {
       caseToUpdate.case_status = CaseStatus.EN_PROCESO;
     }
