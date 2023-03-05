@@ -204,9 +204,6 @@ export class CaseService {
     const savedCase = await this.caseRepository.save(caseToUpdate);
 
     if (savedCase) {
-      console.log('entrando');
-      console.log(initialDoctor.id);
-
       const fullResponse = `${patient.name} ha ${
         requestAnswer == 'yes' ? 'aceptado' : 'rechazado'
       } su solicitud de atención.`;

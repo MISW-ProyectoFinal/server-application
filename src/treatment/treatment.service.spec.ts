@@ -21,6 +21,7 @@ import { InjuryDistribution } from './../injury_distribution/injury_distribution
 import { CaseStatus } from './../case_status/case_status.enum';
 import { PaymentStatus } from './../payment_status/payment_status.enum';
 import { CurrencyType } from './../currency_type/currency_type.enum';
+import { NotificationService } from './../notification/notification.service';
 
 describe('TreatmentService', () => {
   let caseRepository: Repository<Case>;
@@ -43,7 +44,13 @@ describe('TreatmentService', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: TypeOrmTestingConfig(),
-      providers: [TreatmentService, CaseService, DoctorService, PatientService],
+      providers: [
+        TreatmentService,
+        CaseService,
+        DoctorService,
+        NotificationService,
+        PatientService,
+      ],
     }).compile();
 
     caseService = module.get<CaseService>(CaseService);

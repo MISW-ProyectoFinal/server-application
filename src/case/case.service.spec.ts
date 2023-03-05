@@ -21,6 +21,7 @@ import { CurrencyType } from './../currency_type/currency_type.enum';
 import { PaymentStatus } from './../payment_status/payment_status.enum';
 import { CaseStatus } from './../case_status/case_status.enum';
 import { Treatment } from './../treatment/entities/treatment.entity';
+import { NotificationService } from './../notification/notification.service';
 
 describe('CaseService', () => {
   let caseRepository: Repository<Case>;
@@ -43,7 +44,13 @@ describe('CaseService', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: TypeOrmTestingConfig(),
-      providers: [PatientService, DoctorService, InjuryService, CaseService],
+      providers: [
+        PatientService,
+        DoctorService,
+        InjuryService,
+        CaseService,
+        NotificationService,
+      ],
     }).compile();
 
     caseService = module.get<CaseService>(CaseService);
@@ -131,7 +138,7 @@ describe('CaseService', () => {
     case1 = {
       id: faker.datatype.uuid(),
       case_status: CaseStatus.PENDIENTE,
-      start_date: '2023-02-01',
+      start_date: new Date().toISOString().slice(0, 10),
       end_date: null,
       pending_payment: false,
       payment_status: PaymentStatus.PENDIENTE,
@@ -283,6 +290,8 @@ describe('CaseService', () => {
   it('should accept a request to take case by a doctor', async () => {
     case1.doctor = doctor1;
     case1.case_status = CaseStatus.POR_CONFIRMAR;
+    case1.treatments = [treatment1];
+    await caseRepository.save(case1);
 
     const caseInstance: Case = await caseService.answerRequest(
       case1.id,
@@ -295,6 +304,8 @@ describe('CaseService', () => {
   it('should refuse a request to take case by a doctor', async () => {
     case1.doctor = doctor1;
     case1.case_status = CaseStatus.POR_CONFIRMAR;
+    case1.treatments = [treatment1];
+    await caseRepository.save(case1);
 
     const caseInstance: Case = await caseService.answerRequest(
       case1.id,

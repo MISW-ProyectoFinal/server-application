@@ -19,6 +19,8 @@ import { TreatmentProgressPhoto } from '../../treatment_progress_photo/entities/
 import { InjuryPhoto } from '../../injury_photo/entities/injury_photo.entity';
 import { AutomaticCase } from '../../automatic_case/entities/automatic_case.entity';
 import { AutomaticDiagnosis } from '../../automatic_diagnosis/entities/automatic_diagnosis.entity';
+import { Notification } from './../../notification/entities/notification.entity';
+import { NotificationToken } from './../../notification/entities/notification-token.entity';
 
 const entities = [
   Doctor,
@@ -41,6 +43,8 @@ const entities = [
   InjuryPhoto,
   AutomaticCase,
   AutomaticDiagnosis,
+  Notification,
+  NotificationToken,
 ];
 
 export const TypeOrmTestingConfig = () => [

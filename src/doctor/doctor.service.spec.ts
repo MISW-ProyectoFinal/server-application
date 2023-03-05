@@ -5,14 +5,12 @@ import { DoctorService } from './doctor.service';
 import { Doctor } from './entities/doctor.entity';
 import { TypeOrmTestingConfig } from '../shared/testing-utils/typeorm-testing-config';
 import { Gender } from '../gender/gender.enum';
-import { Country } from '../country/entities/country.entity';
-import { City } from '../city/entities/city.entity';
-import { DocumentType } from '../document_type/entities/document_type.entity';
 import { CreateDoctorDto } from './dto/create-doctor.dto';
 import { plainToInstance } from 'class-transformer';
 import { validate, ValidationError } from 'class-validator';
 import { Language } from './../language/language.enum';
 import { faker } from '@faker-js/faker';
+import { NotificationService } from './../notification/notification.service';
 
 export function stringified(errors: ValidationError[]): string {
   return JSON.stringify(errors);
@@ -26,7 +24,7 @@ describe('DoctorService', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: TypeOrmTestingConfig(),
-      providers: [DoctorService],
+      providers: [DoctorService, NotificationService],
     }).compile();
 
     service = module.get<DoctorService>(DoctorService);

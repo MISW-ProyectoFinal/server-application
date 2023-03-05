@@ -22,6 +22,7 @@ import { TypeOrmTestingConfig } from './../shared/testing-utils/typeorm-testing-
 import { TreatmentService } from './../treatment/treatment.service';
 import { PatientService } from './../patient/patient.service';
 import { DoctorService } from './../doctor/doctor.service';
+import { NotificationService } from './../notification/notification.service';
 
 describe('TreatmentProgressService', () => {
   let injuryRepository: Repository<Injury>;
@@ -51,6 +52,7 @@ describe('TreatmentProgressService', () => {
         TreatmentService,
         DoctorService,
         PatientService,
+        NotificationService,
       ],
     }).compile();
 

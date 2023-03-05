@@ -2,9 +2,9 @@ import { JwtService } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
 import { DoctorService } from './../doctor/doctor.service';
 import { PatientService } from './../patient/patient.service';
-import { UsersService } from '../user/users.service';
 import { AuthService } from './auth.service';
 import { TypeOrmTestingConfig } from './../shared/testing-utils/typeorm-testing-config';
+import { NotificationService } from './../notification/notification.service';
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -15,7 +15,13 @@ describe('AuthService', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: TypeOrmTestingConfig(),
-      providers: [AuthService, DoctorService, JwtService, PatientService],
+      providers: [
+        AuthService,
+        DoctorService,
+        JwtService,
+        PatientService,
+        NotificationService,
+      ],
     }).compile();
 
     service = module.get<AuthService>(AuthService);
