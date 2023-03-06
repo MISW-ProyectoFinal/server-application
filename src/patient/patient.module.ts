@@ -12,6 +12,7 @@ import { PatientAllergyService } from 'src/patient_allergy/patient_allergy.servi
 import { PatientIllnessService } from 'src/patient_illness/patient_illness.service';
 import { Allergy } from 'src/allergy/entities/allergy.entity';
 import { Illness } from 'src/illness/entities/illness.entity';
+import { AzureBlobService } from 'src/shared/services/azure-blob.service';
 
 @Module({
   controllers: [PatientController],
@@ -22,6 +23,7 @@ import { Illness } from 'src/illness/entities/illness.entity';
     DoctorService,
     PatientAllergyService,
     PatientIllnessService,
+    AzureBlobService,
   ],
   imports: [
     TypeOrmModule.forFeature([Patient, Doctor, User, Allergy, Illness]),
