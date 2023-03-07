@@ -16,7 +16,6 @@ import { Patient } from './../patient/entities/patient.entity';
 import { PatientService } from './../patient/patient.service';
 import { AutomaticCaseService } from './automatic_case.service';
 import { CreateAutomaticCaseDto } from './dto/create-automatic_case.dto';
-import { UpdateAutomaticCaseDto } from './dto/update-automatic_case.dto';
 import { AutomaticCase } from './entities/automatic_case.entity';
 
 @Controller('automatic-case')
@@ -59,13 +58,5 @@ export class AutomaticCaseController {
   @Get(':id')
   async findOne(@Param('id') id: string) {
     return await this.automaticCaseService.findOne(id);
-  }
-
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateAutomaticCaseDto: UpdateAutomaticCaseDto,
-  ) {
-    return this.automaticCaseService.update(+id, updateAutomaticCaseDto);
   }
 }
