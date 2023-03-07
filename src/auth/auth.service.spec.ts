@@ -12,7 +12,7 @@ describe('AuthService', () => {
   let doctorService: DoctorService;
   let patientService: PatientService;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: TypeOrmTestingConfig(),
       providers: [AuthService, DoctorService, JwtService, PatientService],

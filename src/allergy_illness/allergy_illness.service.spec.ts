@@ -4,7 +4,7 @@ import { AllergyIllnessService } from './allergy_illness.service';
 describe('AllergyIllnessService', () => {
   let service: AllergyIllnessService;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [AllergyIllnessService],
     }).compile();

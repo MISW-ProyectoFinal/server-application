@@ -25,7 +25,7 @@ describe('DoctorSpecialtyService', () => {
 
   const today = new Date();
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: TypeOrmTestingConfig(),
       providers: [DoctorSpecialtyService],
@@ -41,7 +41,9 @@ describe('DoctorSpecialtyService', () => {
     repository = module.get<Repository<DoctorSpecialty>>(
       getRepositoryToken(DoctorSpecialty),
     );
+  });
 
+  beforeEach(async () => {
     await seedDatabase();
   });
 

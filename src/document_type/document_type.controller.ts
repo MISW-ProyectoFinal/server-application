@@ -1,15 +1,6 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body } from '@nestjs/common';
 import { DocumentTypeService } from './document_type.service';
 import { CreateDocumentTypeDto } from './dto/create-document_type.dto';
-import { UpdateDocumentTypeDto } from './dto/update-document_type.dto';
 
 @Controller('document-type')
 export class DocumentTypeController {

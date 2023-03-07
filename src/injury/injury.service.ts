@@ -27,7 +27,7 @@ export class InjuryService {
 
     if (!injury) {
       throw new BusinessLogicException(
-        'No se logra encontrar al paciente en el sistema',
+        'No se logra encontrar la lesión en el sistema',
         BusinessError.NOT_FOUND,
       );
     }
@@ -36,23 +36,10 @@ export class InjuryService {
   }
 
   async findAll(patientId: string) {
-    const injuries = await this.injuryRepository.find({
+    return await this.injuryRepository.find({
       where: {
         patient: { id: patientId },
       },
     });
-
-    if (!injuries) {
-      throw new BusinessLogicException(
-        'No se logra encontrar al paciente en el sistema',
-        BusinessError.NOT_FOUND,
-      );
-    }
-
-    return injuries;
-  }
-
-  update(id: number, updateInjuryDto: UpdateInjuryDto) {
-    return `This action updates a #${id} injury`;
   }
 }

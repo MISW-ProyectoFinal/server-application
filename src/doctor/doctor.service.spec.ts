@@ -5,9 +5,6 @@ import { DoctorService } from './doctor.service';
 import { Doctor } from './entities/doctor.entity';
 import { TypeOrmTestingConfig } from '../shared/testing-utils/typeorm-testing-config';
 import { Gender } from '../gender/gender.enum';
-import { Country } from '../country/entities/country.entity';
-import { City } from '../city/entities/city.entity';
-import { DocumentType } from '../document_type/entities/document_type.entity';
 import { CreateDoctorDto } from './dto/create-doctor.dto';
 import { plainToInstance } from 'class-transformer';
 import { validate, ValidationError } from 'class-validator';
@@ -23,7 +20,7 @@ describe('DoctorService', () => {
   let service: DoctorService;
   let doctorSeed: Doctor;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: TypeOrmTestingConfig(),
       providers: [DoctorService],
@@ -31,7 +28,9 @@ describe('DoctorService', () => {
 
     service = module.get<DoctorService>(DoctorService);
     repository = module.get<Repository<Doctor>>(getRepositoryToken(Doctor));
+  });
 
+  beforeEach(async () => {
     await seedDatabase();
   });
 
@@ -44,7 +43,7 @@ describe('DoctorService', () => {
 
     doctorSeed = {
       id: faker.datatype.uuid(),
-      email: faker.internet.email(),
+      email: 'doctor1@example.com',
       password: 'TEst13$$',
       active: false,
       name: 'Miguel',
@@ -168,9 +167,13 @@ describe('DoctorService', () => {
     try {
       await service.update(faker.datatype.uuid(), doctorData);
     } catch (error) {
-      console.log(error);
       expect(error.message).toBe('Doctor no encontrado');
     }
+  });
+
+  it('Should find doctor by email', async () => {
+    const findedDoctor = await service.findByEmail(doctorSeed.email);
+    expect(findedDoctor).not.toBeNull();
   });
 
   it('Should not find doctor by email', async () => {

@@ -12,7 +12,7 @@ describe('CountryService', () => {
 
   let country1: Country;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: TypeOrmTestingConfig(),
       providers: [CountryService],
@@ -22,7 +22,9 @@ describe('CountryService', () => {
     countryRepository = module.get<Repository<Country>>(
       getRepositoryToken(Country),
     );
+  });
 
+  beforeEach(async () => {
     await seedDatabase();
   });
 

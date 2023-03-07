@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-// import { UpdateDoctorDto } from './dto/update-doctor.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Doctor } from './entities/doctor.entity';
@@ -39,10 +38,6 @@ export class DoctorService {
 
   private hashPassword(password: string): Observable<string> {
     return from<Promise<string>>(bcrypt.hash(password, saltRounds));
-  }
-
-  findAll() {
-    return `This action returns all doctor`;
   }
 
   async findOne(id: string) {

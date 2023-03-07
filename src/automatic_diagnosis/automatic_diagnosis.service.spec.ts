@@ -4,7 +4,7 @@ import { AutomaticDiagnosisService } from './automatic_diagnosis.service';
 describe('AutomaticDiagnosisService', () => {
   let service: AutomaticDiagnosisService;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [AutomaticDiagnosisService],
     }).compile();

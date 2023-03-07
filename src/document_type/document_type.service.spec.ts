@@ -16,7 +16,7 @@ describe('DocumentTypeService', () => {
   let country1: Country;
   let documentType1: DocumentType;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: TypeOrmTestingConfig(),
       providers: [DocumentTypeService],
@@ -30,7 +30,9 @@ describe('DocumentTypeService', () => {
     countryRepository = module.get<Repository<Country>>(
       getRepositoryToken(Country),
     );
+  });
 
+  beforeEach(async () => {
     await seedDatabase();
   });
 

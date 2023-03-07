@@ -1,15 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { SymptomService } from './symptom.service';
+import { AzureBlobService } from './azure-blob.service';
 
-describe('SymptomService', () => {
-  let service: SymptomService;
+describe('AzureBlobService', () => {
+  let service: AzureBlobService;
 
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [SymptomService],
+      providers: [AzureBlobService],
     }).compile();
 
-    service = module.get<SymptomService>(SymptomService);
+    service = module.get<AzureBlobService>(AzureBlobService);
   });
 
   it('should be defined', () => {
