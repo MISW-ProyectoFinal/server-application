@@ -167,7 +167,6 @@ describe('DoctorService', () => {
     try {
       await service.update(faker.datatype.uuid(), doctorData);
     } catch (error) {
-      console.log(error);
       expect(error.message).toBe('Doctor no encontrado');
     }
   });

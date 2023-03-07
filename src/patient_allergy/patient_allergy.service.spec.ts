@@ -100,7 +100,6 @@ describe('PatientAllergyService', () => {
     try {
       await service.create(id, allergyId);
     } catch (error) {
-      console.log(error);
       expect(error.message).toBe('patient not found');
     }
   });

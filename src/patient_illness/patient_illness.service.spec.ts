@@ -100,7 +100,6 @@ describe('PatientIllnessService', () => {
     try {
       await service.create(id, illnessId);
     } catch (error) {
-      console.log(error);
       expect(error.message).toBe('patient not found');
     }
   });
