@@ -9,10 +9,31 @@ jobs:
   sonarcloud:
     name: SonarCloud
     runs-on: ubuntu-latest
+
+    container: node:16-bullseye
+
+    # Service containers to run with `container-job`
+    services:
+      # Label used to access the service container
+      postgres:
+        # Docker Hub image
+        image: postgres
+        # Provide the password for postgres
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: dermo_app_test
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+
     steps:
       - uses: actions/checkout@v2
         with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
       - name: Use Node.js 16.x
         uses: actions/setup-node@v3
         with:
@@ -21,12 +42,12 @@ jobs:
           npm install
           npm run test:ci
         env:
-          PG_DB_HOSTURL: ${{ secrets.PG_DB_HOSTURL }}
-          PG_DB_PORT: ${{ secrets.PG_DB_PORT }}
-          PG_DB_USERNAME: ${{ secrets.PG_DB_USERNAME }}
-          PG_DB_PASSWORD: ${{ secrets.PG_DB_PASSWORD }}
+          PG_DB_HOSTURL: postgres
+          PG_DB_PORT: 5432
+          PG_DB_USERNAME: postgres
+          PG_DB_PASSWORD: postgres
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
