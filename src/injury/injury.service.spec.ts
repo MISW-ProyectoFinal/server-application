@@ -129,22 +129,21 @@ describe('InjuryService', () => {
       patient: patient1,
     };
     const injury: Injury = await injuryService.create(injuryToCreate);
-    const findInjury  = await injuryService.findOne(injury.id);
+    const findInjury = await injuryService.findOne(injury.id);
     expect(findInjury).not.toBeNull();
   });
 
-  it('should not find all injury by patient', async () => {
-    
+  it('should find injury', async () => {
     try {
-      await injuryService.findAll(patient1.id);
+      await injuryService.findOne(faker.datatype.uuid());
     } catch (error) {
-      expect(error.message).toBe('No se logra encontrar al paciente en el sistema');
+      expect(error.message).toBe(
+        'No se logra encontrar la lesión en el sistema',
+      );
     }
-    
   });
 
   it('should find all injury by patient', async () => {
-    
     const injuryToCreate: Injury = {
       id: faker.datatype.uuid(),
       type: InjuryType.AMPOLLA,
@@ -162,9 +161,7 @@ describe('InjuryService', () => {
       patient: patient1,
     };
     await injuryService.create(injuryToCreate);
-    const findInjury  = await injuryService.findAll(patient1.id);
+    const findInjury = await injuryService.findAll(patient1.id);
     expect(findInjury).not.toBeNull();
-    
   });
-
 });

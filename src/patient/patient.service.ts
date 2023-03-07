@@ -43,10 +43,6 @@ export class PatientService {
     return from<Promise<string>>(bcrypt.hash(password, saltRounds));
   }
 
-  findAll() {
-    return `This action returns all patient`;
-  }
-
   async findOne(id: string): Promise<Patient> {
     const patient = await this.patientRepository.findOne({
       where: { id: id },
@@ -83,10 +79,6 @@ export class PatientService {
       ...patient,
       ...updatePatientDto,
     });
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} patient`;
   }
 
   async findByEmail(email: string): Promise<Patient> {

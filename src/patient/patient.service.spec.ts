@@ -108,7 +108,7 @@ describe('PatientService', () => {
 
     initialPatient = {
       id: faker.datatype.uuid(),
-      email: faker.internet.email(),
+      email: 'paciente1@example.com',
       password: 'Testing123$',
       active: true,
       name: 'Pedro',
@@ -215,6 +215,40 @@ describe('PatientService', () => {
     expect(patient.name).toEqual('Pedro');
   });
 
+  it('should not create patient with same email', async () => {
+    const patientCreate: Patient = {
+      id: faker.datatype.uuid(),
+      email: 'paciente1@example.com',
+      password: 'Testing123$',
+      active: true,
+      name: 'Pedro',
+      surname: 'Linares',
+      phone: '12331233',
+      cell_phone: '3125270304',
+      date_of_birth: '1991-10-03',
+      address: 'Ugarte 116B # 78B 62',
+      city: null,
+      country: null,
+      gender: Gender.BINARIO,
+      document_type: null,
+      document_number: '12341234',
+      accept_terms: true,
+      approval_date: '2023-02-01',
+      skin_type: SkinType.BLANCO,
+      allergies: [],
+      illnesses: [],
+      injuries: [],
+      virt_country: null,
+      virt_city: null,
+      fav_language: Language.SPANISH,
+    };
+    try {
+      await service.create(patientCreate);
+    } catch (error) {
+      expect(error.message).toBe('email registered');
+    }
+  });
+
   it('should update patient configuration preferences', async () => {
     let patientToUpdate: Patient = {
       ...initialPatient,
@@ -233,6 +267,14 @@ describe('PatientService', () => {
     const patient = await service.findByEmail(initialPatient.email);
     expect(patient.id).toEqual(initialPatient.id);
     expect(patient.email).toEqual(initialPatient.email);
+  });
+
+  it('should not find patient by email', async () => {
+    try {
+      await service.findByEmail(faker.internet.email());
+    } catch (error) {
+      expect(error.message).toBe('El paciente que esta buscando no existe');
+    }
   });
 
   it('should get patient clinic-history as doctor', async () => {
