@@ -8,7 +8,6 @@ import {
   BusinessLogicException,
 } from './../shared/errors/business-errors';
 import { Repository } from 'typeorm';
-import { UpdateAutomaticCaseDto } from './dto/update-automatic_case.dto';
 import { AutomaticCase } from './entities/automatic_case.entity';
 
 @Injectable()
@@ -60,9 +59,5 @@ export class AutomaticCaseService {
     }
 
     return automaticCase;
-  }
-
-  update(id: number, updateAutomaticCaseDto: UpdateAutomaticCaseDto) {
-    return `This action updates a #${id} automaticCase`;
   }
 }
