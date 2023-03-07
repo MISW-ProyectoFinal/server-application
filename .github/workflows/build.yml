@@ -22,11 +22,12 @@ jobs:
           PGPORT: ${{ secrets.PG_DB_PORT }}
           PGUSER: ${{ secrets.PG_DB_USERNAME }}
           PGPASSWORD: ${{ secrets.PG_DB_PASSWORD }}
+          PGDATABASE: postgres
         run: |
-          echo "Dropping database 'remote_test_db'..."
-          psql -c "DROP DATABASE IF EXISTS remote_test_db;"
-          echo "Creating database 'remote_test_db'..."
-          psql -c "CREATE DATABASE remote_test_db;"
+          echo "Dropping database 'remote_test_bd'..."
+          psql -c "DROP DATABASE IF EXISTS remote_test_bd;"
+          echo "Creating database 'remote_test_bd'..."
+          psql -c "CREATE DATABASE remote_test_bd;"
           echo "Done."
 
   sonarcloud:
