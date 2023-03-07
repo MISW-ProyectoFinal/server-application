@@ -6,9 +6,33 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 jobs:
+  reset-test-db:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install psql dependency
+        run: sudo apt-get update && sudo apt-get -y install postgresql-client
+
+      - name: Reset Tests DB
+        env:
+          PGHOST: ${{ secrets.PG_DB_HOSTURL }}
+          PGPORT: ${{ secrets.PG_DB_PORT }}
+          PGUSER: ${{ secrets.PG_DB_USERNAME }}
+          PGPASSWORD: ${{ secrets.PG_DB_PASSWORD }}
+        run: |
+          echo "Dropping database 'remote_test_db'..."
+          psql -c "DROP DATABASE IF EXISTS remote_test_db;"
+          echo "Creating database 'remote_test_db'..."
+          psql -c "CREATE DATABASE remote_test_db;"
+          echo "Done."
+
   sonarcloud:
     name: SonarCloud
     runs-on: ubuntu-latest
+    needs: reset-test-db
     steps:
       - uses: actions/checkout@v2
         with:
