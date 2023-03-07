@@ -27,19 +27,4 @@ export class AllergyController {
   async findAll() {
     return await this.allergyService.findAll();
   }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.allergyService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAllergyDto: UpdateAllergyDto) {
-    return this.allergyService.update(+id, updateAllergyDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.allergyService.remove(+id);
-  }
 }
