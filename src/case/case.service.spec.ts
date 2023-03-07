@@ -40,7 +40,7 @@ describe('CaseService', () => {
   let case1: Case;
   let treatment1: Treatment;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: TypeOrmTestingConfig(),
       providers: [PatientService, DoctorService, InjuryService, CaseService],
@@ -64,7 +64,9 @@ describe('CaseService', () => {
     treatmentRepository = module.get<Repository<Treatment>>(
       getRepositoryToken(Treatment),
     );
+  });
 
+  beforeEach(async () => {
     await seedDatabase();
   });
 
@@ -78,9 +80,9 @@ describe('CaseService', () => {
   const seedDatabase = async () => {
     await treatmentRepository.delete({});
     await caseRepository.delete({});
-    await patientRepository.delete({});
-    await doctorRepository.delete({});
     await injuryRepository.delete({});
+    await doctorRepository.delete({});
+    await patientRepository.delete({});
 
     patient1 = {
       id: faker.datatype.uuid(),

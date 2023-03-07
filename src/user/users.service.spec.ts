@@ -25,7 +25,7 @@ describe('UsersService', () => {
   let country1: Country;
   let city1: City;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: TypeOrmTestingConfig(),
       providers: [UsersService],
@@ -37,7 +37,9 @@ describe('UsersService', () => {
       getRepositoryToken(Country),
     );
     cityRepository = module.get<Repository<City>>(getRepositoryToken(City));
+  });
 
+  beforeEach(async () => {
     await seedDatabase();
   });
 

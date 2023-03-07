@@ -40,7 +40,7 @@ describe('TreatmentProgressPhotoService', () => {
   let treatmentProgress1: TreatmentProgress;
   let treatmentProgressPhoto1: TreatmentProgressPhoto;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: TypeOrmTestingConfig(),
       providers: [TreatmentProgressPhotoService],
@@ -69,7 +69,9 @@ describe('TreatmentProgressPhotoService', () => {
     doctorRepository = module.get<Repository<Doctor>>(
       getRepositoryToken(Doctor),
     );
+  });
 
+  beforeEach(async () => {
     await seedDatabase();
   });
 

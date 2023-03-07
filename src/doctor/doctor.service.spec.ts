@@ -20,7 +20,7 @@ describe('DoctorService', () => {
   let service: DoctorService;
   let doctorSeed: Doctor;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: TypeOrmTestingConfig(),
       providers: [DoctorService],
@@ -28,7 +28,9 @@ describe('DoctorService', () => {
 
     service = module.get<DoctorService>(DoctorService);
     repository = module.get<Repository<Doctor>>(getRepositoryToken(Doctor));
+  });
 
+  beforeEach(async () => {
     await seedDatabase();
   });
 

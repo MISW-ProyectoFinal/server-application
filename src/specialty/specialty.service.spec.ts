@@ -12,7 +12,7 @@ describe('SpecialtyService', () => {
 
   let specialty1: Specialty;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: TypeOrmTestingConfig(),
       providers: [SpecialtyService],
@@ -22,7 +22,9 @@ describe('SpecialtyService', () => {
     specialtyRepository = module.get<Repository<Specialty>>(
       getRepositoryToken(Specialty),
     );
+  });
 
+  beforeEach(async () => {
     await seedDatabase();
   });
 

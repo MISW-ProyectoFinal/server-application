@@ -1,11 +1,10 @@
-import { faker } from '@faker-js/faker';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AzureBlobService } from './azure-blob.service';
 
 describe('AzureBlobService', () => {
   let service: AzureBlobService;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [AzureBlobService],
     }).compile();

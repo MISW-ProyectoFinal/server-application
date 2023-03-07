@@ -38,7 +38,7 @@ describe('PatientService', () => {
   let doctor1: Doctor;
   let injury1: Injury;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: TypeOrmTestingConfig(),
       providers: [PatientService],
@@ -57,16 +57,18 @@ describe('PatientService', () => {
     injuryRepository = module.get<Repository<Injury>>(
       getRepositoryToken(Injury),
     );
+  });
 
+  beforeEach(async () => {
     await seedDatabase();
   });
 
   const seedDatabase = async () => {
+    await doctorRepository.delete({});
+    await injuryRepository.delete({});
     await repository.delete({});
     await cityRepository.delete({});
     await countryRepository.delete({});
-    await doctorRepository.delete({});
-    await injuryRepository.delete({});
 
     country = {
       id: faker.datatype.uuid(),
