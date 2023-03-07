@@ -1,16 +1,7 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { AllergyService } from './allergy.service';
 import { CreateAllergyDto } from './dto/create-allergy.dto';
-import { UpdateAllergyDto } from './dto/update-allergy.dto';
 import { Allergy } from './entities/allergy.entity';
 
 @Controller('allergy')
