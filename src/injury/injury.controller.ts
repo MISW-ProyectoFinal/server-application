@@ -1,11 +1,10 @@
+/* eslint-disable prefer-const */
 import {
   Controller,
   Get,
   Post,
   Body,
-  Patch,
   Param,
-  Delete,
   UseInterceptors,
   UseGuards,
   Req,
@@ -14,7 +13,6 @@ import {
 import { plainToInstance } from 'class-transformer';
 import { InjuryService } from './injury.service';
 import { CreateInjuryDto } from './dto/create-injury.dto';
-import { UpdateInjuryDto } from './dto/update-injury.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from './../auth/guards/jwt-auth.guard';
 import { Patient } from './../patient/entities/patient.entity';
@@ -95,18 +93,64 @@ export class InjuryController {
   @UseGuards(JwtAuthGuard)
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    return await this.injuryService.findOne(id);
+    let injury = await this.injuryService.findOne(id);
+    let photos = injury.photos;
+
+    for (let i = 0; i < photos.length; i++) {
+      const filePath = this.azureBlobService.getfilePath(
+        photos[i].file_name,
+        'injuries',
+      );
+      photos[i].file_name = filePath.url;
+    }
+    injury.photos = photos;
+
+    let cases = injury.cases;
+    for (let i = 0; i < cases.length; i++) {
+      const treatments = cases[i].treatments;
+
+      for (let j = 0; j < treatments.length; j++) {
+        const progresses = treatments[j].treatment_progresses;
+
+        for (let k = 0; k < progresses.length; k++) {
+          const tp_photos = progresses[k].treatment_progress_photos;
+
+          for (let l = 0; l < tp_photos.length; l++) {
+            const filePath = this.azureBlobService.getfilePath(
+              tp_photos[l].file_name,
+              'treatment-progress-photos',
+            );
+            tp_photos[l].file_name = filePath.url;
+          }
+          injury.cases[i].treatments[j].treatment_progresses[
+            k
+          ].treatment_progress_photos = tp_photos;
+        }
+      }
+    }
+
+    return injury;
   }
 
   @UseGuards(JwtAuthGuard)
   @Get()
   async findAll(@Req() req: any) {
     const { id } = req.user;
-    return await this.injuryService.findAll(id);
-  }
+    let injuries = await this.injuryService.findAll(id);
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateInjuryDto: UpdateInjuryDto) {
-    return this.injuryService.update(+id, updateInjuryDto);
+    for (let i = 0; i < injuries.length; i++) {
+      const photos = injuries[i].photos;
+
+      for (let j = 0; j < photos.length; j++) {
+        const filePath = this.azureBlobService.getfilePath(
+          photos[j].file_name,
+          'injuries',
+        );
+        photos[j].file_name = filePath.url;
+      }
+      injuries[i].photos = photos;
+    }
+
+    return injuries;
   }
 }
