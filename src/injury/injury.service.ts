@@ -5,7 +5,6 @@ import {
   BusinessLogicException,
 } from './../shared/errors/business-errors';
 import { Repository } from 'typeorm';
-import { UpdateInjuryDto } from './dto/update-injury.dto';
 import { Injury } from './entities/injury.entity';
 
 @Injectable()
@@ -22,7 +21,15 @@ export class InjuryService {
   async findOne(id: string) {
     const injury = await this.injuryRepository.findOne({
       where: { id: id },
-      relations: ['cases'],
+      relations: [
+        'photos',
+        'automatic_cases',
+        'cases',
+        'cases.doctor',
+        'cases.treatments',
+        'cases.treatments.treatment_progresses',
+        'cases.treatments.treatment_progresses.treatment_progress_photos',
+      ],
     });
 
     if (!injury) {
@@ -40,6 +47,7 @@ export class InjuryService {
       where: {
         patient: { id: patientId },
       },
+      relations: ['photos', 'cases', 'cases.doctor', 'automatic_cases'],
     });
 
     if (!injuries) {
@@ -50,9 +58,5 @@ export class InjuryService {
     }
 
     return injuries;
-  }
-
-  update(id: number, updateInjuryDto: UpdateInjuryDto) {
-    return `This action updates a #${id} injury`;
   }
 }
