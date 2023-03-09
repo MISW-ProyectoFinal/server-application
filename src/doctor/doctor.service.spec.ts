@@ -65,6 +65,7 @@ describe('DoctorService', () => {
       virt_country: null,
       virt_city: null,
       fav_language: Language.ENGLISH,
+      notification_token: null,
     };
     await repository.save(doctorSeed);
   };
@@ -93,6 +94,7 @@ describe('DoctorService', () => {
       virt_country: null,
       virt_city: null,
       fav_language: Language.SPANISH,
+      notification_token: null,
     };
     const doctor: Doctor = await service.create(doctorCreate);
     expect(doctor).not.toBeNull();
@@ -168,7 +170,6 @@ describe('DoctorService', () => {
     try {
       await service.update(faker.datatype.uuid(), doctorData);
     } catch (error) {
-      console.log(error);
       expect(error.message).toBe('Doctor no encontrado');
     }
   });

@@ -66,6 +66,7 @@ describe('PatientIllnessService', () => {
       virt_country: null,
       virt_city: null,
       fav_language: Language.ENGLISH,
+      notification_token: null,
     };
 
     illness = {
@@ -98,7 +99,6 @@ describe('PatientIllnessService', () => {
     try {
       await service.create(id, illnessId);
     } catch (error) {
-      console.log(error);
       expect(error.message).toBe('patient not found');
     }
   });

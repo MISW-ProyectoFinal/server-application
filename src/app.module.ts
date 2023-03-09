@@ -52,9 +52,16 @@ import { AuthModule } from './auth/auth.module';
 import { MulterModule } from '@nestjs/platform-express';
 import { ConfigModule } from '@nestjs/config';
 import { SkinTypeModule } from './skin_type/skin_type.module';
+import { HttpModule } from '@nestjs/axios';
 
 @Module({
   imports: [
+    HttpModule.registerAsync({
+      useFactory: () => ({
+        timeout: 5000,
+        maxRedirects: 5,
+      }),
+    }),
     ConfigModule.forRoot(),
     SkinTypeModule,
     SpecialtyModule,
@@ -119,7 +126,6 @@ import { SkinTypeModule } from './skin_type/skin_type.module';
     }),
     DocumentTypeModule,
     AuthModule,
-    ConfigModule.forRoot(),
   ],
   controllers: [AppController],
   providers: [AppService],

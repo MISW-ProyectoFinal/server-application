@@ -66,6 +66,7 @@ describe('PatientAllergyService', () => {
       virt_country: null,
       virt_city: null,
       fav_language: Language.ENGLISH,
+      notification_token: null,
     };
 
     allergy = {
@@ -98,7 +99,6 @@ describe('PatientAllergyService', () => {
     try {
       await service.create(id, allergyId);
     } catch (error) {
-      console.log(error);
       expect(error.message).toBe('patient not found');
     }
   });
