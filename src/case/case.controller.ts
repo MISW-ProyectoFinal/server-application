@@ -22,7 +22,10 @@ import { AzureBlobService } from './../shared/services/azure-blob.service';
 import { RequestAssignCaseDto } from './dto/request-assign-case.dto';
 import { Treatment } from './../treatment/entities/treatment.entity';
 import { TreatmentService } from './../treatment/treatment.service';
-import { BusinessError, BusinessLogicException } from 'src/shared/errors/business-errors';
+import {
+  BusinessError,
+  BusinessLogicException,
+} from 'src/shared/errors/business-errors';
 
 @Controller('case')
 export class CaseController {

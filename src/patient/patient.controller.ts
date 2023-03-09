@@ -71,7 +71,15 @@ export class PatientController {
   @UseGuards(LocalAuthGuard)
   @Post('login')
   async login(@Req() req) {
-    return this.authService.login(req.user);
+    const res = await this.authService.login(req.user);
+    if (res['token'] && res['token'] != null) {
+      const patient: Patient = plainToInstance(Patient, {
+        notification_token: req.body['notificationToken'],
+      });
+      await this.patientService.update(req.user.id, patient);
+    }
+
+    return res;
   }
 
   @UseGuards(JwtAuthGuard)

@@ -131,6 +131,7 @@ describe('PatientService', () => {
       virt_country: country,
       virt_city: city,
       fav_language: Language.ENGLISH,
+      notification_token: null,
     };
     await repository.save(initialPatient);
 
@@ -157,6 +158,7 @@ describe('PatientService', () => {
       virt_country: null,
       virt_city: null,
       fav_language: Language.ENGLISH,
+      notification_token: null,
     };
     await doctorRepository.save(doctor1);
 
@@ -209,6 +211,7 @@ describe('PatientService', () => {
       virt_country: null,
       virt_city: null,
       fav_language: Language.SPANISH,
+      notification_token: null,
     };
     const patient: Patient = await service.create(patientCreate);
     expect(patient).not.toBeNull();

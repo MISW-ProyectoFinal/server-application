@@ -13,6 +13,7 @@ import { CaseService } from './../case/case.service';
 import { DoctorService } from './../doctor/doctor.service';
 import { Doctor } from './../doctor/entities/doctor.entity';
 import { Treatment } from './../treatment/entities/treatment.entity';
+import { HttpModule } from '@nestjs/axios';
 
 @Module({
   controllers: [InjuryController],
@@ -33,6 +34,7 @@ import { Treatment } from './../treatment/entities/treatment.entity';
       Doctor,
       Treatment,
     ]),
+    HttpModule,
   ],
 })
 export class InjuryModule {}

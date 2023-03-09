@@ -73,6 +73,7 @@ describe('DoctorSpecialtyService', () => {
       virt_country: null,
       virt_city: null,
       fav_language: Language.ENGLISH,
+      notification_token: null,
     };
 
     specialty = {
