@@ -14,8 +14,6 @@ import { AzureBlobService } from './../shared/services/azure-blob.service';
 import { TreatmentProgressPhotoService } from './../treatment_progress_photo/treatment_progress_photo.service';
 import { TreatmentProgressPhoto } from './../treatment_progress_photo/entities/treatment_progress_photo.entity';
 import { NotificationService } from 'src/notification/notification.service';
-import { NotificationToken } from 'src/notification/entities/notification-token.entity';
-import { Notification } from 'src/notification/entities/notification.entity';
 
 @Module({
   controllers: [TreatmentProgressController],
@@ -36,8 +34,6 @@ import { Notification } from 'src/notification/entities/notification.entity';
       Doctor,
       Case,
       TreatmentProgressPhoto,
-      NotificationToken,
-      Notification,
     ]),
   ],
 })

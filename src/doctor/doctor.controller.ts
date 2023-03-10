@@ -15,8 +15,6 @@ import {
 import { plainToInstance } from 'class-transformer';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { LocalAuthGuard } from 'src/auth/guards/local-auth.guard';
-import { NotificationDto } from 'src/notification/dto/create-notification.dto';
-import { UpdateNotificationDto } from 'src/notification/dto/update-notification.dto';
 import { BusinessErrorsInterceptor } from 'src/shared/interceptors/business-errors.interceptor';
 import { AuthService } from '../auth/auth.service';
 import { DoctorService } from './doctor.service';
@@ -66,27 +64,31 @@ export class DoctorController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Put('push-enable')
+  @Put('push-enable/:notificationToken')
   @HttpCode(HttpStatus.OK)
-  async enablePush(@Req() req: any, @Body() updateDto: NotificationDto) {
+  async enablePush(
+    @Req() req: any,
+    @Param('notificationToken') notificationToken: string,
+  ) {
     const doctorId = req.user.id;
     console.log('activando');
-    console.log(updateDto);
-    return await this.doctorService.enablePush(doctorId, updateDto);
+    const doctorData: Doctor = plainToInstance(Doctor, {
+      notification_token: notificationToken,
+    });
+    await this.doctorService.update(doctorId, doctorData);
+    return notificationToken;
   }
 
   @UseGuards(JwtAuthGuard)
   @Put('push-disable')
   @HttpCode(HttpStatus.OK)
-  async disablePush(@Req() req: any, @Body() updateDto: UpdateNotificationDto) {
+  async disablePush(@Req() req: any) {
     const doctorId = req.user.id;
     console.log('desactivando');
-    return await this.doctorService.disablePush(doctorId, updateDto);
-  }
-
-  @Get('push-notifications')
-  @HttpCode(HttpStatus.OK)
-  async fetchPusNotifications() {
-    return await this.doctorService.getPushNotifications();
+    const doctorData: Doctor = plainToInstance(Doctor, {
+      notification_token: null,
+    });
+    await this.doctorService.update(doctorId, doctorData);
+    return null;
   }
 }

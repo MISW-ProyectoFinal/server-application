@@ -13,8 +13,6 @@ import { PatientIllnessService } from 'src/patient_illness/patient_illness.servi
 import { Allergy } from 'src/allergy/entities/allergy.entity';
 import { Illness } from 'src/illness/entities/illness.entity';
 import { NotificationService } from 'src/notification/notification.service';
-import { NotificationToken } from 'src/notification/entities/notification-token.entity';
-import { Notification } from 'src/notification/entities/notification.entity';
 import { AzureBlobService } from 'src/shared/services/azure-blob.service';
 
 @Module({
@@ -30,15 +28,7 @@ import { AzureBlobService } from 'src/shared/services/azure-blob.service';
     AzureBlobService,
   ],
   imports: [
-    TypeOrmModule.forFeature([
-      Patient,
-      Doctor,
-      User,
-      Allergy,
-      Illness,
-      NotificationToken,
-      Notification,
-    ]),
+    TypeOrmModule.forFeature([Patient, Doctor, User, Allergy, Illness]),
   ],
 })
 export class PatientModule {}

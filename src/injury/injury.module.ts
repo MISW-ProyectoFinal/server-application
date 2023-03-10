@@ -14,8 +14,6 @@ import { DoctorService } from './../doctor/doctor.service';
 import { Doctor } from './../doctor/entities/doctor.entity';
 import { Treatment } from './../treatment/entities/treatment.entity';
 import { NotificationService } from './../notification/notification.service';
-import { Notification } from './../notification/entities/notification.entity';
-import { NotificationToken } from './../notification/entities/notification-token.entity';
 import { HttpModule } from '@nestjs/axios';
 
 @Module({
@@ -37,8 +35,6 @@ import { HttpModule } from '@nestjs/axios';
       Case,
       Doctor,
       Treatment,
-      Notification,
-      NotificationToken,
     ]),
     HttpModule,
   ],

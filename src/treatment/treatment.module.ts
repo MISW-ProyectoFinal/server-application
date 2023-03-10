@@ -15,8 +15,6 @@ import { TreatmentProgress } from './../treatment_progress/entities/treatment_pr
 import { TreatmentProgressPhoto } from './../treatment_progress_photo/entities/treatment_progress_photo.entity';
 import { TreatmentProgressPhotoService } from './../treatment_progress_photo/treatment_progress_photo.service';
 import { NotificationService } from './../notification/notification.service';
-import { Notification } from './../notification/entities/notification.entity';
-import { NotificationToken } from './../notification/entities/notification-token.entity';
 import { HttpModule } from '@nestjs/axios';
 
 @Module({
@@ -39,8 +37,6 @@ import { HttpModule } from '@nestjs/axios';
       Doctor,
       TreatmentProgress,
       TreatmentProgressPhoto,
-      Notification,
-      NotificationToken,
     ]),
     HttpModule,
   ],

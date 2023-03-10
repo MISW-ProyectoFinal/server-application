@@ -15,8 +15,6 @@ import { DoctorModule } from 'src/doctor/doctor.module';
 import { PatientModule } from 'src/patient/patient.module';
 import { User } from 'src/user/entities/user.entity';
 import { NotificationService } from 'src/notification/notification.service';
-import { NotificationToken } from 'src/notification/entities/notification-token.entity';
-import { Notification } from 'src/notification/entities/notification.entity';
 
 @Module({
   imports: [
@@ -27,13 +25,7 @@ import { Notification } from 'src/notification/entities/notification.entity';
       secret: constants.JWT_SECRET,
       signOptions: { expiresIn: constants.JWT_EXPIRES_IN },
     }),
-    TypeOrmModule.forFeature([
-      User,
-      Patient,
-      Doctor,
-      NotificationToken,
-      Notification,
-    ]),
+    TypeOrmModule.forFeature([User, Patient, Doctor]),
   ],
   providers: [
     AuthService,

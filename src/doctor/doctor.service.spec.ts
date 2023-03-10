@@ -10,7 +10,6 @@ import { plainToInstance } from 'class-transformer';
 import { validate, ValidationError } from 'class-validator';
 import { Language } from './../language/language.enum';
 import { faker } from '@faker-js/faker';
-import { NotificationService } from './../notification/notification.service';
 
 export function stringified(errors: ValidationError[]): string {
   return JSON.stringify(errors);
@@ -24,7 +23,7 @@ describe('DoctorService', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: TypeOrmTestingConfig(),
-      providers: [DoctorService, NotificationService],
+      providers: [DoctorService],
     }).compile();
 
     service = module.get<DoctorService>(DoctorService);
