@@ -53,6 +53,7 @@ import { MulterModule } from '@nestjs/platform-express';
 import { ConfigModule } from '@nestjs/config';
 import { SkinTypeModule } from './skin_type/skin_type.module';
 import { HttpModule } from '@nestjs/axios';
+import { strToBool } from './utils/utils';
 
 @Module({
   imports: [
@@ -120,7 +121,9 @@ import { HttpModule } from '@nestjs/axios';
         TreatmentProgressPhoto,
         User,
       ],
-      dropSchema: Boolean(process.env['RESET_DB']) || true,
+      dropSchema: process.env['RESET_DB']
+        ? strToBool(process.env['RESET_DB'])
+        : true,
       synchronize: true,
       keepConnectionAlive: true,
     }),
