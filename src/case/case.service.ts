@@ -211,7 +211,10 @@ export class CaseService {
         BusinessError.NOT_FOUND,
       );
     } else {
-      if (caseToUpdate.injury.patient.id != patient.id) {
+      if (
+        caseToUpdate.injury.patient.id != patient.id ||
+        caseToUpdate.case_status != CaseStatus.POR_CONFIRMAR
+      ) {
         throw new BusinessLogicException(
           'El caso no pertenece al paciente o no se encuentra por confirmar',
           BusinessError.PRECONDITION_FAILED,
