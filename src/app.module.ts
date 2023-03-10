@@ -121,7 +121,7 @@ import { HttpModule } from '@nestjs/axios';
         User,
       ],
       dropSchema: Boolean(process.env['RESET_DB']) || true,
-      synchronize: Boolean(process.env['RESET_DB']) || true,
+      synchronize: true,
       keepConnectionAlive: true,
     }),
     DocumentTypeModule,
