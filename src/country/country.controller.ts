@@ -26,19 +26,4 @@ export class CountryController {
   async findAll() {
     return await this.countryService.findAll();
   }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.countryService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCountryDto: UpdateCountryDto) {
-    return this.countryService.update(+id, updateCountryDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.countryService.remove(+id);
-  }
 }

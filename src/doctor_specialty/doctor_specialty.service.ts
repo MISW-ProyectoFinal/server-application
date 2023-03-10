@@ -1,14 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DoctorService } from '../doctor/doctor.service';
 import { Doctor } from '../doctor/entities/doctor.entity';
 import {
   BusinessLogicException,
   BusinessError,
 } from '../shared/errors/business-errors';
 import { Repository } from 'typeorm';
-import { CreateDoctorSpecialtyDto } from './dto/create-doctor_specialty.dto';
-import { UpdateDoctorSpecialtyDto } from './dto/update-doctor_specialty.dto';
 import { DoctorSpecialty } from './entities/doctor_specialty.entity';
 
 @Injectable()
@@ -79,8 +76,4 @@ export class DoctorSpecialtyService {
       ...updateDoctorSpecialtyDto,
     });
   }
-
-  // remove(id: number) {
-  //   return `This action removes a #${id} specialtyDoctor`;
-  // }
 }

@@ -17,6 +17,7 @@ import { TreatmentProgressPhotoService } from './../treatment_progress_photo/tre
 import { NotificationService } from './../notification/notification.service';
 import { Notification } from './../notification/entities/notification.entity';
 import { NotificationToken } from './../notification/entities/notification-token.entity';
+import { HttpModule } from '@nestjs/axios';
 
 @Module({
   controllers: [TreatmentController],
@@ -41,6 +42,7 @@ import { NotificationToken } from './../notification/entities/notification-token
       Notification,
       NotificationToken,
     ]),
+    HttpModule,
   ],
 })
 export class TreatmentModule {}

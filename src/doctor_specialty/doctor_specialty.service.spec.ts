@@ -73,6 +73,7 @@ describe('DoctorSpecialtyService', () => {
       virt_country: null,
       virt_city: null,
       fav_language: Language.ENGLISH,
+      notification_token: null,
     };
 
     specialty = {
@@ -158,5 +159,33 @@ describe('DoctorSpecialtyService', () => {
       doctorSpecialtyToUpdate,
     );
     expect(doctorSpecialtyToUpdate.authorized).toEqual(true);
+  });
+
+  it('should not authorize an inexistent specialtyDoctor', async () => {
+    try {
+      const doctorSpecialtyToUpdate: DoctorSpecialty = {
+        ...specialities_doctor,
+        authorized: true,
+      };
+
+      await service.update(faker.datatype.uuid(), doctorSpecialtyToUpdate);
+    } catch (error) {
+      expect(error.message).toBe('Especialidad no encontrada');
+    }
+  });
+
+  it('should find a doctor specialty', async () => {
+    const specialtyDoctor: DoctorSpecialty = await service.findOne(
+      specialities_doctor.id,
+    );
+    expect(specialtyDoctor).not.toBeNull();
+  });
+
+  it('should not find a treatment', async () => {
+    try {
+      await service.findOne(faker.datatype.uuid());
+    } catch (error) {
+      expect(error.message).toBe('not found');
+    }
   });
 });

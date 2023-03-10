@@ -15,6 +15,7 @@ import { Illness } from 'src/illness/entities/illness.entity';
 import { NotificationService } from 'src/notification/notification.service';
 import { NotificationToken } from 'src/notification/entities/notification-token.entity';
 import { Notification } from 'src/notification/entities/notification.entity';
+import { AzureBlobService } from 'src/shared/services/azure-blob.service';
 
 @Module({
   controllers: [PatientController],
@@ -26,6 +27,7 @@ import { Notification } from 'src/notification/entities/notification.entity';
     PatientAllergyService,
     PatientIllnessService,
     NotificationService,
+    AzureBlobService,
   ],
   imports: [
     TypeOrmModule.forFeature([

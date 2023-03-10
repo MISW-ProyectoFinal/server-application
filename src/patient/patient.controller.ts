@@ -26,18 +26,19 @@ import {
   BusinessLogicException,
   BusinessError,
 } from './../shared/errors/business-errors';
+import { AzureBlobService } from 'src/shared/services/azure-blob.service';
 
 @Controller('patient')
 @UseInterceptors(BusinessErrorsInterceptor)
 export class PatientController {
   containerName = 'specialities';
 
-  azureBlobService: any;
   constructor(
     private readonly patientService: PatientService,
     private readonly authService: AuthService,
     private readonly patientAllergyService: PatientAllergyService,
     private readonly patientIllnessService: PatientIllnessService,
+    private readonly azureBlobService: AzureBlobService,
   ) {}
 
   @Post()
@@ -70,7 +71,15 @@ export class PatientController {
   @UseGuards(LocalAuthGuard)
   @Post('login')
   async login(@Req() req) {
-    return this.authService.login(req.user);
+    const res = await this.authService.login(req.user);
+    if (res['token'] && res['token'] != null) {
+      const patient: Patient = plainToInstance(Patient, {
+        notification_token: req.body['notificationToken'],
+      });
+      await this.patientService.update(req.user.id, patient);
+    }
+
+    return res;
   }
 
   @UseGuards(JwtAuthGuard)

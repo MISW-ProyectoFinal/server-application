@@ -16,6 +16,7 @@ import { Treatment } from './../treatment/entities/treatment.entity';
 import { NotificationService } from './../notification/notification.service';
 import { Notification } from './../notification/entities/notification.entity';
 import { NotificationToken } from './../notification/entities/notification-token.entity';
+import { HttpModule } from '@nestjs/axios';
 
 @Module({
   controllers: [InjuryController],
@@ -39,6 +40,7 @@ import { NotificationToken } from './../notification/entities/notification-token
       Notification,
       NotificationToken,
     ]),
+    HttpModule,
   ],
 })
 export class InjuryModule {}

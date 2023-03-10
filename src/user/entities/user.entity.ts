@@ -47,6 +47,9 @@ export class User {
   })
   gender: Gender;
 
+  @Column({ nullable: true })
+  notification_token: string;
+
   @ManyToOne(() => City, (city) => city.users)
   city: City;
 

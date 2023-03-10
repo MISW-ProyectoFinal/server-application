@@ -32,5 +32,8 @@ describe('AuthService', () => {
 
   it('should be defined', () => {
     expect(service).toBeDefined();
+    expect(jwtService).toBeDefined();
+    expect(doctorService).toBeDefined();
+    expect(patientService).toBeDefined();
   });
 });

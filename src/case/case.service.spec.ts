@@ -114,6 +114,7 @@ describe('CaseService', () => {
       virt_country: null,
       virt_city: null,
       fav_language: Language.SPANISH,
+      notification_token: null,
     };
     await patientRepository.save(patient1);
 
@@ -174,6 +175,7 @@ describe('CaseService', () => {
       virt_country: null,
       virt_city: null,
       fav_language: Language.ENGLISH,
+      notification_token: null,
     };
     await doctorRepository.save(doctor1);
 
@@ -249,11 +251,6 @@ describe('CaseService', () => {
   });
 
   it('should not find all', async () => {
-    const caseData = {
-      ...case1,
-      ...{ doctor: doctor1 },
-    };
-
     try {
       await caseService.findAll(faker.datatype.uuid(), CaseStatus.PENDIENTE);
     } catch (error) {

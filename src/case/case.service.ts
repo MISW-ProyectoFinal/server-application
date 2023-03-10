@@ -1,4 +1,3 @@
-/* eslint-disable prefer-const */
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Injury } from './../injury/entities/injury.entity';
@@ -15,6 +14,25 @@ import { Doctor } from './../doctor/entities/doctor.entity';
 import { CurrencyType } from './../currency_type/currency_type.enum';
 import { Treatment } from './../treatment/entities/treatment.entity';
 import { NotificationService } from './../notification/notification.service';
+
+import axios from 'axios';
+
+const API_KEY = 'OTY4MjljMTQtZWUwOC00YzJlLWEwNzktNjM3OTJkODQ3ZjNk';
+const ONE_SIGNAL_APP_ID = '658d550f-70ca-4e08-85f5-60fab7f06947';
+const BASE_URL = 'https://onesignal.com/api/v1';
+
+const optionsBuilder = (method: string, path: string, body: any) => {
+  return {
+    method,
+    url: `${BASE_URL}/${path}`,
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `Bearer ${API_KEY}`,
+    },
+    data: JSON.stringify(body),
+  };
+};
 
 @Injectable()
 export class CaseService {
@@ -112,7 +130,7 @@ export class CaseService {
 
     const caseToUpdate = await this.caseRepository.findOne({
       where: { id: id },
-      relations: ['doctor'],
+      relations: ['doctor', 'injury', 'injury.patient'],
     });
 
     if (!caseToUpdate) {
@@ -135,10 +153,33 @@ export class CaseService {
     caseData.doctor = doctor;
     caseData.case_status = CaseStatus.POR_CONFIRMAR;
 
-    return await this.caseRepository.save({
+    const savedCaseToUpdate = await this.caseRepository.save({
       ...caseToUpdate,
       ...caseData,
     });
+
+    const notificationToken = caseToUpdate.injury.patient.notification_token;
+    if (
+      savedCaseToUpdate.case_status == CaseStatus.POR_CONFIRMAR &&
+      notificationToken != null
+    ) {
+      const body = {
+        app_id: ONE_SIGNAL_APP_ID,
+        include_player_ids: [notificationToken],
+        contents: {
+          es: `${doctor.name} ${doctor.surname} ha solicitado atender tu caso`,
+          en: `${doctor.name} ${doctor.surname} has request to take your case`,
+        },
+      };
+      const options = optionsBuilder('POST', 'notifications', body);
+      try {
+        await axios(options);
+      } catch (error) {
+        console.error(error.response.data.errors);
+      }
+    }
+
+    return savedCaseToUpdate;
   }
 
   async answerRequest(

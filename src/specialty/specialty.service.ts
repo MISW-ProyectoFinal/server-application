@@ -19,16 +19,4 @@ export class SpecialtyService {
   async findAll() {
     return await this.specialtyRepository.find();
   }
-
-  findOne(id: number) {
-    return `This action returns a #${id} specialty`;
-  }
-
-  update(id: number, updateSpecialtyDto: UpdateSpecialtyDto) {
-    return `This action updates a #${id} specialty`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} specialty`;
-  }
 }

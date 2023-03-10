@@ -15,6 +15,7 @@ import { TreatmentService } from './../treatment/treatment.service';
 import { NotificationService } from './../notification/notification.service';
 import { Notification } from './../notification/entities/notification.entity';
 import { NotificationToken } from './../notification/entities/notification-token.entity';
+import { HttpModule } from '@nestjs/axios';
 
 @Module({
   controllers: [CaseController],
@@ -37,6 +38,7 @@ import { NotificationToken } from './../notification/entities/notification-token
       Notification,
       NotificationToken,
     ]),
+    HttpModule,
   ],
 })
 export class CaseModule {}

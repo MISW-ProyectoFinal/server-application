@@ -14,4 +14,6 @@ export class LoginUserDto {
   password: string;
 
   who: string;
+
+  notificationToken: string;
 }

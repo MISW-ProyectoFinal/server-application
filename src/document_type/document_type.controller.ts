@@ -24,22 +24,4 @@ export class DocumentTypeController {
   async findAll() {
     return await this.documentTypeService.findAll();
   }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.documentTypeService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateDocumentTypeDto: UpdateDocumentTypeDto,
-  ) {
-    return this.documentTypeService.update(+id, updateDocumentTypeDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.documentTypeService.remove(+id);
-  }
 }

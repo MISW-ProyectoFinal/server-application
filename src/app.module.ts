@@ -55,9 +55,16 @@ import { ConfigModule } from '@nestjs/config';
 import { SkinTypeModule } from './skin_type/skin_type.module';
 import { NotificationModule } from './notification/notification.module';
 import { NotificationToken } from './notification/entities/notification-token.entity';
+import { HttpModule } from '@nestjs/axios';
 
 @Module({
   imports: [
+    HttpModule.registerAsync({
+      useFactory: () => ({
+        timeout: 5000,
+        maxRedirects: 5,
+      }),
+    }),
     ConfigModule.forRoot(),
     SkinTypeModule,
     SpecialtyModule,
@@ -118,13 +125,12 @@ import { NotificationToken } from './notification/entities/notification-token.en
         Notification,
         NotificationToken,
       ],
-      dropSchema: true,
-      synchronize: true,
+      dropSchema: Boolean(process.env['RESET_DB']) || true,
+      synchronize: Boolean(process.env['RESET_DB']) || true,
       keepConnectionAlive: true,
     }),
     DocumentTypeModule,
     AuthModule,
-    ConfigModule.forRoot(),
     NotificationModule,
   ],
   controllers: [AppController],

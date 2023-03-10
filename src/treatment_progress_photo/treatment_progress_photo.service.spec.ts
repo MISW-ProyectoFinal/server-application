@@ -111,6 +111,7 @@ describe('TreatmentProgressPhotoService', () => {
       virt_country: null,
       virt_city: null,
       fav_language: Language.SPANISH,
+      notification_token: null,
     };
     await patientRepository.save(patient1);
 
@@ -137,6 +138,7 @@ describe('TreatmentProgressPhotoService', () => {
       virt_country: null,
       virt_city: null,
       fav_language: Language.ENGLISH,
+      notification_token: null,
     };
     await doctorRepository.save(doctor1);
 
