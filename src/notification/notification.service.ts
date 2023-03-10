@@ -1,31 +1,40 @@
 import { Injectable } from '@nestjs/common';
-import * as firebase from 'firebase-admin';
-import * as path from 'path';
+import axios from 'axios';
 
-firebase.initializeApp({
-  credential: firebase.credential.cert(
-    path.join(__dirname, '..', '..', 'firebase-admin-sdk.json'),
-  ),
-});
+const BASE_URL = 'https://fcm.googleapis.com';
+const API_KEY =
+  'AAAAH5SyXKI:APA91bHxEFe8UQnx3aqCIxaL0O9YmoqOa0e4lqasMoUgyn4BGeNbx530j5BeBh2utXeSwsv8j-6vO5UJs6XhLXKZnHGROY6XW1w-FIdcrQ1e3H7G9CJC8pWAAZic2wNMUbZxtfIznV_U';
+
+const optionsBuilder = (method: string, path: string, data: any) => {
+  return {
+    method,
+    url: `${BASE_URL}/${path}`,
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `key=${API_KEY}`,
+    },
+    data: JSON.stringify(data),
+  };
+};
 
 @Injectable()
 export class NotificationService {
   async sendPush(user: any, title: string, body: string): Promise<any> {
-    try {
-      console.log(user.notification_token);
-      if (user.notification_token) {
-        return await firebase
-          .messaging()
-          .send({
-            notification: { title, body },
-            token: user.notification_token,
-          })
-          .catch((error: any) => {
-            console.error(error);
-          });
+    if (user.notification_token) {
+      const data = {
+        notification: {
+          title: title,
+          body: body,
+        },
+        to: user.notification_token,
+      };
+      const options = optionsBuilder('post', 'fcm/send', data);
+
+      try {
+        return await axios(options);
+      } catch (error) {
+        return console.error(error);
       }
-    } catch (error) {
-      return error;
     }
   }
 }

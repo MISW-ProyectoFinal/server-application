@@ -121,7 +121,7 @@ import { HttpModule } from '@nestjs/axios';
         TreatmentProgressPhoto,
         User,
       ],
-      dropSchema: Boolean(process.env['RESET_DB']) || false,
+      dropSchema: Boolean(process.env['RESET_DB']) || true,
       synchronize: Boolean(process.env['RESET_DB']) || true,
       keepConnectionAlive: true,
     }),

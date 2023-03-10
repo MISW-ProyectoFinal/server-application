@@ -76,7 +76,7 @@ export class DoctorController {
       notification_token: notificationToken,
     });
     await this.doctorService.update(doctorId, doctorData);
-    return notificationToken;
+    return { success: true, defined_token: true, token: notificationToken };
   }
 
   @UseGuards(JwtAuthGuard)
@@ -89,6 +89,6 @@ export class DoctorController {
       notification_token: null,
     });
     await this.doctorService.update(doctorId, doctorData);
-    return null;
+    return { success: true, disable_token: true, token: null };
   }
 }

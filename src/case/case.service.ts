@@ -108,10 +108,6 @@ export class CaseService {
     return caseInstance;
   }
 
-  update(id: number, updateCaseDto: UpdateCaseDto) {
-    return `This action updates a #${id} case`;
-  }
-
   async assignCase(
     id: string,
     caseData: Case,
@@ -249,11 +245,11 @@ export class CaseService {
         requestAnswer == 'yes' ? 'aceptado' : 'rechazado'
       } su solicitud de atención.`;
 
-      const not_response = await this.notificationService
-        .sendPush(initialDoctor, 'Solicitud de caso', fullResponse)
-        .catch((e) => {
-          console.log('Error sending push notification', e);
-        });
+      const not_response = await this.notificationService.sendPush(
+        initialDoctor,
+        'Solicitud de caso',
+        fullResponse,
+      );
 
       console.log(not_response);
     }
