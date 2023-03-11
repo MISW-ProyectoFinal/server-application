@@ -94,11 +94,6 @@ export class CaseController {
     return rta;
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCaseDto: UpdateCaseDto) {
-    return this.caseService.update(+id, updateCaseDto);
-  }
-
   @UseGuards(JwtAuthGuard)
   @Patch('assign/:id')
   async assignCase(

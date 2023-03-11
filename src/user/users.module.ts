@@ -9,6 +9,8 @@ import { Doctor } from 'src/doctor/entities/doctor.entity';
 import { Patient } from 'src/patient/entities/patient.entity';
 import { DoctorService } from 'src/doctor/doctor.service';
 import { PatientService } from 'src/patient/patient.service';
+import { NotificationModule } from 'src/notification/notification.module';
+import { NotificationService } from 'src/notification/notification.service';
 
 @Module({
   controllers: [UsersController],
@@ -18,6 +20,8 @@ import { PatientService } from 'src/patient/patient.service';
     JwtService,
     DoctorService,
     PatientService,
+    NotificationModule,
+    NotificationService,
   ],
   imports: [TypeOrmModule.forFeature([User, Doctor, Patient])],
 })

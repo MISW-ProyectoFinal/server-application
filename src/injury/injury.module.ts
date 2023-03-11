@@ -13,6 +13,7 @@ import { CaseService } from './../case/case.service';
 import { DoctorService } from './../doctor/doctor.service';
 import { Doctor } from './../doctor/entities/doctor.entity';
 import { Treatment } from './../treatment/entities/treatment.entity';
+import { NotificationService } from './../notification/notification.service';
 import { HttpModule } from '@nestjs/axios';
 
 @Module({
@@ -24,6 +25,7 @@ import { HttpModule } from '@nestjs/axios';
     CaseService,
     AzureBlobService,
     DoctorService,
+    NotificationService,
   ],
   imports: [
     TypeOrmModule.forFeature([

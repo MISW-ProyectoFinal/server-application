@@ -12,6 +12,7 @@ import { PatientAllergyService } from 'src/patient_allergy/patient_allergy.servi
 import { PatientIllnessService } from 'src/patient_illness/patient_illness.service';
 import { Allergy } from 'src/allergy/entities/allergy.entity';
 import { Illness } from 'src/illness/entities/illness.entity';
+import { NotificationService } from 'src/notification/notification.service';
 import { AzureBlobService } from 'src/shared/services/azure-blob.service';
 
 @Module({
@@ -23,6 +24,7 @@ import { AzureBlobService } from 'src/shared/services/azure-blob.service';
     DoctorService,
     PatientAllergyService,
     PatientIllnessService,
+    NotificationService,
     AzureBlobService,
   ],
   imports: [
