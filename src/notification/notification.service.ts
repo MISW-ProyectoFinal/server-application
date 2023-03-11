@@ -26,6 +26,11 @@ export class NotificationService {
           title: title,
           body: body,
         },
+        webpush: {
+          headers: {
+            Urgency: 'high',
+          },
+        },
         to: user.notification_token,
       };
       const options = optionsBuilder('post', 'fcm/send', data);
