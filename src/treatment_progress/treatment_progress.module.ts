@@ -13,6 +13,7 @@ import { Case } from './../case/entities/case.entity';
 import { AzureBlobService } from './../shared/services/azure-blob.service';
 import { TreatmentProgressPhotoService } from './../treatment_progress_photo/treatment_progress_photo.service';
 import { TreatmentProgressPhoto } from './../treatment_progress_photo/entities/treatment_progress_photo.entity';
+import { NotificationService } from 'src/notification/notification.service';
 
 @Module({
   controllers: [TreatmentProgressController],
@@ -23,6 +24,7 @@ import { TreatmentProgressPhoto } from './../treatment_progress_photo/entities/t
     DoctorService,
     AzureBlobService,
     TreatmentProgressPhotoService,
+    NotificationService,
   ],
   imports: [
     TypeOrmModule.forFeature([

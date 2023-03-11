@@ -5,10 +5,12 @@ import {
   Body,
   Patch,
   Param,
-  Delete,
   UseGuards,
   Req,
   UseInterceptors,
+  Put,
+  HttpStatus,
+  HttpCode,
 } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
@@ -27,7 +29,6 @@ export class DoctorController {
     private readonly doctorService: DoctorService,
     private readonly authService: AuthService,
   ) {}
-
   @Post()
   async create(@Body() createDoctorDto: CreateDoctorDto) {
     const doctor: Doctor = plainToInstance(Doctor, createDoctorDto);
@@ -60,5 +61,34 @@ export class DoctorController {
   @Post('login')
   async login(@Req() req) {
     return this.authService.login(req.user);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Put('push-enable/:notificationToken')
+  @HttpCode(HttpStatus.OK)
+  async enablePush(
+    @Req() req: any,
+    @Param('notificationToken') notificationToken: string,
+  ) {
+    const doctorId = req.user.id;
+    console.log('activando');
+    const doctorData: Doctor = plainToInstance(Doctor, {
+      notification_token: notificationToken,
+    });
+    await this.doctorService.update(doctorId, doctorData);
+    return { success: true, defined_token: true, token: notificationToken };
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Put('push-disable')
+  @HttpCode(HttpStatus.OK)
+  async disablePush(@Req() req: any) {
+    const doctorId = req.user.id;
+    console.log('desactivando');
+    const doctorData: Doctor = plainToInstance(Doctor, {
+      notification_token: null,
+    });
+    await this.doctorService.update(doctorId, doctorData);
+    return { success: true, disable_token: true, token: null };
   }
 }

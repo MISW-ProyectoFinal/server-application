@@ -14,6 +14,7 @@ import { TreatmentProgressService } from './../treatment_progress/treatment_prog
 import { TreatmentProgress } from './../treatment_progress/entities/treatment_progress.entity';
 import { TreatmentProgressPhoto } from './../treatment_progress_photo/entities/treatment_progress_photo.entity';
 import { TreatmentProgressPhotoService } from './../treatment_progress_photo/treatment_progress_photo.service';
+import { NotificationService } from './../notification/notification.service';
 import { HttpModule } from '@nestjs/axios';
 
 @Module({
@@ -26,6 +27,7 @@ import { HttpModule } from '@nestjs/axios';
     AzureBlobService,
     TreatmentProgressService,
     TreatmentProgressPhotoService,
+    NotificationService,
   ],
   imports: [
     TypeOrmModule.forFeature([

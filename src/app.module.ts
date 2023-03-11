@@ -52,6 +52,7 @@ import { AuthModule } from './auth/auth.module';
 import { MulterModule } from '@nestjs/platform-express';
 import { ConfigModule } from '@nestjs/config';
 import { SkinTypeModule } from './skin_type/skin_type.module';
+import { NotificationModule } from './notification/notification.module';
 import { HttpModule } from '@nestjs/axios';
 import { strToBool } from './utils/utils';
 
@@ -129,6 +130,7 @@ import { strToBool } from './utils/utils';
     }),
     DocumentTypeModule,
     AuthModule,
+    NotificationModule,
   ],
   controllers: [AppController],
   providers: [AppService],

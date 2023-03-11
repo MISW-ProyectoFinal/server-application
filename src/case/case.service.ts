@@ -13,6 +13,8 @@ import {
 import { Doctor } from './../doctor/entities/doctor.entity';
 import { CurrencyType } from './../currency_type/currency_type.enum';
 import { Treatment } from './../treatment/entities/treatment.entity';
+import { NotificationService } from './../notification/notification.service';
+
 import axios from 'axios';
 
 const API_KEY = 'OTY4MjljMTQtZWUwOC00YzJlLWEwNzktNjM3OTJkODQ3ZjNk';
@@ -46,6 +48,8 @@ export class CaseService {
 
     @InjectRepository(Patient)
     private readonly patientRepository: Repository<Patient>,
+
+    private readonly notificationService: NotificationService,
   ) {}
 
   async create(
@@ -102,10 +106,6 @@ export class CaseService {
     }
 
     return caseInstance;
-  }
-
-  update(id: number, updateCaseDto: UpdateCaseDto) {
-    return `This action updates a #${id} case`;
   }
 
   async assignCase(
@@ -196,7 +196,13 @@ export class CaseService {
 
     const caseToUpdate = await this.caseRepository.findOne({
       where: { id: id },
-      relations: ['injury', 'injury.patient', 'injury.photos', 'treatments'],
+      relations: [
+        'injury',
+        'injury.patient',
+        'injury.photos',
+        'treatments',
+        'doctor',
+      ],
     });
 
     if (!caseToUpdate) {
@@ -205,21 +211,25 @@ export class CaseService {
         BusinessError.NOT_FOUND,
       );
     } else {
-      if (caseToUpdate.injury.patient.id != patient.id) {
+      if (
+        caseToUpdate.injury.patient.id != patient.id ||
+        caseToUpdate.case_status != CaseStatus.POR_CONFIRMAR
+      ) {
         throw new BusinessLogicException(
-          'El caso no pertenece al paciente',
+          'El caso no pertenece al paciente o no se encuentra por confirmar',
           BusinessError.PRECONDITION_FAILED,
         );
       }
     }
 
+    const initialDoctor = caseToUpdate.doctor;
     let treatment = caseToUpdate.treatments[0];
 
     if (requestAnswer == 'yes') {
       caseToUpdate.case_status = CaseStatus.EN_PROCESO;
 
       const date = new Date();
-      treatment.start_date = `${date.getFullYear()}-${date.getMonth()}-${date.getDay()}`;
+      treatment.start_date = date.toISOString().slice(0, 10);
       this.treatmentRepository.save(treatment);
     } else {
       caseToUpdate.doctor = null;
@@ -231,7 +241,23 @@ export class CaseService {
       this.treatmentRepository.remove(treatment);
     }
 
-    return await this.caseRepository.save(caseToUpdate);
+    const savedCase = await this.caseRepository.save(caseToUpdate);
+
+    if (savedCase) {
+      const fullResponse = `${patient.name} ha ${
+        requestAnswer == 'yes' ? 'aceptado' : 'rechazado'
+      } su solicitud de atención.`;
+
+      const not_response = await this.notificationService.sendPush(
+        initialDoctor,
+        'Solicitud de caso',
+        fullResponse,
+      );
+
+      console.log(not_response);
+    }
+
+    return savedCase;
   }
 
   async unassignCase(id: string, doctorId: string): Promise<Case> {
@@ -367,7 +393,7 @@ export class CaseService {
     if (requestAnswer == 'yes') {
       caseToUpdate.case_status = CaseStatus.CERRADO;
       const date = new Date();
-      caseToUpdate.end_date = `${date.getFullYear()}-${date.getMonth()}-${date.getDay()}`;
+      caseToUpdate.end_date = date.toISOString().slice(0, 10);
     } else {
       caseToUpdate.case_status = CaseStatus.EN_PROCESO;
     }

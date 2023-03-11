@@ -14,6 +14,7 @@ import { PatientService } from 'src/patient/patient.service';
 import { DoctorModule } from 'src/doctor/doctor.module';
 import { PatientModule } from 'src/patient/patient.module';
 import { User } from 'src/user/entities/user.entity';
+import { NotificationService } from 'src/notification/notification.service';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { User } from 'src/user/entities/user.entity';
     JwtService,
     LocalStrategy,
     JwtStrategy,
+    NotificationService,
   ],
   exports: [AuthService],
 })

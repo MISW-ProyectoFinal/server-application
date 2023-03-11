@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "dermo-app-notifications",
+  "private_key_id": "7838128a8f9c9222e60b062aad7587c567957fe2",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC+xIH+LrM0kbdG\nlonhqzonoZX30RtekJ2y/mtRabrnAsj7TzusmWTfMkS3Wlq/hCI0v/tIIMfPNFCn\nkjuaR0X4mrBOC+wPhDLbCJ1jLpdG8ureiiMoo1ajEygUDKh9g/Ri1R09IoIyP/kD\nR/hw/rFd4ET+1Y4gBmatGfiKHaOqYXk0Vg/mqbbVT11AdOd7QJsFoKawT+pQc9m9\n0FpPk+stY+jbe5EDS+vuO4xwe19Tf3XgazKwosYMmbr0rHT+DvWFhSoQyn/0M3QT\n6wabejyMVr06zCMZuILbzSEl9IBP9jlTOe7uqRZsaKfMQ49flYZJ+bmd6GA/WDqi\nx37b86ZTAgMBAAECggEAEa1yAlTfhFqQajke88uDKxL9K6az65JpGqIa3cN3b1rB\ntxADjp30S/6DgZ4c1Kxw4wR7S5bGDTxi0PRrE4PRRxVGiyTtrg5pDAUDWKKDoC54\nd0DDu0tPhvMKfrkhj+f/aH0pJXYiLHfjIluz+PyRAQr8OcUeU3dkYlwKvPm8JdiT\ngWx6FhKY4Tem2jX8HXPe/oOkHRsRljIz7xnWFiTerCxYYP5fZyskvWBkE3wkH6Aj\n+f4xlczQ2BVtSd/bh36frESejxXbR0YjdjfTX3T8bnvsNxD07zUYttKgtEr91eNU\ngISirYOWbWamyml6TSm84ffJ6cXxI4l7eqhKVzm6GQKBgQDkK2eegqZXE/Ih/yAS\ndS8YrocoYVzac2+ackgjXSRGaFkV5BIeZEkQ0Lw4XQIEm3IRmMjuGzNawRhygzek\ntu1gKRgaTpky+AwXvV+Li3fQcViVqxKVwSze4zMRZd7QhMgUoZPnp6LOr4rm+WB3\nrflkjJ5ALndfKvC5zYkkpnsG9wKBgQDWCTor+3wwVxJym+J0g+XnPXxGgefcrW8P\nOhcQ4gpFgBPyvHL/+25vr3hwMqigEmBzk3Ybx3RzTvNAS3g2BbO5PQ0gdsMNn1BC\n0eq5L3DpfkAC7iRerLms/tN+s9SuHNM+SaY7Hsxym9B3eTby0wlEG4AnNjPiikhE\nQIjhX9U4hQKBgQCQE5RntCojHDYuH3J6FUL6++HerrQ6QOA9D2Lb6cmpJ+Tw/MYw\nKLU2iAgCM0C99gYudGKUb9qauQmd7ZuqR9RWfzx4CB+W3qiMKQl3DUdH+Pqt74tZ\nwtR5nc+2cbQjyWSqGmlRwzn79z7noJq4l8O+KUkYT/8SugOt38p0uSdAewKBgAs6\nZLDV+ofWqYMVpmWSXccptJFGU1GCT6cu1vLtyLgopeM/+5BuMjbtr5XDMpFjJWgq\nvjFq3zMFW0FuNBoxZmI7T6r6T/Uw/FblCDk6weOd2eHNeF73FK58l7+301pm7LYB\nyxSi4vrILcF2vGk0pPHLt4dXEpW5x1y9PfEEw/y5AoGARqZwLjnB8zE8ZEteC+Hz\nGROg9saJhHDTUPhFFzsqzR8L6tP5OcLYdtPGMmqLMjPD6qKvn3KMKw3EuH3PFQiQ\nrdL3q4T0qBO6qAa9X3PY7Aafic3vf/aNW7LqgZf5Qj4zZP19afsC3wqD6qYz6Koa\n+moWvBpvde0oSmlzbdgqlxA=\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-gk52q@dermo-app-notifications.iam.gserviceaccount.com",
+  "client_id": "117091803394710535488",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-gk52q%40dermo-app-notifications.iam.gserviceaccount.com"
+}

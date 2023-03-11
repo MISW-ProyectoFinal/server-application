@@ -12,6 +12,7 @@ import { InjuryService } from './../injury/injury.service';
 import { AzureBlobService } from './../shared/services/azure-blob.service';
 import { Treatment } from './../treatment/entities/treatment.entity';
 import { TreatmentService } from './../treatment/treatment.service';
+import { NotificationService } from './../notification/notification.service';
 import { HttpModule } from '@nestjs/axios';
 
 @Module({
@@ -23,6 +24,7 @@ import { HttpModule } from '@nestjs/axios';
     CaseService,
     AzureBlobService,
     TreatmentService,
+    NotificationService,
   ],
   imports: [
     TypeOrmModule.forFeature([Patient, Doctor, Injury, Case, Treatment]),
